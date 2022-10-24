@@ -88,17 +88,26 @@ const Sidebar = ({user,updateFavourite}) => {
                                             : "d-flex flex-column d-none"
                                     }
                                 >
-                                    {favourite.length !== 0 ? favourite.map((currency, index) =>
-                                        <NavLink key={index} to={`Currencies/AdvancedInfo/${currency.shortName}`}>
-                                            <div className="d-flex align-items-center sciera">
-                                            <img src={`${currency.image}`} alt="siema" style={{width:"30px",height:"30px"}}/>
-                                                <CDBSidebarMenuItem className="my-0 mx-0 p-0 kurwisko" tag="img" >
-                                                    {currency.fullName}
-                                                </CDBSidebarMenuItem>
+                                    {favourite.length !== 0 ? favourite.slice(0,4).map((currency, index) =>
+                                            <NavLink key={index} to={`Currencies/AdvancedInfo/${currency.keyToApi}`}>
+                                                <div className="d-flex align-items-center sciera">
+                                                    <img src={`${currency.image}`} alt="siema" style={{width:"30px",height:"30px"}}/>
+                                                    <CDBSidebarMenuItem className="my-0 mx-0 p-0 kurwisko" tag="img" >
+                                                        {currency.fullName}
+                                                    </CDBSidebarMenuItem>
                                                 </div>
-                                        </NavLink>
-                                    ) : null
+                                            </NavLink>
+                                            )
+
+                                    : null
                                     }
+                                    {favourite.length > 3?<NavLink to="Currencies/Favourites">
+                                        <div className="d-flex align-items-center sciera">
+                                            <CDBSidebarMenuItem className="my-0 mx-0 p-0 kurwisko fw-semibold" >
+                                                Show All...
+                                            </CDBSidebarMenuItem>
+                                        </div>
+                                    </NavLink>:null}
                                 </div>
                             </CDBSidebarMenu>
 
