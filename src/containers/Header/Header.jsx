@@ -44,7 +44,7 @@ function Header() {
       ) : null}
       <Navbar collapseOnSelect expand="lg py-2c px-5 border-bottom">
         <div className="container-fluid p-2  d-flex align-items-center">
-            <Navbar.Brand href="#home" style={{ fontSize: "35px", fontWeight: "700" }} className=" d-flex align-items-center me-5 text-decoration-none text_gradient">
+            <Navbar.Brand href="/" style={{ fontSize: "35px", fontWeight: "700" }} className=" d-flex align-items-center me-5 text-decoration-none text_gradient">
               CryptoCurrency
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
