@@ -32,6 +32,8 @@ function Siema({
   const [username, setUsername] = useState("");
   const [favoruites, setFavourites] = useState([]);
 
+  console.log("siema")
+
   const loginFormHandle = (e) => {
     e.preventDefault();
 
