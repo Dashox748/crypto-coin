@@ -1,38 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.root {
+  height: 100vh;
+}
 .App {
-  text-align: center;
+  height: 100vh;
+}
+.header__container {
+  background: white;
+}
+.text_gradient {
+  color: #821b1b;
+  background-image: -webkit-linear-gradient(0deg, #821b1b 24%, #b59212 100%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.dropdown-menu[data-bs-popper] {
+  left: -100px !important;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media (max-width: 1400px) {
+  .siema {
+    max-width: 400px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.inputError:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 62, 71, 25%) !important;
+}
+.inputError {
+  border: 2px solid red !important;
+}
+.bi {
+  cursor: pointer;
+}
+.szmata {
+  transition: all 0.3s ease-in-out;
+}
+.szmata:hover {
+  background: rgba(236, 236, 236);
+}
+.sciera {
+  transition: all 0.3s ease-in-out;
+  padding-left: 70px;
+  user-select: none;
+}
+.sciera:hover {
+  background: rgba(236, 236, 236);
+}
+.toast-notification {
+  top: 8rem !important;
+}
+.kurwamac td,
+tr {
+  vertical-align: center;
+  height: 60px !important;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.active{
+font-weight: 700
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/*.toggled{*/
+/*    padding-left: 0 !important;*/
+/*}*/
