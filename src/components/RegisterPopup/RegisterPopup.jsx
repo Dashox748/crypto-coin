@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { registerWithEmailAndPassword } from "../../firebase";
-import { signInWithGoogle } from "../../firebase";
+import { signInWithGoogle,signInWithGithub } from "../../firebase";
 
 function RegisterPopup({ handleClose }) {
   const re =
@@ -61,6 +61,9 @@ function RegisterPopup({ handleClose }) {
         handleClose("register");
       }
     }
+      if (withWhat === "github") {
+          signInWithGithub()
+      }
   };
   return (
     <>
@@ -127,7 +130,9 @@ function RegisterPopup({ handleClose }) {
           </Form.Label>
           <div className="d-flex align-content-center align-items-center justify-content-center gap-4 ">
             <h1 className="bi bi-facebook"></h1>
-            <h1 className="bi bi-github"></h1>
+            <h1 className="bi bi-github"
+                onClick={() => handleLoginWithSocials("github")}>
+            </h1>
             <h1
               className="bi bi-google"
               onClick={() => handleLoginWithSocials("google")}

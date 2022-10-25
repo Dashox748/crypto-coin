@@ -5,6 +5,7 @@ import RegisterPopup from "../../components/RegisterPopup/RegisterPopup";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { logout } from "../../firebase";
+import { ToastContainer, toast } from "react-toastify";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -17,11 +18,28 @@ function Header() {
 
   const handleClose = (what) => {
     if (what === "login") setShowLoginMenu(false);
-    if (what === "register") setShowRegisterMenu(false);
+    if (what === "register") {
+        console.log("siema")
+      setShowRegisterMenu(false);
+//      toast.info("Favourite list is empty");
+    }
   };
 
   return (
     <div className="header__container">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme="light"
+        className="toast-notification"
+      />
       {showLoginMenu === true ? (
         <Modal
           show={showLoginMenu}
@@ -44,8 +62,12 @@ function Header() {
       ) : null}
       <Navbar collapseOnSelect expand="lg py-2c px-5 border-bottom">
         <div className="container-fluid p-2  d-flex align-items-center">
-            <Navbar.Brand href="/" style={{ fontSize: "35px", fontWeight: "700" }} className=" d-flex align-items-center me-5 text-decoration-none text_gradient">
-              CryptoCurrency
+          <Navbar.Brand
+            href="/"
+            style={{ fontSize: "35px", fontWeight: "700" }}
+            className=" d-flex align-items-center me-5 text-decoration-none text_gradient"
+          >
+            CryptoCurrency
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse
@@ -73,17 +95,17 @@ function Header() {
                   />
                 </form>
                 <NavDropdown
-                    href="#" data-bs-toggle="dropdown" aria-expanded="false"
+                  href="#"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                   title={
-                   
-                      <img
-                        src="https://github.com/mdo.png"
-                        alt="mdo"
-                        width="32"
-                        height="32"
-                        className="rounded-circle"
-                      />
-
+                    <img
+                      src="https://github.com/mdo.png"
+                      alt="mdo"
+                      width="32"
+                      height="32"
+                      className="rounded-circle"
+                    />
                   }
                   drop="left"
                   style={{ position: "relative" }}

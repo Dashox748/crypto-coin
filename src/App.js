@@ -9,31 +9,41 @@ import AdvancedInfoAboutCurrency from "./containers/AdvencedInfoAboutCurrency/Ad
 import ListOfAllCurrencies from "./containers/ListOfAllCurrencies/ListOfAllCurrencies";
 import NotFound from "./containers/NotFound/NotFound";
 import { BrowserRouter as Router } from "react-router-dom";
-import {checkData} from "./firebase";
+import { checkData } from "./firebase";
 
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
-import {useEffect,useState} from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-    const [user] = useAuthState(auth);
-    const [updateFavourite,setUpdateFavourite]=useState(false)
-
-
+  const [user] = useAuthState(auth);
+  const [updateFavourite, setUpdateFavourite] = useState(false);
 
   return (
     <div className="App d-flex flex-column">
       <Header />
       <div className="d-flex flex-fill">
         <BrowserRouter>
-            <Sidebar user={user} updateFavourite={updateFavourite}/>
-            <div className="d-flex flex-fill" style={{  background: "rgba(237, 242, 247, 30%);"}}>
+          <Sidebar user={user} updateFavourite={updateFavourite} />
+          <div
+            className="d-flex flex-fill"
+            style={{ background: "rgba(237, 242, 247, 30%);" }}
+          >
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="currencies">
-                  <Route path="ListOfAll" element={<ListOfAllCurrencies user={user} updateFavourite={updateFavourite} setUpdateFavourite={setUpdateFavourite}/> } />
+              <Route path="Currencies">
+                <Route
+                  path="ListOfAll"
+                  element={
+                    <ListOfAllCurrencies
+                      user={user}
+                      updateFavourite={updateFavourite}
+                      setUpdateFavourite={setUpdateFavourite}
+                    />
+                  }
+                />
                 <Route path="MostPopular" element={<MostPopular />} />
                 <Route path="Favourites" element={<FavouriteCurrencies />} />
                 <Route path="Trending" element={<TrendingCurrencies />} />

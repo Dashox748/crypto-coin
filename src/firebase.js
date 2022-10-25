@@ -20,6 +20,9 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
+import { GithubAuthProvider } from "firebase/auth";
+
+//const credential = GithubAuthProvider.credential(token);
 
 // Initalize App
 
@@ -37,6 +40,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
 //Login and Register options
 
@@ -57,9 +61,38 @@ const signInWithGoogle = async () => {
     return true;
   } catch (err) {
     console.error(err);
-    alert(err.message);
   }
 };
+
+const signInWithGithub = async () =>{
+
+        signInWithPopup(auth, githubProvider)
+        .then((result) => {
+           console.log(result.user)
+            // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+            const credential = GithubAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+
+            // The signed-in user info.
+            const user = result.user;
+            console.log(user)
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GithubAuthProvider.credentialFromError(error);
+            // ...
+            console.log(error)
+        });
+
+
+}
+
+
+
 const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -119,45 +152,39 @@ const checkData = async (uid) => {
   return newRecord;
 };
 
-const addFavourite = async (uid,fullName,shortName,keyToApi,imageUrl) => {
+const addFavourite = async (uid, fullName, shortName, keyToApi, imageUrl) => {
+  let x = "";
+  const dbRef = collection(db, "users");
+  const q = query(collection(db, "users"), where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    x = doc.id;
+  });
+  const docRef = doc(db, "users", x, "favourite", fullName);
+  await setDoc(docRef, {
+    fullName: fullName,
+    shortName: shortName,
+    keyToApi: keyToApi,
+    image: imageUrl,
+  });
+};
+const deleteFavourite = async (uid, fullName) => {
+  const findDocId = async (uid) => {
     let x = "";
-    const dbRef = collection(db, "users");
     const q = query(collection(db, "users"), where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        x = doc.id;
+      x = doc.id;
     });
-    const docRef = doc(db, "users", x, "favourite", fullName);
-    await setDoc(docRef, {
-        fullName: fullName,
-        shortName: shortName,
-        keyToApi: keyToApi,
-        image:imageUrl,
-    });
-};
-const deleteFavourite = async (uid,fullName) => {
-    const findDocId = async (uid) => {
-        let x = "";
-        const q = query(collection(db, "users"), where("uid", "==", uid));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            x = doc.id;
-        });
-        return x;
-    };
-    const docRef = doc(
-            db,
-            "users",
-            await findDocId(uid),
-            "favourite",
-            fullName
-            );
-    deleteDoc(docRef)
+    return x;
+  };
+  const docRef = doc(db, "users", await findDocId(uid), "favourite", fullName);
+  deleteDoc(docRef)
     .then(() => {
-        console.log("Entire Document has been deleted successfully.");
+      console.log("Entire Document has been deleted successfully.");
     })
     .catch((error) => {
-        console.log(error);
+      console.log(error);
     });
 };
 
@@ -165,11 +192,12 @@ export {
   auth,
   db,
   signInWithGoogle,
+    signInWithGithub,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
   checkData,
-    addFavourite,
-    deleteFavourite
+  addFavourite,
+  deleteFavourite,
 };

@@ -15,7 +15,6 @@
 .text_gradient {
   color: #821b1b;
   background-image: -webkit-linear-gradient(0deg, #821b1b 24%, #b59212 100%);
-
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -61,9 +60,10 @@ tr {
   height: 60px !important;
   align-items: center;
 }
-.active{
-font-weight: 700
+.active {
+  font-weight: 700;
 }
-/*.toggled{*/
-/*    padding-left: 0 !important;*/
-/*}*/
+.toggled .xd2 {
+  display: none;
+  cursor: pointer;
+}
