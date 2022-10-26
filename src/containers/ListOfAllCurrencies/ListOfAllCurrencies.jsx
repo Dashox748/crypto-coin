@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
 import Table from "react-bootstrap/Table";
-import {addFavourite} from "../../firebase";
-import {deleteFavourite} from "../../firebase";
-import {checkData} from "../../firebase";
+import {addFavourite,deleteFavourite,checkData} from "../../firebase";
 import {Link} from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 
 function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
     const [listOfAllCurrencies, setlistOfAllCurrencies] = useState([]);
+    const [filteredListOfAllCurrencies,setFilteredListOfAllCurrencies]= useState([])
     const [favouriteToCheck, setFavouriteToCheck] = useState([])
+    const [searchForCryptoInput,setSearchForCryptoInput] = useState("")
 
     useEffect(() => {
         fetch(
@@ -25,6 +25,12 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
         x.map((item) => newArray.push(item.keyToApi))
         setFavouriteToCheck(newArray)
     }
+
+    useEffect(() => {
+        let x = listOfAllCurrencies.filter((item)=>item.name.toLowerCase().includes(searchForCryptoInput.toLowerCase()))
+        setFilteredListOfAllCurrencies(x)
+    }, [searchForCryptoInput])
+
     useEffect(() => {
         if (user === null) return
         getFavouritesToCheck()
@@ -32,10 +38,32 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
 
     return (
         <>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme="light"
+            className="toast-notification"
+        />
             {favouriteToCheck !== null ?
                 <div className="w-100 p-xxl-5" style={{background: "rgba(237, 242, 247, 30%)"}}>
+                    <input
+                        type="search"
+                        className="form-control"
+                        placeholder="Search..."
+                        aria-label="Search"
+                        onChange={(event)=>setSearchForCryptoInput(event.target.value)}
+                        style={{width:"300px"}}
+                    />
                     <Table hover size="sm">
-                        <thead className="border-secondary" style={{borderBottomWidth:"2px",fontSize:"16px"}}>
+
+                        <thead className="border-secondary" style={{borderBottomWidth: "2px", fontSize: "16px"}}>
                         <tr>
                             <th>#</th>
                             <th>Name</th>
@@ -49,14 +77,15 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                         </tr>
                         </thead>
                         <tbody>
-                        {listOfAllCurrencies !== 0 ? listOfAllCurrencies.map((data, index) => (
+                        {filteredListOfAllCurrencies !== 0 ? filteredListOfAllCurrencies.map((data, index) => (
                             <tr className="kurwamac " key={index}>
                                 <td>
                                     <div className="d-flex align-items-center h-100">{index}</div>
                                 </td>
 
-                                    <td>
-                                        <Link to={`/Currencies/AdvancedInfo/${data.id}`} style={{textDecoration: 'none',color:"black"}}>
+                                <td>
+                                    <Link to={`/Currencies/AdvancedInfo/${data.id}`}
+                                          style={{textDecoration: 'none', color: "black"}}>
                                         <div className="d-flex align-items-center h-100">
                                             <img
                                                 src={`${data.image}`}
@@ -66,8 +95,8 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                                             <span className="fw-bold mx-3">{data.name}</span> (
                                             {data.symbol})
                                         </div>
-                                        </Link>
-                                    </td>
+                                    </Link>
+                                </td>
 
                                 <td>
                                     <div className="d-flex align-items-center h-100 pe-3">
@@ -102,7 +131,7 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center h-100">
-                                        {data.market_cap}
+                                        ${data.market_cap}
                                     </div>
                                 </td>
                                 <td>
@@ -110,11 +139,16 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
 
                                         {!favouriteToCheck.includes(data.id) ? <i className="bi bi-star"
                                                                                   onClick={() => {
+                                                                                      if (user === null) {
+                                                                                          toast.info("u have to be logged in");
+                                                                                          return
+                                                                                      }
                                                                                       addFavourite(user.uid, data.name, data.symbol, data.id, data.image)
                                                                                       setUpdateFavourite(!updateFavourite)
                                                                                   }}>
                                         </i> : <i className="bi bi-star-fill"
                                                   onClick={() => {
+
                                                       deleteFavourite(user.uid, data.name)
                                                       setUpdateFavourite(!updateFavourite)
                                                   }}>

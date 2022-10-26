@@ -95,7 +95,7 @@ const Chart = ({id}) => {
     }
     useEffect(() => {
         getDataForChart()
-    }, [])
+    }, [id])
 
     return (
         <CDBContainer className="m-0">

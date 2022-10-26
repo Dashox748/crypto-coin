@@ -8,14 +8,10 @@ import FavouriteCurrencies from "./containers/FavouriteCurrencies/FavouriteCurre
 import AdvancedInfoAboutCurrency from "./containers/AdvencedInfoAboutCurrency/AdvancedInfoAboutCurrency";
 import ListOfAllCurrencies from "./containers/ListOfAllCurrencies/ListOfAllCurrencies";
 import NotFound from "./containers/NotFound/NotFound";
-import { BrowserRouter as Router } from "react-router-dom";
-import { checkData } from "./firebase";
-
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -26,7 +22,7 @@ function App() {
       <Header />
       <div className="d-flex flex-fill">
         <BrowserRouter>
-          <Sidebar user={user} updateFavourite={updateFavourite} />
+          <Sidebar updateFavourite={updateFavourite} />
           <div
             className="d-flex flex-fill"
             style={{ background: "rgba(237, 242, 247, 30%);" }}

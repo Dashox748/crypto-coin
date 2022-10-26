@@ -8,16 +8,22 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { checkData } from "../../firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Sidebar = ({ user, updateFavourite }) => {
+const Sidebar = ({ updateFavourite }) => {
   const [showFavourite, setShowFavourite] = useState(false);
   const [favourite, setFavourite] = useState([]);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
-    if (user === null) return;
+    if (user === null) {
+        setFavourite([])
+        return
+    };
     checkData(user.uid).then((listFavourite) => setFavourite(listFavourite));
   }, [user, updateFavourite]);
 
@@ -70,7 +76,13 @@ const Sidebar = ({ user, updateFavourite }) => {
                     if (favourite.length !== 0) {
                       setShowFavourite(!showFavourite);
                     } else {
-                      toast.info("Favourite list is empty");
+                        if(user===null){
+                            toast.info("u have to be logged in");
+                        }
+                        else{
+                            toast.info("Favourite list is empty");
+                        }
+
                     }
                   }}
                   className="user-select-none d-flex align-items-center align-content-center szmata"
