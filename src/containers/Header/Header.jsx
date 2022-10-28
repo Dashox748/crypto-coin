@@ -14,6 +14,9 @@ function Header() {
     const [showLoginMenu, setShowLoginMenu] = useState(false);
     const [showRegisterMenu, setShowRegisterMenu] = useState(false);
 
+    const profilePhoto="https://graph.facebook.com/5544168012334199/picture"
+
+
     const handleClose = (what) => {
         if (what === "login")
             setShowLoginMenu(false)
@@ -27,6 +30,7 @@ function Header() {
 
 
     };
+
 
     return (
         <div className="header__container">
@@ -103,8 +107,8 @@ function Header() {
                                     aria-expanded="false"
                                     title={
                                         <img
-                                            src="https://github.com/mdo.png"
-                                            alt="mdo"
+                                            src={user.photoURL!==null ? user.photoURL : profilePhoto}
+                                            alt="Profile"
                                             width="32"
                                             height="32"
                                             className="rounded-circle"
@@ -120,7 +124,7 @@ function Header() {
                                         Settings
                                     </NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.3">
-                                        Something
+                                        Moze cos bedzie
                                     </NavDropdown.Item>
                                     <NavDropdown.Divider/>
                                     <NavDropdown.Item href="#action/3.4" onClick={() => logout()}>

@@ -33,7 +33,7 @@ const Sidebar = ({ updateFavourite }) => {
         style={{ display: "flex", overflow: "scroll initial" }}
         className="wazne border-end"
       >
-        <CDBSidebar breakpoint={1000} textColor="black" backgroundColor="white">
+        <CDBSidebar breakpoint={1250} textColor="black" backgroundColor="white">
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a
               href="/"

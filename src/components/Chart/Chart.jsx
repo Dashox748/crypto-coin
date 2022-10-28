@@ -31,10 +31,11 @@ const Chart = ({id}) => {
     const options = {
         responsive: true,
         fill: true,
-        borderColor: 'rgb(194, 116, 161)',
-        backgroundColor: 'rgba(194, 116, 161, 0.5)',
-        pointRadius: 1,
-        lineTension: 0.01,
+        maintainAspectRatio:false,
+        borderColor: '#7db5ec',
+        backgroundColor: '#f1f7fd',
+        pointRadius: 0,
+        lineTension: 0.1,
         pointHitRadius: 20,
         scales: {
             x: {
@@ -51,6 +52,14 @@ const Chart = ({id}) => {
             },
 
         },
+        plugins: {
+            legend: {
+                display: false,
+            } },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        }
     };
     const [data, setData] = useState({
         datasets: [
@@ -98,9 +107,9 @@ const Chart = ({id}) => {
     }, [id])
 
     return (
-        <CDBContainer className="m-0">
-            <Line data={data} options={options}/>
-    </CDBContainer>
+            <div className="advanced_contaier_left-main-info-chart chart-container my-5" >
+                <Line data={data} options={options}/>
+            </div>
     );
 };
 

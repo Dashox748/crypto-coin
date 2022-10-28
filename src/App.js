@@ -25,7 +25,7 @@ function App() {
           <Sidebar updateFavourite={updateFavourite} />
           <div
             className="d-flex flex-fill"
-            style={{ background: "rgba(237, 242, 247, 30%);" }}
+              style={{background: "#F5F6F9"}}
           >
             <Routes>
               <Route path="/" element={<Home />} />

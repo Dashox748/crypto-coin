@@ -9,6 +9,7 @@
     "bootstrap": "^5.2.2",
     "chart.js": "^3.9.1",
     "firebase": "^9.12.1",
+    "firebase-tools": "^11.15.0",
     "mdb-react-ui-kit": "^4.2.0",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
