@@ -128,7 +128,7 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                 className="toast-notification"
             />
             {favouriteToCheck !== null ?
-                <div className="w-100 p-xxl-5 mx-auto" style={{maxWidth: "2200px"}}>
+                <div className="w-100 p-xxl-5 mx-auto" style={{maxWidth: "2100px"}}>
                     <div className="d-flex justify-content-between">
                         <input
                             type="search"
@@ -179,6 +179,7 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                             <th>#</th>
                             <th>Name</th>
                             <th>Price</th>
+                            <th>1h%</th>
                             <th>24h%</th>
                             <th>7d%</th>
                             <th>Market Cap</th>
@@ -192,7 +193,7 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                         {filteredListOfAllCurrencies !== 0 ? filteredListOfAllCurrencies.map((data, index) => (
                             <tr className="kurwamac " key={index}>
                                 <td>
-                                    <div className="d-flex align-items-center h-100">{index}</div>
+                                    <div className="d-flex align-items-center h-100">{index + 1}</div>
                                 </td>
 
                                 <td>
@@ -213,6 +214,19 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                                 <td>
                                     <div className="d-flex align-items-center h-100 pe-3">
                                         {whichCurrency[1]} {data.current_price}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div
+                                        style={{width: "70px"}}
+                                        className={
+                                            data.price_change_percentage_1h_in_currency > 0
+                                                ? "d-flex align-items-center h-100 text-success"
+                                                : "d-flex align-items-center h-100 text-danger"
+                                        }
+                                    >
+                                        {data.price_change_percentage_1h_in_currency === null ? data.price_change_percentage_1h_in_currency :
+                                            data.price_change_percentage_1h_in_currency.toFixed(2)}%
                                     </div>
                                 </td>
                                 <td>

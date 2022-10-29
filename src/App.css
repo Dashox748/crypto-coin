@@ -143,3 +143,6 @@ tr {
     outline: 0 !important;
     border: 0 !important;
 }
+.form-swtich{
+    padding:0 !important;
+}

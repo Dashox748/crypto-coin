@@ -27,7 +27,13 @@ function App() {
               className="d-flex flex-fill background "
           >
             <Routes>
-              <Route path="/" element={<Home />} />
+                <Route path="/" element={
+                    <ListOfAllCurrencies
+                        user={user}
+                        updateFavourite={updateFavourite}
+                        setUpdateFavourite={setUpdateFavourite}
+                    />
+                } />
               <Route path="Currencies">
                 <Route
                   path="ListOfAll"

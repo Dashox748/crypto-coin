@@ -14,6 +14,8 @@ function AdvancedInfoAboutCurrency() {
     const inputCryptoCurrencyRef = useRef(null);
     const [inputCryptoCurrency, setInputCryptoCurrency] = useState(1.00)
 
+    const time = new Date()
+
     const getDataForTimeData = async () => {
         let [sevenDaysInfo, thirtyDaysInfo, nintyDaysInfo] = await Promise.all([
             fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${(new Date().getTime() / 1000) - 604800}&to=${new Date().getTime() / 1000}`)
@@ -254,12 +256,9 @@ function AdvancedInfoAboutCurrency() {
                             <div className="d-flex gap-2">Blockchains: <Button className="py-0" variant="secondary"
                                 style={{height: "27px"}}>{get_domain_from_url(infoAboutCurrency.links.blockchain_site[0])} <i className="bi bi-box-arrow-up-right"></i></Button>
                             </div>
+                            <div className="d-flex gap-2">Last Updated: {time.toLocaleTimeString("en-US")} 
+                            </div>
 
-
-                            <button onClick={() => console.log(infoAboutCurrency)}>General</button>
-                            <button
-                                onClick={() => console.log(get_domain_from_url(infoAboutCurrency.links.blockchain_site[0]))}>Time
-                            </button>
 
                         </div>
                         <div className="biale p-4 d-flex flex-column gap-4"
