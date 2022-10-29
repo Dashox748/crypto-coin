@@ -27,11 +27,11 @@ ChartJS.register(
     TimeScale
 );
 
-const Chart = ({id}) => {
+const ChartAdvanced = ({id}) => {
     const options = {
         responsive: true,
         fill: true,
-        maintainAspectRatio:false,
+        maintainAspectRatio: false,
         borderColor: '#7db5ec',
         backgroundColor: '#f1f7fd',
         pointRadius: 0,
@@ -55,15 +55,15 @@ const Chart = ({id}) => {
         plugins: {
             legend: {
                 display: false,
-            } },
+            }
+        },
         interaction: {
             intersect: false,
             mode: 'index',
         }
     };
     const [data, setData] = useState({
-        datasets: [
-        ],
+        datasets: [],
     });
 
     function padTo2Digits(num) {
@@ -107,10 +107,10 @@ const Chart = ({id}) => {
     }, [id])
 
     return (
-            <div className="advanced_contaier_left-main-info-chart chart-container my-5" >
-                <Line data={data} options={options}/>
-            </div>
+        <div className="advanced_contaier_left-main-info-chart chart-container my-5">
+            <Line data={data} options={options}/>
+        </div>
     );
 };
 
-export default Chart;
+export default ChartAdvanced;

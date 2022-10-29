@@ -1,9 +1,8 @@
 import {useParams} from "react-router";
 import {useEffect, useState, useRef} from "react";
-import Chart from "../../components/Chart/Chart";
+import ChartAdvanced from "../../components/Charts/ChartAdvanced";
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Button from 'react-bootstrap/Button';
-import Table from 'react-bootstrap/Table';
 
 function AdvancedInfoAboutCurrency() {
     const [infoAboutCurrency, setInfoAboutCurrency] = useState([]);
@@ -16,7 +15,6 @@ function AdvancedInfoAboutCurrency() {
     const [inputCryptoCurrency, setInputCryptoCurrency] = useState(1.00)
 
     const getDataForTimeData = async () => {
-        console.log("siema")
         let [sevenDaysInfo, thirtyDaysInfo, nintyDaysInfo] = await Promise.all([
             fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${(new Date().getTime() / 1000) - 604800}&to=${new Date().getTime() / 1000}`)
                 .then((response) => response.json()).then((data) => data.prices),
@@ -26,13 +24,6 @@ function AdvancedInfoAboutCurrency() {
                 .then((response) => response.json()).then((data) => data.prices),
         ]);
 
-//        console.log(Math.max(...sevenDaysInfo.map(o => o[1])))
-//        console.log(Math.min(...sevenDaysInfo.map(o => o[1])))
-//        console.log(Math.max(...thirtyDaysInfo.map(o => o[1])))
-//        console.log(Math.min(...thirtyDaysInfo.map(o => o[1])))
-//        console.log(Math.max(...nintyDaysInfo.map(o => o[1])))
-//        console.log(Math.min(...nintyDaysInfo.map(o => o[1])))
-
         setOhlcInfoAboutCurrency({
             sevenDaysInfoMin: (Math.min(...sevenDaysInfo.map(o => o[1]))).toFixed(2),
             sevenDaysInfoMax: (Math.max(...sevenDaysInfo.map(o => o[1]))).toFixed(2),
@@ -41,9 +32,6 @@ function AdvancedInfoAboutCurrency() {
             ninetyDaysInfoMin: (Math.min(...nintyDaysInfo.map(o => o[1]))).toFixed(2),
             ninetyDaysInfoMax: (Math.max(...nintyDaysInfo.map(o => o[1]))).toFixed(2),
         })
-//        xInfo.map((item)=>console.log(item[1]))
-
-//        setOhlcInfoAboutCurrency(xInfo)
     }
 
     function createMarkup() {
@@ -54,8 +42,6 @@ function AdvancedInfoAboutCurrency() {
         fetch(`https://api.coingecko.com/api/v3/coins/${id}`)
             .then((response) => response.json())
             .then((data) => setInfoAboutCurrency(data));
-
-
         getDataForTimeData()
 
     }, [id]);
@@ -94,7 +80,7 @@ function AdvancedInfoAboutCurrency() {
     return (
         <>
             {infoAboutCurrency.length !== 0 ? (
-                <div className="advanced_container m-xxl-4 m-xl-3 m-1 p-xxl-4 d-flex gap-xxl-5 gap-2">
+                    <div className="advanced_container m-xxl-4 m-xl-3 m-1 p-xxl-4 d-flex gap-xxl-5 gap-2 w-100" style={{maxWidth:"2200px"}}>
                     <div className="advanced_container_left" style={{maxWidth: "1300px"}}>
                         <div className="advanced_contaier_left-main biale p-5 d-flex flex-column w-100">
                             <div className="advanced_contaier_left-main-info">
@@ -149,7 +135,7 @@ function AdvancedInfoAboutCurrency() {
 
                             </div>
 
-                            <Chart id={id}/>
+                            <ChartAdvanced id={id}/>
                             <div className="szmatajebana d-flex justify-content-between">
                                 <div className="d-flex flex-column"><p
                                     style={{
@@ -254,19 +240,19 @@ function AdvancedInfoAboutCurrency() {
                         <div className="biale p-4 d-flex flex-column gap-3" style={{background: "white"}}>
                             <h1>General Info</h1>
                             <div className="d-flex gap-2">Rank: <Button className="py-0" variant="secondary"
-                                                                        style={{height: "25px"}}>1</Button></div>
+                                                                        style={{height: "27px"}}>1</Button></div>
                             <div className="d-flex gap-2">Categories: <Button className="py-0" variant="secondary"
-                                                                              style={{height: "25px"}}>CryptoCurrency</Button>
+                                                                              style={{height: "27px"}}>CryptoCurrency</Button>
                             </div>
                             <div className="d-flex gap-2">Comunity: <Button className="py-0" variant="secondary"
-                                                                            style={{height: "25px"}}>Reddit</Button>
-                                <Button className="py-0" variant="secondary" style={{height: "25px"}}>github</Button>
+                                style={{height: "27px"}}>Reddit <i className="bi bi-box-arrow-up-right"></i></Button>
+                                <Button className="py-0" variant="secondary" style={{height: "25px"}}>github <i className="bi bi-box-arrow-up-right"></i></Button>
                             </div>
                             <div className="d-flex gap-2">Homepage: <Button className="py-0" variant="secondary"
-                                                                            style={{height: "25px"}}>{get_domain_from_url(infoAboutCurrency.links.homepage[0])}</Button>
+                                style={{height: "27px"}}>{get_domain_from_url(infoAboutCurrency.links.homepage[0])} <i className="bi bi-box-arrow-up-right"></i></Button>
                             </div>
                             <div className="d-flex gap-2">Blockchains: <Button className="py-0" variant="secondary"
-                                                                               style={{height: "25px"}}>{get_domain_from_url(infoAboutCurrency.links.blockchain_site[0])}</Button>
+                                style={{height: "27px"}}>{get_domain_from_url(infoAboutCurrency.links.blockchain_site[0])} <i className="bi bi-box-arrow-up-right"></i></Button>
                             </div>
 
 

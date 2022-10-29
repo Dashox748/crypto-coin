@@ -33,7 +33,7 @@ function Header() {
 
 
     return (
-        <div className="header__container">
+        <div className="header__container sticky-top">
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

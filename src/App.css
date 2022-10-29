@@ -70,7 +70,7 @@
 .kurwamac td,
 tr {
     vertical-align: center;
-    height: 60px !important;
+    height: 60px;
     align-items: center;
 }
 
@@ -90,28 +90,56 @@ tr {
 
 .tynoniewiem:hover {
     color: black;
-
-
 }
 
 
-.biale{
-    box-shadow:0px 4px 10px 3px rgb(0 0 0 / 5%);
-background:white;
+.biale {
+    box-shadow: 0 4px 10px 3px rgb(0 0 0 / 5%);
+    background: white;
 }
+
 .chart-container {
     position: relative;
-
     height: 400px;
     width: 43vw;
-    max-width:1200px;
+    max-width: 1200px;
 }
 
-.spany{
- text-align: right;
+.chart-container-spark {
+    position: relative;
+    height: 70px;
+    width: 100vw;
+    max-width: 200px;
 }
 
-.szmatajebana span{
+.spany {
+    text-align: right;
+}
+
+.szmatajebana span {
     font-weight: 700;
     font-size: 22px;
+}
+
+.background {
+    background: linear-gradient(90deg, rgba(245, 246, 249, 1) 1%, rgba(255, 255, 255, 1) 50%, rgba(245, 246, 249, 1) 100%);
+}
+
+.sticky-sidebar{
+    max-height: calc(100vh - 111px);
+}
+
+.buttons-group-hover{
+    transition: none !important;
+}
+.buttons-group-hover:hover{
+    background: lightgray !important;
+}
+.buttons-group-hover:active{
+    outline: 0 !important;
+    border:0 !important;
+}
+.buttons-group-hover:focus{
+    outline: 0 !important;
+    border: 0 !important;
 }

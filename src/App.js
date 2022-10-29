@@ -24,8 +24,7 @@ function App() {
         <BrowserRouter>
           <Sidebar updateFavourite={updateFavourite} />
           <div
-            className="d-flex flex-fill"
-              style={{background: "#F5F6F9"}}
+              className="d-flex flex-fill background "
           >
             <Routes>
               <Route path="/" element={<Home />} />

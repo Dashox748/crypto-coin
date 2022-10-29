@@ -4,8 +4,10 @@ import {addFavourite, deleteFavourite, checkData} from "../../firebase";
 import {Link} from "react-router-dom";
 import {ToastContainer, toast} from "react-toastify";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import ChartSparkline from "../../components/Charts/ChartSparkline";
+import Button from 'react-bootstrap/Button';
+
 
 function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
     const [listOfAllCurrencies, setlistOfAllCurrencies] = useState([]);
@@ -15,6 +17,7 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
     const [howManyRows, setHowManyRows] = useState(10)
     const [whichCurrencyFilter, setWhichCurrencyFilter] = useState("")
     const [whichCurrency, setWhichCurrency] = useState(["usd", "$"])
+    const [whichPage, setWhichPage] = useState(1);
 
 
     const currency_list = [
@@ -81,14 +84,14 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
         ["sats", "SATS"],]
     useEffect(() => {
         fetch(
-            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${whichCurrency[0]}&order=market_cap_desc&per_page=${howManyRows + 1}&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d`
+            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${whichCurrency[0]}&order=market_cap_desc&per_page=${howManyRows}&page=${whichPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
         )
             .then((response) => response.json())
             .then((data) => {
                 setlistOfAllCurrencies(data)
                 setFilteredListOfAllCurrencies(data)
             });
-    }, [howManyRows, whichCurrency]);
+    }, [howManyRows, whichCurrency, whichPage]);
 
     const getFavouritesToCheck = async () => {
         let x = []
@@ -125,7 +128,7 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                 className="toast-notification"
             />
             {favouriteToCheck !== null ?
-                <div className="w-100 p-xxl-5">
+                <div className="w-100 p-xxl-5 mx-auto" style={{maxWidth: "2200px"}}>
                     <div className="d-flex justify-content-between">
                         <input
                             type="search"
@@ -141,7 +144,8 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                                 <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                                     {whichCurrency[0].toUpperCase()}
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu style={{minWidth: "160px",maxHeight:"300px"}} className="m-0 p-3 overflow-auto">
+                                <Dropdown.Menu style={{minWidth: "160px", maxHeight: "300px"}}
+                                               className="m-0 p-3 overflow-auto">
                                     <Dropdown.Item className="m-0 p-0"><input className="form-control my-1"
                                                                               placeholder="Search..."
                                                                               style={{width: "100%"}}
@@ -178,6 +182,7 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                             <th>24h%</th>
                             <th>7d%</th>
                             <th>Market Cap</th>
+                            <th className="w-25" style={{maxWidth: "200px"}}>7 Day Chart</th>
                             <th>
                                 <div className="d-flex align-items-center justify-content-center">Favourite</div>
                             </th>
@@ -242,6 +247,9 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                                     </div>
                                 </td>
                                 <td>
+                                    <ChartSparkline sparkline={data.sparkline_in_7d.price}/>
+                                </td>
+                                <td>
                                     <div className="d-flex align-items-center justify-content-center h-100">
 
                                         {!favouriteToCheck.includes(data.id) ? <i className="bi bi-star"
@@ -266,7 +274,57 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                             </tr>
                         )) : null}
                         </tbody>
+
                     </Table>
+                    <div className="d-flex justify-content-center">
+                        <ButtonGroup aria-label="Basic example" role="group" className="d-flex gap-2">
+                            <Button className="fw-bold rounded-3" variant=""
+                                    onClick={() => setWhichPage(whichPage - 1)}><i className="bi bi-chevron-left"></i>
+                            </Button>
+                            <Button className="fw-bold buttons-group-hover rounded-3" onClick={() => setWhichPage(1)}
+                                    variant={whichPage === 1 ? "primary" : ""}>1</Button>
+                            {whichPage <= 4 ? <>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(2)}
+                                            variant={whichPage === 2 ? "primary" : ""}>2</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(3)}
+                                            variant={whichPage === 3 ? "primary" : ""}>3</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(4)}
+                                            variant={whichPage === 4 ? "primary" : ""}>4</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(5)}
+                                            variant={whichPage === 5 ? "primary" : ""}>5</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(6)}
+                                            variant={whichPage === 6 ? "primary" : ""}>6</Button></>
+                                :
+                                <>
+                                    <Button className="fw-bold  rounded-3" variant="">...</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(whichPage - 2)}
+                                            variant="">{whichPage - 2}</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(whichPage - 1)}
+                                            variant="">{whichPage - 1}</Button>
+                                    <Button className="fw-bold rounded-3" onClick={() => setWhichPage(whichPage)}
+                                            variant="primary">{whichPage}</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(whichPage + 1)}
+                                            variant="">{whichPage + 1}</Button>
+                                    <Button className="fw-bold buttons-group-hover rounded-3"
+                                            onClick={() => setWhichPage(whichPage + 2)}
+                                            variant="">{whichPage + 2}</Button></>
+                            }
+
+                            <Button className="fw-bold r rounded-3" variant="">...</Button>
+                            <Button className="fw-bold buttons-group-hover rounded-3" variant="">120</Button>
+                            <Button className="fw-bold  rounded-3" variant=""
+                                    onClick={() => setWhichPage(whichPage + 1)}><i className="bi bi-chevron-right"></i>
+                            </Button>
+                        </ButtonGroup>
+                    </div>
                 </div> : null}
         </>
     );
