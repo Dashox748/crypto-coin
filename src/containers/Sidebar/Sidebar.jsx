@@ -71,8 +71,8 @@ const Sidebar = ({updateFavourite}) => {
                                 </CDBSidebarMenuItem>
                             </NavLink>
 
-                                <CDBSidebarMenuItem className="szmata" icon="fire"
-                                                    suffix={<i className="bi bi-caret-down m-2"></i>}
+                                <CDBSidebarMenuItem className="szmata user-select-none" icon="fire"
+                                    suffix={!showPopular? <i className="bi bi-caret-down m-2"></i>:<i className="bi bi-caret-up m-2"></i>}
                                                     onClick={() => setShowPopular(!showPopular)}>
                                     Most Popular
                                 </CDBSidebarMenuItem>
@@ -83,7 +83,11 @@ const Sidebar = ({updateFavourite}) => {
                                             : "d-flex flex-column d-none"
                                     }
                                 >
-                                    {popular.length!==0? popular.map((data)=>(
+                                    {popular.length!==0? popular.map((data,index)=>(
+                                            <NavLink
+                                                key={index}
+                                                to={`Currencies/AdvancedInfo/${data.id}`}
+                                                >
                                             <div
                                                 className="d-flex align-items-center justify-content-center szmata py-2 flex-fill fw-normal">
                                                 <img
@@ -99,11 +103,12 @@ const Sidebar = ({updateFavourite}) => {
                                                     {data.name}
                                                 </CDBSidebarMenuItem>
                                             </div>
+                                            </NavLink>
                                     ))
                                     :null}
                                 </div>
-                       
-                            <CDBSidebarMenuItem suffix={<i className="bi bi-caret-down m-2"></i>}
+
+                            <CDBSidebarMenuItem suffix={!showFavourite? <i className="bi bi-caret-down m-2"></i>:<i className="bi bi-caret-up m-2"></i>}
                                                 icon="star"
                                                 onClick={() => {
                                                     if (favourite.length !== 0) {
@@ -179,7 +184,7 @@ const Sidebar = ({updateFavourite}) => {
                         </CDBSidebarMenu>
                     </CDBSidebarContent>
 
-                    <CDBSidebarFooter className="mb-4">
+                    <CDBSidebarFooter className="mb-4 user-select-none">
                         <CDBSidebarMenuItem className="szmata d-flex " icon="comment-dots">
                             Contact Us
                         </CDBSidebarMenuItem>
