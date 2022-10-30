@@ -100,10 +100,28 @@ tr {
 
 .chart-container {
     position: relative;
-    height: 400px;
-    width: 43vw;
+    height: 450px;
+    width: 48vw;
     max-width: 1200px;
 }
+
+@media only screen and (min-width: 2030px) {
+    .chart-container {
+        position: relative;
+        height: 450px;
+        width: 100vw;
+        max-width: 1200px;
+    }
+}
+@media only screen and (max-width: 1250px) {
+    .chart-container {
+        position: relative;
+        height: 450px;
+        width: 60vw;
+        max-width: 1200px;
+    }
+}
+
 
 .chart-container-spark {
     position: relative;
@@ -145,4 +163,10 @@ tr {
 }
 .form-swtich{
     padding:0 !important;
+}
+.buttons-group-range button{
+    background: none;
+    border:none;
+    font-weight: 500;
+    color:gray;
 }

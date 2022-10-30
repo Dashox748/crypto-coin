@@ -57,23 +57,21 @@ function AdvancedInfoAboutCurrency() {
     const calculate = async (what) => {
 
         if (what === "crypto") {
-            const x=inputCryptoCurrencyRef.current.value * infoAboutCurrency.market_data.current_price.usd;
-            if(x===0){
+            const x = inputCryptoCurrencyRef.current.value * infoAboutCurrency.market_data.current_price.usd;
+            if (x === 0) {
                 setInputCurrency("")
-            }
-            else{
+            } else {
                 setInputCurrency(x)
             }
 
 
         }
         if (what === "currency") {
-            const x=inputCurrencyRef.current.value / infoAboutCurrency.market_data.current_price.usd;
+            const x = inputCurrencyRef.current.value / infoAboutCurrency.market_data.current_price.usd;
             console.log(x)
-            if(x===0){
+            if (x === 0) {
                 setInputCryptoCurrency("")
-            }
-            else{
+            } else {
                 setInputCryptoCurrency(x);
             }
         }
@@ -81,8 +79,10 @@ function AdvancedInfoAboutCurrency() {
     }
     return (
         <>
+
             {infoAboutCurrency.length !== 0 ? (
-                    <div className="advanced_container m-xxl-4 m-xl-3 m-1 p-xxl-4 d-flex gap-xxl-5 gap-2 w-100" style={{maxWidth:"2200px"}}>
+                <div className="advanced_container m-xxl-4 m-xl-3 m-1 p-xxl-4 d-flex gap-xxl-5 gap-2 w-100"
+                     style={{maxWidth: "2200px"}}>
                     <div className="advanced_container_left" style={{maxWidth: "1300px"}}>
                         <div className="advanced_contaier_left-main biale p-5 d-flex flex-column w-100">
                             <div className="advanced_contaier_left-main-info">
@@ -157,7 +157,15 @@ function AdvancedInfoAboutCurrency() {
                                         textAlign: "center"
                                     }}>Market Cap</p>
                                     <span
-                                        className="d-flex justify-content-center">{infoAboutCurrency.market_data.market_cap.usd}</span>
+                                        className="d-flex justify-content-center">
+                                       ${new Intl.NumberFormat('de-DE', {
+                                        minimumSignificantDigits: 3,
+                                        maximumSignificantDigits: 12,
+                                        maximumFractionDigits: 0,
+                                    }).format(infoAboutCurrency.market_data.market_cap.usd)}
+
+
+                                    </span>
                                 </div>
                                 <div className="d-flex flex-column"><p
                                     style={{
@@ -167,7 +175,15 @@ function AdvancedInfoAboutCurrency() {
                                         textAlign: "center"
                                     }}>Circulating
                                     Supply</p><span
-                                    className="d-flex justify-content-center">{infoAboutCurrency.market_data.circulating_supply}</span>
+                                    className="d-flex justify-content-center">
+                                    {new Intl.NumberFormat('de-DE', {
+                                        minimumSignificantDigits: 3,
+                                        maximumSignificantDigits: 12,
+                                        maximumFractionDigits: 0,
+                                    }).format(infoAboutCurrency.market_data.circulating_supply)} {infoAboutCurrency.symbol.toUpperCase()}
+
+
+                                </span>
                                 </div>
                                 <div className="d-flex flex-column"><p
                                     style={{
@@ -177,7 +193,15 @@ function AdvancedInfoAboutCurrency() {
                                         textAlign: "center"
                                     }}>Total Supply</p>
                                     <span
-                                        className="d-flex justify-content-center">{infoAboutCurrency.market_data.total_supply}</span>
+                                        className="d-flex justify-content-center">
+                                        {new Intl.NumberFormat('de-DE', {
+                                            minimumSignificantDigits: 3,
+                                            maximumSignificantDigits: 12,
+                                            maximumFractionDigits: 0,
+                                        }).format(infoAboutCurrency.market_data.total_supply)} {infoAboutCurrency.symbol.toUpperCase()}
+
+
+                                    </span>
                                 </div>
                             </div>
 
@@ -247,16 +271,20 @@ function AdvancedInfoAboutCurrency() {
                                                                               style={{height: "27px"}}>CryptoCurrency</Button>
                             </div>
                             <div className="d-flex gap-2">Comunity: <Button className="py-0" variant="secondary"
-                                style={{height: "27px"}}>Reddit <i className="bi bi-box-arrow-up-right"></i></Button>
-                                <Button className="py-0" variant="secondary" style={{height: "25px"}}>github <i className="bi bi-box-arrow-up-right"></i></Button>
+                                                                            style={{height: "27px"}}>Reddit <i
+                                className="bi bi-box-arrow-up-right"></i></Button>
+                                <Button className="py-0" variant="secondary" style={{height: "25px"}}>github <i
+                                    className="bi bi-box-arrow-up-right"></i></Button>
                             </div>
                             <div className="d-flex gap-2">Homepage: <Button className="py-0" variant="secondary"
-                                style={{height: "27px"}}>{get_domain_from_url(infoAboutCurrency.links.homepage[0])} <i className="bi bi-box-arrow-up-right"></i></Button>
+                                                                            style={{height: "27px"}}>{get_domain_from_url(infoAboutCurrency.links.homepage[0])}
+                                <i className="bi bi-box-arrow-up-right"></i></Button>
                             </div>
                             <div className="d-flex gap-2">Blockchains: <Button className="py-0" variant="secondary"
-                                style={{height: "27px"}}>{get_domain_from_url(infoAboutCurrency.links.blockchain_site[0])} <i className="bi bi-box-arrow-up-right"></i></Button>
+                                                                               style={{height: "27px"}}>{get_domain_from_url(infoAboutCurrency.links.blockchain_site[0])}
+                                <i className="bi bi-box-arrow-up-right"></i></Button>
                             </div>
-                            <div className="d-flex gap-2">Last Updated: {time.toLocaleTimeString("en-US")} 
+                            <div className="d-flex gap-2">Last Updated: {time.toLocaleTimeString("en-US")}
                             </div>
 
 

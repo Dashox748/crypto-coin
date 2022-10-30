@@ -96,7 +96,7 @@ const Chart = ({sparkline}) => {
     return (
         <div className="chart-container-spark">
 
-            <Line data={data} options={options}/>
+            <Line data={data} options={options} />
         </div>
     );
 };

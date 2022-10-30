@@ -213,7 +213,12 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
 
                                 <td>
                                     <div className="d-flex align-items-center h-100 pe-3">
-                                        {whichCurrency[1]} {data.current_price}
+                                        {whichCurrency[1]} {new Intl.NumberFormat('de-DE',{
+                                            minimumSignificantDigits: 3,
+                                            maximumSignificantDigits: 8,
+                                            maximumFractionDigits:8,
+                                        }).format(data.current_price)}
+
                                     </div>
                                 </td>
                                 <td>
@@ -257,7 +262,12 @@ function ListOfAllCurrencies({user, updateFavourite, setUpdateFavourite}) {
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center h-100">
-                                        ${data.market_cap}
+
+                                        ${new Intl.NumberFormat('de-DE',{
+                                            minimumSignificantDigits: 3,
+                                            maximumSignificantDigits: 12,
+                                            maximumFractionDigits:0,
+                                        }).format(data.market_cap)}
                                     </div>
                                 </td>
                                 <td>
