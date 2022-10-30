@@ -16,7 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Sidebar = ({updateFavourite}) => {
     const [showFavourite, setShowFavourite] = useState(false);
+    const [showPopular, setShowPopular] = useState(false);
     const [favourite, setFavourite] = useState([]);
+    const [popular,setPopular] = useState([])
     const [user] = useAuthState(auth);
 
     useEffect(() => {
@@ -27,6 +29,10 @@ const Sidebar = ({updateFavourite}) => {
         ;
         checkData(user.uid).then((listFavourite) => setFavourite(listFavourite));
     }, [user, updateFavourite]);
+
+    useEffect(() => {
+        fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cdogecoin%2Cethereum%2Cterra-luna-2&order=market_cap_desc&per_page=100&page=1&sparkline=false").then((response) => response.json()).then((data) => setPopular(data))
+    }, [])
 
     return (
         <>
@@ -64,12 +70,39 @@ const Sidebar = ({updateFavourite}) => {
                                     List of All
                                 </CDBSidebarMenuItem>
                             </NavLink>
-                            <NavLink to="Currencies/MostPopular">
+
                                 <CDBSidebarMenuItem className="szmata" icon="fire"
-                                                    suffix={<i className="bi bi-caret-down m-2"></i>}>
+                                                    suffix={<i className="bi bi-caret-down m-2"></i>}
+                                                    onClick={() => setShowPopular(!showPopular)}>
                                     Most Popular
                                 </CDBSidebarMenuItem>
-                            </NavLink>
+                                <div
+                                    className={
+                                        showPopular
+                                            ? "d-flex flex-column"
+                                            : "d-flex flex-column d-none"
+                                    }
+                                >
+                                    {popular.length!==0? popular.map((data)=>(
+                                            <div
+                                                className="d-flex align-items-center justify-content-center szmata py-2 flex-fill fw-normal">
+                                                <img
+                                                    src={data.image}
+                                                    alt="siema"
+                                                    style={{width: "30px", height: "30px", marginLeft: "-5px"}}
+                                                />
+                                                <CDBSidebarMenuItem
+                                                    className="my-0 mx-0 p-0 xd2"
+                                                    tag="img"
+                                                    style={{width: "100px"}}
+                                                    >
+                                                    {data.name}
+                                                </CDBSidebarMenuItem>
+                                            </div>
+                                    ))
+                                    :null}
+                                </div>
+                       
                             <CDBSidebarMenuItem suffix={<i className="bi bi-caret-down m-2"></i>}
                                                 icon="star"
                                                 onClick={() => {
