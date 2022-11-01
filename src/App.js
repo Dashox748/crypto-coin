@@ -11,29 +11,52 @@ import NotFound from "./containers/NotFound/NotFound";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [user] = useAuthState(auth);
   const [updateFavourite, setUpdateFavourite] = useState(false);
+  const [darkTheme, setDarkTheme] = useState(() => {
+    // getting stored value
+    const saved = localStorage.getItem("theme");
+    const initialValue = JSON.parse(saved);
 
+    return initialValue || "";
+  });
+
+  useEffect(() => {
+    // storing input name
+    localStorage.setItem("theme", JSON.stringify(darkTheme));
+  }, [darkTheme]);
   return (
     <div className="App d-flex flex-column">
-      <Header />
-      <div className="d-flex flex-fill">
-        <BrowserRouter>
-          <Sidebar updateFavourite={updateFavourite} />
+      <BrowserRouter>
+        <Header darkTheme={darkTheme} />
+        <div className="d-flex flex-fill">
+          <Sidebar
+            updateFavourite={updateFavourite}
+            setDarkTheme={setDarkTheme}
+            darkTheme={darkTheme}
+          />
           <div
-              className="d-flex flex-fill background "
+            className={
+              darkTheme
+                ? "d-flex flex-fill background-dark"
+                : "d-flex flex-fill background"
+            }
           >
             <Routes>
-                <Route path="/" element={
-                    <ListOfAllCurrencies
-                        user={user}
-                        updateFavourite={updateFavourite}
-                        setUpdateFavourite={setUpdateFavourite}
-                    />
-                } />
+              <Route
+                path="/"
+                element={
+                  <ListOfAllCurrencies
+                    user={user}
+                    updateFavourite={updateFavourite}
+                    setUpdateFavourite={setUpdateFavourite}
+                    darkTheme={darkTheme}
+                  />
+                }
+              />
               <Route path="Currencies">
                 <Route
                   path="ListOfAll"
@@ -42,22 +65,33 @@ function App() {
                       user={user}
                       updateFavourite={updateFavourite}
                       setUpdateFavourite={setUpdateFavourite}
+                      darkTheme={darkTheme}
                     />
                   }
                 />
                 <Route path="MostPopular" element={<MostPopular />} />
                 <Route path="Favourites" element={<FavouriteCurrencies />} />
-                <Route path="Trending" element={<TrendingCurrencies />} />
+                <Route
+                  path="Trending"
+                  element={
+                    <TrendingCurrencies
+                      darkTheme={darkTheme}
+                      user={user}
+                      updateFavourite={updateFavourite}
+                      setUpdateFavourite={setUpdateFavourite}
+                    />
+                  }
+                />
                 <Route
                   path="AdvancedInfo/:id"
-                  element={<AdvancedInfoAboutCurrency />}
+                  element={<AdvancedInfoAboutCurrency darkTheme={darkTheme} />}
                 />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
-        </BrowserRouter>
-      </div>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }

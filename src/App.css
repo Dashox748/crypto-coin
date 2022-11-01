@@ -1,172 +1,212 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .root {
-    height: 100vh;
+  height: 100vh;
 }
 
 .App {
-    height: 100vh;
+  height: 100vh;
 }
 
 .header__container {
-    background: white;
-}
-
-.text_gradient {
-    color: #821b1b;
-    background-image: -webkit-linear-gradient(0deg, #821b1b 24%, #b59212 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background: white;
 }
 
 .dropdown-menu[data-bs-popper] {
-    left: -100px !important;
+  left: -100px !important;
 }
 
 @media (max-width: 1400px) {
-    .siema {
-        max-width: 400px;
-    }
+  .siema {
+    max-width: 400px;
+  }
 }
 
 .inputError:focus {
-    box-shadow: 0 0 0 0.25rem rgba(255, 62, 71, 25%) !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 62, 71, 25%) !important;
 }
 
 .inputError {
-    border: 2px solid red !important;
+  border: 2px solid red !important;
 }
 
 .bi {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .szmata {
-    transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .szmata:hover {
-    background: rgba(236, 236, 236);
+  background: rgba(236, 236, 236);
+}
+
+.sidebar-item-hover {
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar-item-hover:hover {
+  background: #4322ef;
 }
 
 .sciera {
-    transition: all 0.3s ease-in-out;
-    padding-left: 70px;
-    user-select: none;
+  transition: all 0.3s ease-in-out;
+  padding-left: 70px;
+  user-select: none;
 }
 
 .sciera:hover {
-    background: rgba(236, 236, 236);
+  background: rgba(236, 236, 236);
 }
 
 .toast-notification {
-    top: 8rem !important;
+  top: 8rem !important;
 }
 
 .kurwamac td,
 tr {
-    vertical-align: center;
-    height: 60px;
-    align-items: center;
+  vertical-align: center;
+  height: 60px;
+  align-items: center;
 }
 
 .active {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .toggled .xd2 {
-    display: none;
-    cursor: pointer;
+  display: none;
+  cursor: pointer;
 }
 
 .tynoniewiem {
-    font-size: 17px;
-    cursor: pointer;
+  font-size: 17px;
+  cursor: pointer;
 }
 
 .tynoniewiem:hover {
-    color: black;
+  color: black;
 }
 
-
 .biale {
-    box-shadow: 0 4px 10px 3px rgb(0 0 0 / 5%);
-    background: white;
+  box-shadow: 0 4px 10px 3px rgb(0 0 0 / 5%);
 }
 
 .chart-container {
-    position: relative;
-    height: 450px;
-    width: 48vw;
-    max-width: 1200px;
+  position: relative;
+  height: 450px;
+  width: 48vw;
+  max-width: 1200px;
 }
 
 @media only screen and (min-width: 2030px) {
-    .chart-container {
-        position: relative;
-        height: 450px;
-        width: 100vw;
-        max-width: 1200px;
-    }
-}
-@media only screen and (max-width: 1250px) {
-    .chart-container {
-        position: relative;
-        height: 450px;
-        width: 60vw;
-        max-width: 1200px;
-    }
+  .chart-container {
+    position: relative;
+    height: 450px;
+    width: 100vw;
+    max-width: 1200px;
+  }
 }
 
+@media only screen and (max-width: 1250px) {
+  .chart-container {
+    position: relative;
+    height: 450px;
+    width: 60vw;
+    max-width: 1200px;
+  }
+}
 
 .chart-container-spark {
-    position: relative;
-    height: 70px;
-    width: 100vw;
-    max-width: 200px;
+  position: relative;
+  height: 70px;
+  width: 100vw;
+  max-width: 200px;
 }
 
 .spany {
-    text-align: right;
+  text-align: right;
 }
-
+.hover-search-list:hover {
+  background: #eef0f3;
+}
+.hover-search-list-dark:hover {
+  background: #5c636a;
+}
 .szmatajebana span {
-    font-weight: 700;
-    font-size: 22px;
+  font-weight: 700;
+  font-size: 22px;
 }
 
 .background {
-    background: linear-gradient(90deg, rgba(245, 246, 249, 1) 1%, rgba(255, 255, 255, 1) 50%, rgba(245, 246, 249, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 246, 249, 1) 1%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(245, 246, 249, 1) 100%
+  );
 }
 
-.sticky-sidebar{
-    max-height: calc(100vh - 111px);
+.background-dark {
+  background: #1b1a1d;
 }
 
-.buttons-group-hover{
-    transition: none !important;
+.background-dark-list {
+  background: linear-gradient(
+    90deg,
+    rgba(20, 19, 22, 1) 0%,
+    rgba(52, 49, 56, 1) 50%,
+    rgba(20, 19, 22, 1) 100%
+  );
 }
-.buttons-group-hover:hover{
-    background: lightgray !important;
+
+.sticky-sidebar {
+  max-height: calc(100vh - 110px);
 }
-.buttons-group-hover:active{
-    outline: 0 !important;
-    border:0 !important;
+
+.buttons-group-hover {
+  transition: none !important;
 }
-.buttons-group-hover:focus{
-    outline: 0 !important;
-    border: 0 !important;
+
+.buttons-group-hover:hover {
+  background: lightgray !important;
 }
-.form-swtich{
-    padding:0 !important;
+
+.buttons-group-hover:active {
+  outline: 0 !important;
+  border: 0 !important;
 }
-.buttons-group-range button{
-    background: none;
-    border:none;
-    font-weight: 500;
-    color:gray;
+
+.buttons-group-hover:focus {
+  outline: 0 !important;
+  border: 0 !important;
+}
+
+.form-swtich {
+  padding: 0 !important;
+}
+
+.buttons-group-range button {
+  background: none;
+  border: none;
+  font-weight: 500;
+  color: gray;
+}
+
+.smietnik {
+  border-top: 1px solid #585e65;
+  border-right: 1px solid #585e65;
+}
+
+.hover-on-star:hover {
+  color: orange;
+}
+
+.dropdown > a::after {
+  color: red;
 }
