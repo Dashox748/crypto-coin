@@ -12,6 +12,10 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import Contact from "./containers/Contact/Contact";
+import Thanks from "./components/Thanks/Thanks";
+
 
 function App() {
   const [user] = useAuthState(auth);
@@ -21,7 +25,7 @@ function App() {
     const saved = localStorage.getItem("theme");
     const initialValue = JSON.parse(saved);
 
-    return initialValue || "";
+    return initialValue || true;
   });
 
   useEffect(() => {
@@ -30,6 +34,19 @@ function App() {
   }, [darkTheme]);
   return (
     <div className="App d-flex flex-column">
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme={darkTheme?"dark":"light"}
+            className="toast-notification"
+        />
       <BrowserRouter>
         <Header darkTheme={darkTheme} />
         <div className="d-flex flex-fill">
@@ -87,7 +104,14 @@ function App() {
                   element={<AdvancedInfoAboutCurrency darkTheme={darkTheme} />}
                 />
               </Route>
-              <Route path="*" element={<NotFound />} />
+                <Route path="Contact" element={<Contact darkTheme={darkTheme}/>}>
+
+                </Route>
+                <Route
+                    path="Contact/Thanks"
+                    element={<Thanks darkTheme={darkTheme} />}
+                />
+                <Route path="*" element={<NotFound darkTheme={darkTheme}/>} />
             </Routes>
           </div>
         </div>

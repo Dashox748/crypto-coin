@@ -120,19 +120,7 @@ function ListOfAllCurrencies({
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover
-        theme="light"
-        className="toast-notification"
-      />
+     
       {favouriteToCheck !== null ? (
         <div className="w-100" style={{ color: darkTheme ? "white" : null }}>
           <div className="d-flex justify-content-between mx-5 mt-5 px-5">

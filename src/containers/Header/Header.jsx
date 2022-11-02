@@ -52,41 +52,29 @@ function Header({ darkTheme }) {
     <div
       className={
         darkTheme
-          ? "header__container sticky-top"
+          ? " sticky-top"
           : "header__container sticky-top"
       }
     >
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover
-        theme="light"
-        className="toast-notification"
-      />
+
       {showLoginMenu === true ? (
         <Modal
           show={showLoginMenu}
           onHide={() => handleClose("login")}
           dialogClassName="modal-width"
         >
-          <Modal.Header closeButton>
+            <Modal.Header closeButton closeVariant={darkTheme?"white":null} style={{background:darkTheme ? "#2c2b2e" : "",color:darkTheme?"white":null}}>
             <Modal.Title>Login</Modal.Title>
           </Modal.Header>
-          <LoginPopup handleClose={handleClose} />
+            <LoginPopup handleClose={handleClose} darkTheme={darkTheme}/>
         </Modal>
       ) : null}
       {showRegisterMenu === true ? (
-        <Modal show={showRegisterMenu} onHide={() => handleClose("register")}>
-          <Modal.Header closeButton>
+        <Modal show={showRegisterMenu} onHide={() => handleClose("register")} >
+            <Modal.Header closeButton closeVariant={darkTheme?"white":null} style={{background:darkTheme ? "#2c2b2e" : "",color:darkTheme?"white":null}}>
             <Modal.Title>Register</Modal.Title>
           </Modal.Header>
-          <RegisterPopup handleClose={handleClose} />
+            <RegisterPopup handleClose={handleClose} darkTheme={darkTheme}/>
         </Modal>
       ) : null}
       <Navbar
@@ -216,17 +204,81 @@ function Header({ darkTheme }) {
                 </NavDropdown>
               </Nav>
             ) : (
-              <div>
+              <div className="d-flex gap-3">
+                  <form
+                      style={{ position: "relative" }}
+                      className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+                      role="search"
+                      >
+                      <input
+                          type="search"
+                          className="form-control"
+                          placeholder="Search..."
+                          aria-label="Search"
+                          value={searchInput}
+                          onChange={(e) => setSearchInput(e.target.value)}
+                          style={{
+                              background: darkTheme ? "#262528" : "",
+                              border: darkTheme ? "none" : "",
+                              color: darkTheme ? "white" : "",
+                              //                                            width:"315px"
+                      }}
+                      />
+
+                      <div
+                          style={{
+                              position: "absolute",
+                              maxHeight: "300px",
+                              background: darkTheme ? "#2c2b2e" : "white",
+                              width: "315px",
+                              top: "50px",
+                              right: "0px",
+                              cursor: "pointer",
+                          }}
+                          className={
+                          showSearchlist
+                          ? "overflow-auto p-3 d-flex flex-column shadow rounded-4"
+                          : "d-none"
+                      }
+                          >
+                          {searchRespond.length !== 0
+                          ? searchRespond.map((item) => (
+                                  <Link
+                                      to={`/Currencies/AdvancedInfo/${item.id}`}
+                                      style={{
+                                          textDecoration: "none",
+                                          color: darkTheme ? "white" : "black",
+                                      }}
+                                      >
+                                      <div
+                                          className={
+                                          darkTheme
+                                          ? "d-flex justify-content-between hover-search-list-dark py-3 px-2 rounded-2"
+                                          : "d-flex justify-content-between hover-search-list py-3 px-2 rounded-2"
+                                      }
+                                          >
+                                          <div>
+                                              <img src={item.thumb} className="me-3" />
+                                              <span className="fw-semibold">{item.name}</span>
+                                          </div>
+                                          <span className="">{item.symbol}</span>
+                                      </div>
+                                  </Link>
+                                  ))
+                          : null}
+                      </div>
+                  </form>
                 <button
                   type="button"
-                  className="btn btn-outline-primary me-2"
+                    className="btn me-2 btn-outline-primary text-primary fw-semibold hover-button-login"
+                    style={{outline:"1px solid rgba(13,110,253)"}}
                   onClick={() => setShowLoginMenu(true)}
                 >
                   Login
                 </button>
                 <button
                   type="button"
-                  className="btn btn-primary"
+                    className="btn btn-primary bg-primary text-white fw-semibold"
                   onClick={() => setShowRegisterMenu(true)}
                 >
                   Sign-up

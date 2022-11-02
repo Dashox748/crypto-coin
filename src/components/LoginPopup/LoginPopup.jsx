@@ -9,7 +9,7 @@ import {
   signInWithGithub,
 } from "../../firebase";
 
-function LoginPopup({ handleClose }) {
+function LoginPopup({ handleClose,darkTheme }) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -70,8 +70,8 @@ function LoginPopup({ handleClose }) {
   return (
     <>
       {!showForgotEmail ? (
-        <Form style={{ padding: "2rem" }} onSubmit={handleLoginWithForm}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form style={{ padding: "2rem",background:darkTheme ? "#2c2b2e" : "" }} onSubmit={handleLoginWithForm}>
+                  <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="text"
@@ -79,19 +79,20 @@ function LoginPopup({ handleClose }) {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               className={showError.emailValidationLocal ? "inputError" : ""}
+                style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
             />
             {showError.emailValidationLocal ? (
-              <Form.Text className="text-danger">
+                    <Form.Text className="text-danger"  >
                 Email is not correct
               </Form.Text>
             ) : (
-              <Form.Text className="text-muted">
+                    <Form.Text className="text-muted"  >
                 We'll never share your email with anyone else.
               </Form.Text>
             )}
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formGroupPassword">
+                  <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formGroupPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -99,12 +100,13 @@ function LoginPopup({ handleClose }) {
               value={password}
               onChange={(event) => setPassowrd(event.target.value)}
               className={showError.passwordValidationLocal ? "inputError" : ""}
+                style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
             />
             {showError.passwordValidationLocal ? (
               <Form.Text className=" d-flex justify-content-between ">
                 <span className="text-danger">Password is too short</span>{" "}
                 <span
-                  className="tynoniewiem"
+                    className={darkTheme?"tynoniewiem-dark":"tynoniewiem"}
                   onClick={() => setShowForgotEmail(true)}
                 >
                   Forgot password?
@@ -114,7 +116,7 @@ function LoginPopup({ handleClose }) {
               <Form.Text className="text-muted d-flex justify-content-between">
                 <span>Set A Strong password</span>
                 <span
-                  className="tynoniewiem"
+                    className={darkTheme?"tynoniewiem-dark":"tynoniewiem"}
                   onClick={() => setShowForgotEmail(true)}
                 >
                   Forgot password?
@@ -123,7 +125,7 @@ function LoginPopup({ handleClose }) {
             )}
           </Form.Group>
 
-          <Button variant="primary" type="submit" style={{ width: "100%" }}>
+          <Button variant="primary" type="submit" className="bg-primary text-white" style={{ width: "100%" }}>
             login
           </Button>
           <Form.Group
@@ -150,12 +152,12 @@ function LoginPopup({ handleClose }) {
           </Form.Group>
         </Form>
       ) : (
-        <Form style={{ padding: "2rem" }} onSubmit={handleLoginWithForm}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form style={{ padding: "2rem",background:darkTheme ? "#2c2b2e" : "" }} onSubmit={handleLoginWithForm}>
+                  <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formBasicEmail">
             <Form.Label className="d-flex justify-content-between">
               <span>Email</span>
               <span
-                className="tynoniewiem"
+                  className={darkTheme?"tynoniewiem-dark":"tynoniewiem"}
                 onClick={() => setShowForgotEmail(false)}
               >
                 Back to login
@@ -167,6 +169,7 @@ function LoginPopup({ handleClose }) {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               className={showError.emailValidationLocal ? "inputError" : "my-2"}
+                style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
             />
             {showError.emailValidationLocal ? (
               <Form.Text className="text-danger">
@@ -181,7 +184,7 @@ function LoginPopup({ handleClose }) {
             )}
           </Form.Group>
 
-          <Button variant="primary" type="submit" style={{ width: "100%" }}>
+          <Button variant="primary" className="bg-primary text-white" type="submit" style={{ width: "100%" }}>
             Send Recovery Email
           </Button>
         </Form>

@@ -39,19 +39,6 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover
-        theme="light"
-        className="toast-notification"
-      />
       <div
         style={{ display: "flex", overflow: "scroll initial", top: "110px" }}
         className={
@@ -262,6 +249,7 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
           </CDBSidebarContent>
 
           <CDBSidebarFooter className="mb-4 user-select-none">
+              <NavLink to="/Contact" className="text-decoration-none">
             <CDBSidebarMenuItem
               className={
                 darkTheme ? "sidebar-item-hover d-flex" : "szmata d-flex"
@@ -274,6 +262,7 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
             >
               Contact Us
             </CDBSidebarMenuItem>
+              </NavLink>
             <div className="d-flex flex-wrap align-items-center">
               <CDBSidebarMenuItem className="d-flex" icon="palette">
                 <div className="d-flex align-items-center justify-content-center py-2">

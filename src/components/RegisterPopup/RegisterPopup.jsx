@@ -8,7 +8,7 @@ import {
   signInWithFacebook,
 } from "../../firebase";
 
-function RegisterPopup({ handleClose }) {
+function RegisterPopup({ handleClose,darkTheme }) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -22,7 +22,8 @@ function RegisterPopup({ handleClose }) {
     databaseValidation: false,
   });
   const [showUsed, setShowUsed] = useState("");
-  const handleRegisterWithForm = async () => {
+  const handleRegisterWithForm = async (event) => {
+      event.preventDefault();
     if (!re.test(email) && password.length < 5) {
       setShowError({
         emailValidationLocal: true,
@@ -79,23 +80,24 @@ function RegisterPopup({ handleClose }) {
   return (
     <>
       <Form
-        style={{ width: "500px", padding: "2rem" }}
+          style={{ width: "500px", padding: "2rem",background:darkTheme ? "#2c2b2e" : ""  }}
         onSubmit={handleRegisterWithForm}
       >
-        <Form.Group className="mb-3" controlId="formBasicUsername">
+          <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formBasicUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Username"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
+              style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
           />
 
           <Form.Text className="text-muted">
             Unique Username, u can change it later
           </Form.Text>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="text"
@@ -103,6 +105,7 @@ function RegisterPopup({ handleClose }) {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className={showError.emailValidationLocal ? "inputError" : ""}
+              style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
           />
           {showError.emailValidationLocal ? (
             <Form.Text className="text-danger">{showUsed}</Form.Text>
@@ -113,7 +116,7 @@ function RegisterPopup({ handleClose }) {
           )}
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formGroupPassword">
+          <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formGroupPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -121,6 +124,7 @@ function RegisterPopup({ handleClose }) {
             value={password}
             onChange={(event) => setPassowrd(event.target.value)}
             className={showError.passwordValidationLocal ? "inputError" : ""}
+              style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
           />
           {showError.passwordValidationLocal ? (
             <Form.Text className="text-danger">Password is too short</Form.Text>
@@ -129,7 +133,7 @@ function RegisterPopup({ handleClose }) {
           )}
         </Form.Group>
 
-        <Button variant="primary" type="submit" style={{ width: "100%" }}>
+          <Button variant="primary" type="submit" className="bg-primary text-white" style={{ width: "100%" }}>
           Register
         </Button>
         <Form.Group

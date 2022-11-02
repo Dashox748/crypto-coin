@@ -92,6 +92,14 @@ tr {
 .tynoniewiem:hover {
   color: black;
 }
+.tynoniewiem-dark {
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.tynoniewiem-dark:hover {
+    color: white;
+}
 
 .biale {
   box-shadow: 0 4px 10px 3px rgb(0 0 0 / 5%);
@@ -151,7 +159,9 @@ tr {
     rgba(245, 246, 249, 1) 100%
   );
 }
-
+.hover-button-login:hover{
+    color:white !important;
+}
 .background-dark {
   background: #1b1a1d;
 }
