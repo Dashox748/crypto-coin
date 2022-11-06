@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import ChartAdvanced from "../../components/Charts/ChartAdvanced";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Button from "react-bootstrap/Button";
+import { ToastContainer, toast } from "react-toastify";
+
 
 function AdvancedInfoAboutCurrency({ darkTheme }) {
   const [infoAboutCurrency, setInfoAboutCurrency] = useState([]);
@@ -21,25 +23,25 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
       fetch(
         `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${
           new Date().getTime() / 1000 - 604800
-        }&to=${new Date().getTime() / 1000}`
+        }&to=${new Date().getTime() / 1000}`,
       )
         .then((response) => response.json())
         .then((data) => data.prices),
       fetch(
         `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${
           new Date().getTime() / 1000 - 2629743
-        }&to=${new Date().getTime() / 1000}`
+        }&to=${new Date().getTime() / 1000}`,
       )
         .then((response) => response.json())
         .then((data) => data.prices),
       fetch(
         `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${
           new Date().getTime() / 1000 - 7889229
-        }&to=${new Date().getTime() / 1000}`
+        }&to=${new Date().getTime() / 1000}`,
       )
         .then((response) => response.json())
         .then((data) => data.prices),
-    ]);
+    ]).catch((error)=>console.log(error));
 
     setOhlcInfoAboutCurrency({
       sevenDaysInfoMin: Math.min(...sevenDaysInfo.map((o) => o[1])).toFixed(2),
@@ -60,10 +62,13 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
   }
 
   useEffect(() => {
-    fetch(`https://api.coingecko.com/api/v3/coins/${id}`)
+      fetch(`https://api.coingecko.com/api/v3/coins/${id}`, )
       .then((response) => response.json())
-      .then((data) => setInfoAboutCurrency(data));
-    getDataForTimeData();
+    .then((data) =>{
+        console.log(data)
+        setInfoAboutCurrency(data)
+        getDataForTimeData();
+    }).catch((error)=>toast("You've exceeded the Rate Limit, please wait, try again in 1 minute"))
   }, [id]);
 
   function get_domain_from_url(url) {
@@ -524,14 +529,14 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
                   variant="secondary"
                   style={{ height: "27px" }}
                 >
-                  Reddit <i className="bi bi-box-arrow-up-right"></i>
+                  Reddit 
                 </Button>
                 <Button
                   className="py-0 bg-secondary text-white"
                   variant="secondary"
                   style={{ height: "25px" }}
                 >
-                  github <i className="bi bi-box-arrow-up-right"></i>
+                  github
                 </Button>
               </div>
               <div className="d-flex gap-2">
@@ -542,7 +547,6 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
                   style={{ height: "27px" }}
                 >
                   {get_domain_from_url(infoAboutCurrency.links.homepage[0])}
-                  <i className="bi bi-box-arrow-up-right"></i>
                 </Button>
               </div>
               <div className="d-flex gap-2">
@@ -555,7 +559,6 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
                   {get_domain_from_url(
                     infoAboutCurrency.links.blockchain_site[0]
                   )}
-                  <i className="bi bi-box-arrow-up-right"></i>
                 </Button>
               </div>
               <div className="d-flex gap-2">

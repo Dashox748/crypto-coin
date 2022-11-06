@@ -34,7 +34,9 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cdogecoin%2Cethereum%2Cterra-luna-2&order=market_cap_desc&per_page=100&page=1&sparkline=false"
     )
       .then((response) => response.json())
-      .then((data) => setPopular(data));
+      .then((data) => {
+          setPopular(data)
+      })
   }, []);
 
   return (
@@ -48,13 +50,14 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
         }
       >
         <CDBSidebar
-          breakpoint={1250}
+          breakpoint={1280}
           textColor="black"
           backgroundColor="white"
           style={{
             background: darkTheme ? "#1B1A1D" : null,
             color: darkTheme ? "white" : null,
           }}
+            open={false}
         >
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a

@@ -28,6 +28,7 @@ function App() {
     return initialValue || true;
   });
 
+  
   useEffect(() => {
     // storing input name
     localStorage.setItem("theme", JSON.stringify(darkTheme));

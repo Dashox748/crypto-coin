@@ -4,7 +4,7 @@ import LoginPopup from "../../components/LoginPopup/LoginPopup";
 import RegisterPopup from "../../components/RegisterPopup/RegisterPopup";
 import { auth, logout } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -80,9 +80,10 @@ function Header({ darkTheme }) {
       <Navbar
         collapseOnSelect
         expand="lg py-2c px-4  "
-        style={{ background: darkTheme ? "#141316" : null }}
+        style={{ background: darkTheme ? "#141316" : null,minHeight:"115px" }}
+          className="navbar-dark"
       >
-        <div className="container-fluid p-2  d-flex align-items-center">
+        <div className="container-fluid p-2 d-flex align-items-center responsive-navbar justify-content-between">
           <Navbar.Brand
             href="/"
             style={{ fontSize: "30px", fontWeight: "700" }}
@@ -92,23 +93,24 @@ function Header({ darkTheme }) {
                 : " d-flex align-items-center me-5 text-decoration-none"
             }
           >
-            <img src={darkTheme ? logoDark : logoWhite} />
+            <img src={darkTheme ? logoDark : logoWhite} alt="logo"/>
             CryptoCoin
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Toggle aria-controls="responsive-navbar-nav bg-white" />
           <Navbar.Collapse
             id="responsive-navbar-nav"
-            style={{ zIndex: "1010" }}
+            style={{ zIndex: "1010"}}
+              className="responsive-navbar-search"
           >
-            <div className="me-lg-auto justify-content-center user-select-none ps-5 ms-5">
-              <h2 className={darkTheme ? "m-0 text-white" : "m-0"}>Welcome</h2>
+            <div className="me-lg-auto justify-content-center user-select-none ps-xxl-5 ms-xxl-5 welcome-responsive" style={{maxHeight:"115px"}}>
+                <h2 className={darkTheme ? "m-0 text-white welcome-title-responsive" : "welcome-title-responsive m-0"}>Welcome</h2>
               <p className={darkTheme ? "siema text-white-50" : "siema"}>
                 Here is the information about all crypto currencies, Login to
                 get more options
               </p>
             </div>
             {user !== null ? (
-              <Nav className="d-flex align-items-center justify-content-center justify-content-lg-start">
+              <Nav className="d-flex align-items-center justify-content-center justify-content-lg-end ms-auto ms-auto responsive-collapse-menu">
                 <form
                   style={{ position: "relative" }}
                   className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
@@ -117,7 +119,7 @@ function Header({ darkTheme }) {
                   <input
                     type="search"
                     className="form-control"
-                    placeholder="Search..."
+                        placeholder="Search..."
                     aria-label="Search"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
@@ -125,7 +127,6 @@ function Header({ darkTheme }) {
                       background: darkTheme ? "#262528" : "",
                       border: darkTheme ? "none" : "",
                       color: darkTheme ? "white" : "",
-                      //                                            width:"315px"
                     }}
                   />
 
@@ -138,6 +139,7 @@ function Header({ darkTheme }) {
                       top: "50px",
                       right: "0px",
                       cursor: "pointer",
+                        zIndex:"1040"
                     }}
                     className={
                       showSearchlist
@@ -162,7 +164,7 @@ function Header({ darkTheme }) {
                               }
                             >
                               <div>
-                                <img src={item.thumb} className="me-3" />
+                                <img src={item.thumb} className="me-3" alt="logo"/>
                                 <span className="fw-semibold">{item.name}</span>
                               </div>
                               <span className="">{item.symbol}</span>
@@ -221,6 +223,7 @@ function Header({ darkTheme }) {
                               background: darkTheme ? "#262528" : "",
                               border: darkTheme ? "none" : "",
                               color: darkTheme ? "white" : "",
+                              zIndex:"1040"
                               //                                            width:"315px"
                       }}
                       />
@@ -258,7 +261,7 @@ function Header({ darkTheme }) {
                                       }
                                           >
                                           <div>
-                                              <img src={item.thumb} className="me-3" />
+                                              <img src={item.thumb} className="me-3" alt="logo"/>
                                               <span className="fw-semibold">{item.name}</span>
                                           </div>
                                           <span className="">{item.symbol}</span>
