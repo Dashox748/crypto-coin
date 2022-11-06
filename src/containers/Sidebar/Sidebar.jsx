@@ -42,7 +42,7 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
   return (
     <>
       <div
-        style={{ display: "flex", overflow: "scroll initial", top: "110px" }}
+        style={{ display: "flex", overflow: "scroll initial", top: "110px"}}
         className={
           darkTheme
             ? "  sticky-top sticky-sidebar  smietnik "
@@ -57,7 +57,7 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
             background: darkTheme ? "#1B1A1D" : null,
             color: darkTheme ? "white" : null,
           }}
-            open={false}
+
         >
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <a

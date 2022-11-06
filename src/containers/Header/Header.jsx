@@ -206,7 +206,7 @@ function Header({ darkTheme }) {
                 </NavDropdown>
               </Nav>
             ) : (
-              <div className="d-flex gap-3">
+              <div className="d-flex gap-3 flex-column flex-lg-row">
                   <form
                       style={{ position: "relative" }}
                       className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
@@ -271,6 +271,7 @@ function Header({ darkTheme }) {
                           : null}
                       </div>
                   </form>
+                  <div className="w-100 d-flex gap-3">
                 <button
                   type="button"
                     className="btn me-2 btn-outline-primary text-primary fw-semibold hover-button-login"
@@ -286,6 +287,7 @@ function Header({ darkTheme }) {
                 >
                   Sign-up
                 </button>
+                      </div>
               </div>
             )}
           </Navbar.Collapse>
