@@ -69,10 +69,10 @@ function TrendingCurrency({
                 </div>
                 <th>Name</th>
                 <th>Price</th>
-                <th>1h%</th>
-                <th>24h%</th>
+                  <th className="h_chart_responsive">1h%</th>
+                  <th className="d_chart_responsive">24h%</th>
                 <th>7d%</th>
-                <th>Market Cap</th>
+                  <th className="market_chart_responsive">Market Cap</th>
                 <th className="" style={{ maxWidth: "200px" }}>
                   7 Day Chart
                 </th>
@@ -125,7 +125,7 @@ function TrendingCurrency({
                           }).format(data.current_price)}
                         </div>
                       </td>
-                      <td>
+                        <td className="h_chart_responsive">
                         <div
                           style={{ width: "70px" }}
                           className={
@@ -142,7 +142,7 @@ function TrendingCurrency({
                           %
                         </div>
                       </td>
-                      <td>
+                        <td className="d_chart_responsive">
                         <div
                           style={{ width: "70px" }}
                           className={
@@ -174,7 +174,7 @@ function TrendingCurrency({
                           %
                         </div>
                       </td>
-                      <td>
+                        <td className="market_chart_responsive">
                         <div className="d-flex align-items-center h-100">
                           $
                           {new Intl.NumberFormat("de-DE", {
