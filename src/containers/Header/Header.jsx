@@ -81,7 +81,7 @@ function Header({ darkTheme }) {
         collapseOnSelect
         expand="lg py-2c px-4  "
         style={{ background: darkTheme ? "#141316" : null,minHeight:"115px" }}
-          className="navbar-dark"
+          className={darkTheme?"navbar-dark":null}
       >
         <div className="container-fluid p-2 d-flex align-items-center responsive-navbar justify-content-between">
           <Navbar.Brand

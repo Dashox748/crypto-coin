@@ -138,7 +138,7 @@ function ListOfAllCurrencies({
                                 width: "300px",
                                 background: darkTheme ? "rgba(20,19,22,255)" : "",
                                 border: darkTheme ? "none" : "",
-                                color: "white",
+                                color: darkTheme?"white":null
                             }}
                         />
                         <div className="d-flex align-items-center gap-2">

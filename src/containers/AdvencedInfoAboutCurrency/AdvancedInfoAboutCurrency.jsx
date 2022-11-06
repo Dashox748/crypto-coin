@@ -65,7 +65,6 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
       fetch(`https://api.coingecko.com/api/v3/coins/${id}`, )
       .then((response) => response.json())
     .then((data) =>{
-        console.log(data)
         setInfoAboutCurrency(data)
         getDataForTimeData();
     }).catch((error)=>toast("You've exceeded the Rate Limit, please wait, try again in 1 minute"))
