@@ -144,7 +144,7 @@ function ListOfAllCurrencies({
                         <div className="d-flex align-items-center gap-2">
                             <span className="fs-6 fw-bold">Currency</span>
                             <Dropdown autoClose="outside" align="end">
-                                <Dropdown.Toggle
+                                <Dropdown.Toggle    
                                     variant="secondary"
                                     id="dropdown-basic"
                                     className=""

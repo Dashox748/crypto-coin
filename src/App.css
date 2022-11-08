@@ -34,9 +34,11 @@
 .inputError {
     border: 2px solid red !important;
 }
-.responsive-navbar-nav{
-    color:white !important;
+
+.responsive-navbar-nav {
+    color: white !important;
 }
+
 .bi {
     cursor: pointer;
 }
@@ -129,14 +131,15 @@ tr {
     .welcome-responsive {
         display: none;
     }
-.responsive-navbar-search{
+
+    .responsive-navbar-search {
         flex-grow: 0 !important;
     }
 
 }
 
 @media only screen and (max-width: 922px) {
-    .chart-container-spark{
+    .chart-container-spark {
         max-width: 150px !important;
     }
 
@@ -158,7 +161,7 @@ tr {
 @media only screen and (max-width: 1055px) {
 
 
-.d_chart_responsive {
+    .d_chart_responsive {
         display: none;
     }
 }
@@ -201,6 +204,52 @@ tr {
             rgba(245, 246, 249, 1) 100%
     );
 }
+
+/*.loading_bar {*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    height: 3px;*/
+/*    background: blue;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*@keyframes move {*/
+/*    0% {*/
+/*        transform: translateX(0);*/
+/*    }*/
+/*    100% {*/
+/*        transform: translateX(1500px);*/
+/*    }*/
+/*}*/
+
+/*.loading_bar:hover {*/
+/*    animation: move 1s ease-in-out infinite;*/
+/*    border-top: 3px solid blue;*/
+/*}*/
+.loading_bar {
+    position: absolute;
+        left: 0;
+    right: 0;
+    height: 3px;
+/*    background: blue;*/
+    background: repeating-linear-gradient(to right, red 0%, blue 50%, red 100%);
+    width: 100%;
+    background-size: 200% auto;
+    background-position: 0 100%;
+    animation: gradient 2s infinite;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+}
+
+@keyframes gradient {
+    0%   { background-position: 0 0; }
+100% { background-position: -200% 0; }
+}
+
+
+
+
 
 .hover-button-login:hover {
     color: white !important;

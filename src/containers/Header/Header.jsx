@@ -11,6 +11,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import logoDark from "../../images/logo-dark.png";
 import logoWhite from "../../images/logo-white.png";
 import { Link } from "react-router-dom";
+import './header.css'
 
 function Header({ darkTheme }) {
   const [user] = useAuthState(auth);
@@ -52,7 +53,7 @@ function Header({ darkTheme }) {
     <div
       className={
         darkTheme
-          ? " sticky-top"
+          ? "sticky-top"
           : "header__container sticky-top"
       }
     >

@@ -28,10 +28,11 @@ function App() {
     return initialValue || true;
   });
 
-  
+  // <div className="loading_bar"/>
   useEffect(() => {
     // storing input name
     localStorage.setItem("theme", JSON.stringify(darkTheme));
+
   }, [darkTheme]);
   return (
     <div className="App d-flex flex-column">
@@ -60,9 +61,11 @@ function App() {
             className={
               darkTheme
                 ? "d-flex flex-fill background-dark"
-                : "d-flex flex-fill background"
+              : "d-flex flex-fill background"
             }
+              style={{position:"relative"}}
           >
+    
             <Routes>
               <Route
                 path="/"
