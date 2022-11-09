@@ -4,18 +4,26 @@ import { addFavourite, deleteFavourite, checkData } from "../../firebase";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import ChartSparkline from "../../components/Charts/ChartSparkline";
+    import { useSelector } from 'react-redux'
+import {changeLoadingStateToFalse} from "../../redux/loadingSlice";
+    import {changeLoadingStateToTrue} from "../../redux/loadingSlice";
+    import {useDispatch} from "react-redux";
 
 function TrendingCurrency({
   user,
   updateFavourite,
   setUpdateFavourite,
-  darkTheme,
 }) {
+
+    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+    const dispatch = useDispatch()
   const [trendingList, setTrendingList] = useState([]);
   const [whichCurrency, setWhichCurrency] = useState(["usd", "$"]);
   const [favouriteToCheck, setFavouriteToCheck] = useState([]);
 
   const getDataTrendingList = async () => {
+      dispatch(changeLoadingStateToTrue())
+
     let x = [];
     await fetch("https://api.coingecko.com/api/v3/search/trending")
       .then((response) => response.json())
@@ -28,7 +36,8 @@ function TrendingCurrency({
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${x[0]}%2C${x[1]}%2C${x[2]}%2C${x[3]}%2C${x[4]}%2C${x[5]}%2C${x[6]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
     )
       .then((response) => response.json())
-    .then((data) => setTrendingList(data))
+    .then((data) => {setTrendingList(data)
+        dispatch(changeLoadingStateToFalse())})
   };
   const getFavouritesToCheck = async () => {
     let x = [];

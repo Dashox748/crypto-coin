@@ -7,12 +7,15 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import ChartSparkline from "../../components/Charts/ChartSparkline";
 import Button from "react-bootstrap/Button";
+import { useSelector,useDispatch } from 'react-redux'
+import {changeLoadingStateToFalse} from "../../redux/loadingSlice";
+import {changeLoadingStateToTrue} from "../../redux/loadingSlice";
 
 function ListOfAllCurrencies({
                                  user,
                                  updateFavourite,
                                  setUpdateFavourite,
-                                 darkTheme,
+
                              }) {
     const [listOfAllCurrencies, setlistOfAllCurrencies] = useState([]);
     const [filteredListOfAllCurrencies, setFilteredListOfAllCurrencies] =
@@ -23,7 +26,8 @@ function ListOfAllCurrencies({
     const [whichCurrencyFilter, setWhichCurrencyFilter] = useState("");
     const [whichCurrency, setWhichCurrency] = useState(["usd", "$"]);
     const [whichPage, setWhichPage] = useState(1);
-
+    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+    const dispatch = useDispatch()
     const currency_list = [
         ["usd", "$"],
         ["eur", "€"],
@@ -88,13 +92,14 @@ function ListOfAllCurrencies({
         ["sats", "SATS"],
     ];
     useEffect(() => {
-
+        dispatch(changeLoadingStateToTrue())
         fetch(
             `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${whichCurrency[0]}&order=market_cap_desc&per_page=${howManyRows}&page=${whichPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`)
             .then((response) => response.json())
             .then((data) => {
                 setlistOfAllCurrencies(data);
                 setFilteredListOfAllCurrencies(data);
+                dispatch(changeLoadingStateToFalse())
             }).catch((error) => {
             console.log(error)
             toast("You've exceeded the Rate Limit, please wait, try again in 1 minute")
@@ -208,25 +213,30 @@ function ListOfAllCurrencies({
                                 >
                                     <Dropdown.Item
                                         className={darkTheme ? "text-white" : null}
-                                        onClick={() => setHowManyRows(10)}
+                                        onClick={() => {
+
+                                            setHowManyRows(10)}}
                                     >
                                         10
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         className={darkTheme ? "text-white" : null}
-                                        onClick={() => setHowManyRows(20)}
+                                        onClick={() => {
+                                            setHowManyRows(20)}}
                                     >
                                         20
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         className={darkTheme ? "text-white" : null}
-                                        onClick={() => setHowManyRows(50)}
+                                        onClick={() => {
+                                            setHowManyRows(50)}}
                                     >
                                         50
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         className={darkTheme ? "text-white" : null}
-                                        onClick={() => setHowManyRows(100)}
+                                        onClick={() => {
+                                            setHowManyRows(100)}}
                                     >
                                         100
                                     </Dropdown.Item>
@@ -577,8 +587,10 @@ function ListOfAllCurrencies({
                                 className="fw-bold buttons-group-hover rounded-3"
                                 style={{color: darkTheme ? "white" : null}}
                                 variant=""
+                                onClick={() => setWhichPage(Math.round(13250/howManyRows))}
+
                             >
-                                120
+                                {Math.round(13250/howManyRows)}
                             </Button>
                             <Button
                                 className="fw-bold  rounded-3"

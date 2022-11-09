@@ -13,13 +13,17 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { checkData } from "../../firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector, useDispatch } from 'react-redux'
+import {changeTheme} from "../../redux/darkThemeSlice";
 
-const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
+const Sidebar = ({ updateFavourite, setDarkTheme }) => {
   const [showFavourite, setShowFavourite] = useState(false);
   const [showPopular, setShowPopular] = useState(false);
   const [favourite, setFavourite] = useState([]);
   const [popular, setPopular] = useState([]);
   const [user] = useAuthState(auth);
+  const  darkTheme = useSelector((state)=>state.darkTheme.value)
+    const dispatch = useDispatch()
 
   useEffect(() => {
     if (user === null) {
@@ -50,6 +54,8 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
         }
       >
         <CDBSidebar
+            toggled={false}
+            active={false}
           breakpoint={1280}
           textColor="black"
           backgroundColor="white"
@@ -275,7 +281,8 @@ const Sidebar = ({ updateFavourite, setDarkTheme, darkTheme }) => {
               <div className="d-flex justify-content-center flex-fill orm-check form-switch">
                 <input
                   checked={darkTheme ? true : false}
-                  onClick={() => setDarkTheme(!darkTheme)}
+                  onClick={() => dispatch(changeTheme())
+                      }
                   className="form-check-input"
                   type="checkbox"
                   id="flexSwitchCheckDefault"

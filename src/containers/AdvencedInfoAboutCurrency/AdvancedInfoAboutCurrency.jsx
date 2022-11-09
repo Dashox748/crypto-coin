@@ -4,9 +4,17 @@ import ChartAdvanced from "../../components/Charts/ChartAdvanced";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
+import {changeLoadingStateToFalse} from "../../redux/loadingSlice";
+import {changeLoadingStateToTrue} from "../../redux/loadingSlice";
+import {useDispatch} from "react-redux";
 
+    import { useSelector } from 'react-redux'
 
-function AdvancedInfoAboutCurrency({ darkTheme }) {
+function AdvancedInfoAboutCurrency() {
+        const dispatch = useDispatch()
+
+    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+
   const [infoAboutCurrency, setInfoAboutCurrency] = useState([]);
   const [ohlcInfoAboutCurrency, setOhlcInfoAboutCurrency] = useState({});
   const { id } = useParams();
@@ -19,6 +27,7 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
   const time = new Date();
 
   const getDataForTimeData = async () => {
+
     let [sevenDaysInfo, thirtyDaysInfo, nintyDaysInfo] = await Promise.all([
       fetch(
         `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${
@@ -62,11 +71,13 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
   }
 
   useEffect(() => {
+      dispatch(changeLoadingStateToTrue())
       fetch(`https://api.coingecko.com/api/v3/coins/${id}`, )
       .then((response) => response.json())
     .then((data) =>{
         setInfoAboutCurrency(data)
         getDataForTimeData();
+        dispatch(changeLoadingStateToFalse())
     }).catch((error)=>toast("You've exceeded the Rate Limit, please wait, try again in 1 minute"))
   }, [id]);
 
@@ -98,13 +109,19 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
       }
     }
   };
+  const openInNewTab = url => {
+      window.open(url, '_blank', 'noopener,noreferrer');
+  };
   return (
     <>
       {infoAboutCurrency.length !== 0 ? (
+
         <div
+
           className="advanced_container m-xxl-4 m-xl-3 m-1 p-xxl-4 d-flex gap-xxl-5 gap-2 w-100"
           style={{ maxWidth: "2200px" }}
         >
+            {console.log(infoAboutCurrency)}
           <div
             className="advanced_container_left"
             style={{ maxWidth: "1300px" }}
@@ -522,11 +539,12 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
                 </Button>
               </div>
               <div className="d-flex gap-2">
-                Comunity:{" "}
+                Comunity:
                 <Button
                   className="py-0 bg-secondary text-white"
                   variant="secondary"
                   style={{ height: "27px" }}
+                    onClick={()=>openInNewTab(infoAboutCurrency.links.subreddit_url)}
                 >
                   Reddit 
                 </Button>
@@ -534,16 +552,18 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
                   className="py-0 bg-secondary text-white"
                   variant="secondary"
                   style={{ height: "25px" }}
+                    onClick={()=>openInNewTab(infoAboutCurrency.links.repos_url.github[0])}
                 >
                   github
                 </Button>
               </div>
               <div className="d-flex gap-2">
-                Homepage:{" "}
+                Homepage:
                 <Button
                   className="py-0 bg-secondary text-white"
                   variant="secondary"
                   style={{ height: "27px" }}
+                    onClick={()=>openInNewTab(infoAboutCurrency.links.homepage[0])}
                 >
                   {get_domain_from_url(infoAboutCurrency.links.homepage[0])}
                 </Button>
@@ -554,6 +574,7 @@ function AdvancedInfoAboutCurrency({ darkTheme }) {
                   className="py-0 bg-secondary text-white"
                   variant="secondary"
                   style={{ height: "27px" }}
+                    onClick={()=>openInNewTab(infoAboutCurrency.links.blockchain_site[0])}
                 >
                   {get_domain_from_url(
                     infoAboutCurrency.links.blockchain_site[0]

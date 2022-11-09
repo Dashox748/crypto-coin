@@ -7,8 +7,13 @@ import {
   registerWithEmailAndPassword,
   signInWithFacebook,
 } from "../../firebase";
+    import { useSelector } from 'react-redux'
 
-function RegisterPopup({ handleClose,darkTheme }) {
+function RegisterPopup({ handleClose }) {
+
+
+    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

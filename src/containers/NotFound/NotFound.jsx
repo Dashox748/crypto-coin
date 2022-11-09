@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+    import { useSelector } from 'react-redux'
 
-function NotFound({darkTheme}) {
+function NotFound() {
+
+    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+
   return (
     <div
       className="d-flex flex-column mx-auto gap-3

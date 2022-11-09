@@ -16,19 +16,21 @@ import { ToastContainer, toast } from "react-toastify";
 import Contact from "./containers/Contact/Contact";
 import Thanks from "./components/Thanks/Thanks";
 
+    import { useSelector } from 'react-redux'
 
 function App() {
+    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+    const  loading = useSelector((state)=>state.loading.value)
   const [user] = useAuthState(auth);
   const [updateFavourite, setUpdateFavourite] = useState(false);
-  const [darkTheme, setDarkTheme] = useState(() => {
-    // getting stored value
-    const saved = localStorage.getItem("theme");
-    const initialValue = JSON.parse(saved);
+//  const [darkTheme, setDarkTheme] = useState(() => {
+//    // getting stored value
+//    const saved = localStorage.getItem("theme");
+//    const initialValue = JSON.parse(saved);
+//
+//    return initialValue || true;
+//  });
 
-    return initialValue || true;
-  });
-
-  // <div className="loading_bar"/>
   useEffect(() => {
     // storing input name
     localStorage.setItem("theme", JSON.stringify(darkTheme));
@@ -54,7 +56,6 @@ function App() {
         <div className="d-flex flex-fill">
           <Sidebar
             updateFavourite={updateFavourite}
-            setDarkTheme={setDarkTheme}
             darkTheme={darkTheme}
           />
           <div
@@ -65,6 +66,9 @@ function App() {
             }
               style={{position:"relative"}}
           >
+              {console.log(loading)}
+              {loading?<div className="loading_bar"/>:null}
+
     
             <Routes>
               <Route

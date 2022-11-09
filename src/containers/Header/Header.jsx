@@ -12,8 +12,10 @@ import logoDark from "../../images/logo-dark.png";
 import logoWhite from "../../images/logo-white.png";
 import { Link } from "react-router-dom";
 import './header.css'
+import { useSelector } from 'react-redux'
 
-function Header({ darkTheme }) {
+
+function Header() {
   const [user] = useAuthState(auth);
   const [showLoginMenu, setShowLoginMenu] = useState(false);
   const [showRegisterMenu, setShowRegisterMenu] = useState(false);
@@ -21,6 +23,7 @@ function Header({ darkTheme }) {
   const [searchRespond, setSearchRespond] = useState([]);
   const [showSearchlist, setShowSearchlist] = useState(false);
   const profilePhoto = "https://graph.facebook.com/5544168012334199/picture";
+  const  darkTheme = useSelector((state)=>state.darkTheme.value)
 
   useEffect(() => {
     if (searchInput.length < 2) {

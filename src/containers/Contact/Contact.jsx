@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+    import { useSelector } from 'react-redux'
 
-function Contact({darkTheme}) {
+function Contact() {
+
+    const  darkTheme = useSelector((state)=>state.darkTheme.value)
 
     return (
             <>
