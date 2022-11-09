@@ -6,12 +6,14 @@ With CryptoCoins you can safely track all of your cryptocurrencies in one place
 - React
 - javascript
 - CSS
+- Redux
 - Bootstrap
 - Firebase auth
 - FireStore (database)
 - API
 - Animations
 - Local storage
+
 
 ### Data Sources and supported Exchanges
 - Coingecko
