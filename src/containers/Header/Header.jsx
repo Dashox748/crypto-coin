@@ -53,11 +53,13 @@ function Header() {
   };
 
   return (
+          <>
+          <div className="sticky-top waznehed" />
     <div
       className={
         darkTheme
-          ? "sticky-top"
-          : "header__container sticky-top"
+          ? "fixed-top"
+          : "header__container fixed-top"
       }
     >
 
@@ -298,6 +300,7 @@ function Header() {
         </div>
       </Navbar>
     </div>
+          </>
   );
 }
 

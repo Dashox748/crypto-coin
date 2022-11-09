@@ -61,12 +61,11 @@ function App() {
           <div
             className={
               darkTheme
-                ? "d-flex flex-fill background-dark"
+                ? "d-flex flex-column flex-fill background-dark"
               : "d-flex flex-fill background"
             }
               style={{position:"relative"}}
           >
-              {console.log(loading)}
               {loading?<div className="loading_bar"/>:null}
 
     

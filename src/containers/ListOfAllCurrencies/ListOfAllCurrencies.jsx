@@ -131,7 +131,7 @@ function ListOfAllCurrencies({
         <>
 
             {favouriteToCheck !== null ? (
-                <div className="w-100" style={{color: darkTheme ? "white" : null}}>
+                <div className="w-100 pb-5" style={{color: darkTheme ? "white" : null}}>
                     <div className="d-flex justify-content-between mx-xxl-5 mt-5 px-xxl-5 px-3 flex-md-row flex-column align-items-center gap-4">
                         <input
                             type="search"

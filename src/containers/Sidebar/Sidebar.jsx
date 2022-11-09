@@ -46,7 +46,7 @@ const Sidebar = ({ updateFavourite, setDarkTheme }) => {
   return (
     <>
       <div
-        style={{ display: "flex", overflow: "scroll initial", top: "110px"}}
+        style={{ display: "flex", overflow: "scroll initial", top: "115px"}}
         className={
           darkTheme
             ? "  sticky-top sticky-sidebar  smietnik "

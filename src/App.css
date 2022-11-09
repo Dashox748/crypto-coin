@@ -3,10 +3,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-.root {
+html{
     height: 100vh;
 }
+body{
+    height: 100%;
+}
+
 
 .App {
     height: 100vh;
@@ -14,7 +17,6 @@
 
 .header__container {
     background: white;
-
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -241,6 +243,13 @@ tr {
     animation-fill-mode: forwards;
     animation-timing-function: linear;
 }
+.waznehed{
+    min-height: 115px !important;
+    width: 100%;
+    top:0;
+    bottom:0;
+    background: blue;
+}
 
 @keyframes gradient {
     0%   { background-position: 0 0; }
@@ -269,7 +278,7 @@ tr {
 }
 
 .sticky-sidebar {
-    max-height: calc(100vh - 110px);
+    max-height: calc(100vh - 115px);
 }
 
 .buttons-group-hover {
