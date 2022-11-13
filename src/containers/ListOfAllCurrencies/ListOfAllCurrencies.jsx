@@ -256,8 +256,8 @@ function ListOfAllCurrencies({
                             style={{borderBottomWidth: "2px", fontSize: "16px"}}
                         >
                         <tr className={darkTheme ? "text-white" : null}>
-                            <div className="ms-xxl-5 mt-4">
-                                <th>#</th>
+                            <div className="ms-xxl-5 mt-4 number-on-list">
+                                <th className="">#</th>
                             </div>
                             <th>Name</th>
                             <th>Price</th>
@@ -265,8 +265,8 @@ function ListOfAllCurrencies({
                             <th className="d_chart_responsive">24h%</th>
                             <th>7d%</th>
                             <th className="market_chart_responsive">Market Cap</th>
-                            <th>7 Day Chart</th>
-                            <th>
+                            <th className="seven-day-chart">7 Day Chart</th>
+                            <th className="favourite-th">
                                 <div className="d-flex align-items-center justify-content-center me-xxl-5 ">
                                     Favourite
                                 </div>
@@ -277,7 +277,7 @@ function ListOfAllCurrencies({
                         {filteredListOfAllCurrencies !== 0
                             ? filteredListOfAllCurrencies.map((data, index) => (
                                 <tr className="kurwamac" key={index}>
-                                    <td className="">
+                                    <td className="number-on-list">
                                         <div className="d-flex align-items-center h-100 ms-xxl-5">
                                             {index + 1}
                                         </div>
@@ -298,7 +298,7 @@ function ListOfAllCurrencies({
                                                     style={{height: "30px"}}
                                                 />
                                                 <span className="fw-bold mx-3">{data.name}</span>
-                                                <span className="text-muted">
+                                                <span className="text-muted symbol-crypto">
                               {data.symbol.toUpperCase()}
                             </span>
                                             </div>
@@ -374,7 +374,7 @@ function ListOfAllCurrencies({
                                             }).format(data.market_cap)}
                                         </div>
                                     </td>
-                                    <td >
+                                    <td className="seven-day-chart">
                                         <ChartSparkline
                                             sparkline={data.sparkline_in_7d.price}
                                             darkTheme={darkTheme}
@@ -383,7 +383,7 @@ function ListOfAllCurrencies({
                                             }
                                         />
                                     </td>
-                                    <td>
+                                    <td className="favourite-td">
                                         <div
                                             className="d-flex align-items-center justify-content-center h-100 me-xxl-5">
                                             {!favouriteToCheck.includes(data.id) ? (
@@ -431,30 +431,43 @@ function ListOfAllCurrencies({
                                 className="fw-bold rounded-3"
                                 style={{color: darkTheme ? "white" : null}}
                                 variant=""
-                                onClick={() => setWhichPage(whichPage - 1)}
+                                onClick={() => {
+                                    if(whichPage===1){
+                                        return
+                                    }
+                                    setWhichPage(whichPage - 1)
+                                }}
                             >
                                 <i className="bi bi-chevron-left"></i>
                             </Button>
-                            <Button
-                                className={
-                                    darkTheme
-                                        ? "fw-bold buttons-group-hover rounded-3 text-white"
-                                        : "fw-bold buttons-group-hover rounded-3"
-                                }
-                                style={{
-                                    background: whichPage === 1 ? "#4322ef" : null,
-                                    color: whichPage === 1 ? "white" : "",
-                                }}
-                                onClick={() => setWhichPage(1)}
-                            >
-                                1
-                            </Button>
+                            {whichPage <= 4 ?<Button
+                                className="fw-bold  rounded-3"
+                                style={{color: darkTheme ? "white" : null}}
+                                variant=""
+                                >
+                                ...
+                            </Button>:null}
+
                             {whichPage <= 4 ? (
                                 <>
+                                <Button
+                                    className={
+                                    darkTheme
+                                    ? "fw-bold buttons-group-hover rounded-3 text-white"
+                                    : "fw-bold buttons-group-hover rounded-3"
+                                }
+                                    style={{
+                                        background: whichPage === 1 ? "#4322ef" : null,
+                                        color: whichPage === 1 ? "white" : "",
+                                    }}
+                                    onClick={() => setWhichPage(1)}
+                                    >
+                                    {whichPage}
+                                </Button>
                                     <Button
                                         className={
                                             darkTheme
-                                                ? "fw-bold buttons-group-hover rounded-3 text-white"
+                                            ? "fw-bold buttons-group-hover rounded-3 text-white button-page"
                                                 : "fw-bold buttons-group-hover rounded-3"
                                         }
                                         onClick={() => setWhichPage(2)}
@@ -468,7 +481,7 @@ function ListOfAllCurrencies({
                                     <Button
                                         className={
                                             darkTheme
-                                                ? "fw-bold buttons-group-hover rounded-3 text-white"
+                                            ? "fw-bold buttons-group-hover rounded-3 text-white button-page"
                                                 : "fw-bold buttons-group-hover rounded-3"
                                         }
                                         style={{
@@ -482,7 +495,7 @@ function ListOfAllCurrencies({
                                     <Button
                                         className={
                                             darkTheme
-                                                ? "fw-bold buttons-group-hover rounded-3 text-white"
+                                            ? "fw-bold buttons-group-hover rounded-3 text-white button-page"
                                                 : "fw-bold buttons-group-hover rounded-3"
                                         }
                                         style={{
@@ -496,7 +509,7 @@ function ListOfAllCurrencies({
                                     <Button
                                         className={
                                             darkTheme
-                                                ? "fw-bold buttons-group-hover rounded-3 text-white"
+                                            ? "fw-bold buttons-group-hover rounded-3 text-white button-page"
                                                 : "fw-bold buttons-group-hover rounded-3"
                                         }
                                         style={{
@@ -510,7 +523,7 @@ function ListOfAllCurrencies({
                                     <Button
                                         className={
                                             darkTheme
-                                                ? "fw-bold buttons-group-hover rounded-3 text-white"
+                                            ? "fw-bold buttons-group-hover rounded-3 text-white button-page"
                                                 : "fw-bold buttons-group-hover rounded-3"
                                         }
                                         style={{
@@ -524,6 +537,20 @@ function ListOfAllCurrencies({
                                 </>
                             ) : (
                                 <>
+                                <Button
+                                    className={
+                                    darkTheme
+                                    ? "fw-bold buttons-group-hover rounded-3 text-white"
+                                    : "fw-bold buttons-group-hover rounded-3"
+                                }
+                                    style={{
+                                        background: whichPage === 1 ? "#4322ef" : null,
+                                        color: whichPage === 1 ? "white" : "",
+                                    }}
+                                    onClick={() => setWhichPage(1)}
+                                    >
+                                    1
+                                </Button>
                                     <Button
                                         className="fw-bold  rounded-3"
                                         style={{color: darkTheme ? "white" : null}}
@@ -532,7 +559,7 @@ function ListOfAllCurrencies({
                                         ...
                                     </Button>
                                     <Button
-                                        className="fw-bold buttons-group-hover rounded-3"
+                                        className="fw-bold buttons-group-hover rounded-3 button-page"
                                         style={{color: darkTheme ? "white" : null}}
                                         onClick={() => setWhichPage(whichPage - 2)}
                                         variant=""
@@ -540,7 +567,7 @@ function ListOfAllCurrencies({
                                         {whichPage - 2}
                                     </Button>
                                     <Button
-                                        className="fw-bold buttons-group-hover rounded-3"
+                                        className="fw-bold buttons-group-hover rounded-3 button-page"
                                         style={{color: darkTheme ? "white" : null}}
                                         onClick={() => setWhichPage(whichPage - 1)}
                                         variant=""
@@ -558,7 +585,7 @@ function ListOfAllCurrencies({
                                         {whichPage}
                                     </Button>
                                     <Button
-                                        className="fw-bold buttons-group-hover rounded-3"
+                                        className="fw-bold buttons-group-hover rounded-3 button-page"
                                         style={{color: darkTheme ? "white" : null}}
                                         onClick={() => setWhichPage(whichPage + 1)}
                                         variant=""
@@ -566,7 +593,7 @@ function ListOfAllCurrencies({
                                         {whichPage + 1}
                                     </Button>
                                     <Button
-                                        className="fw-bold buttons-group-hover rounded-3"
+                                        className="fw-bold buttons-group-hover rounded-3 button-page"
                                         style={{color: darkTheme ? "white" : null}}
                                         onClick={() => setWhichPage(whichPage + 2)}
                                         variant=""
@@ -584,7 +611,7 @@ function ListOfAllCurrencies({
                                 ...
                             </Button>
                             <Button
-                                className="fw-bold buttons-group-hover rounded-3"
+                                className="fw-bold buttons-group-hover rounded-3 button-page"
                                 style={{color: darkTheme ? "white" : null}}
                                 variant=""
                                 onClick={() => setWhichPage(Math.round(13250/howManyRows))}

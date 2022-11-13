@@ -23,16 +23,9 @@ function App() {
     const  loading = useSelector((state)=>state.loading.value)
   const [user] = useAuthState(auth);
   const [updateFavourite, setUpdateFavourite] = useState(false);
-//  const [darkTheme, setDarkTheme] = useState(() => {
-//    // getting stored value
-//    const saved = localStorage.getItem("theme");
-//    const initialValue = JSON.parse(saved);
-//
-//    return initialValue || true;
-//  });
+
 
   useEffect(() => {
-    // storing input name
     localStorage.setItem("theme", JSON.stringify(darkTheme));
 
   }, [darkTheme]);

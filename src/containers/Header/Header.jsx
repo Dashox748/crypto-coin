@@ -85,22 +85,24 @@ function Header() {
       ) : null}
       <Navbar
         collapseOnSelect
-        expand="lg py-2c px-4  "
+        expand="md  px-4  "
         style={{ background: darkTheme ? "#141316" : null,minHeight:"115px" }}
-          className={darkTheme?"navbar-dark":null}
+          className={darkTheme?"navbar-dark navbaro-darko":"navbaro-lighto"}
       >
-        <div className="container-fluid p-2 d-flex align-items-center responsive-navbar justify-content-between">
+        <div className="container-fluid  d-flex align-items-center responsive-navbar justify-content-between">
           <Navbar.Brand
             href="/"
             style={{ fontSize: "30px", fontWeight: "700" }}
             className={
               darkTheme
-                ? " d-flex align-items-center me-5 text-decoration-none text-white"
+                ? " d-flex align-items-center me-xxl-5 text-decoration-none text-white"
                 : " d-flex align-items-center me-5 text-decoration-none"
             }
           >
-            <img src={darkTheme ? logoDark : logoWhite} alt="logo"/>
+            <img src={darkTheme ? logoDark : logoWhite} alt="logo" style={{width:"60px",height:"60px    "}}/>
+              <h1 className="site-title">
             CryptoCoin
+                  </h1>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav bg-white" />
           <Navbar.Collapse
@@ -108,18 +110,18 @@ function Header() {
             style={{ zIndex: "1010"}}
               className="responsive-navbar-search"
           >
-            <div className="me-lg-auto justify-content-center user-select-none ps-xxl-5 ms-xxl-5 welcome-responsive" style={{maxHeight:"115px"}}>
-                <h2 className={darkTheme ? "m-0 text-white welcome-title-responsive" : "welcome-title-responsive m-0"}>Welcome</h2>
-              <p className={darkTheme ? "siema text-white-50" : "siema"}>
-                Here is the information about all crypto currencies, Login to
-                get more options
-              </p>
-            </div>
+              <div className="me-lg-auto justify-content-center user-select-none ps-xxl-4 ms-xxl-4 welcome-responsive" style={{maxHeight:"115px"}}>
+                  <h2 className={darkTheme ? "m-0 text-white welcome-title-responsive welcome-clamp fs-3" : "welcome-title-responsive m-0 welcome-clamp"}>Welcome</h2>
+                  <p className={darkTheme ? "siema text-white-50" : "siema"}>
+                      Here is the information about all crypto currencies, Login to
+                      get more options
+                  </p>
+              </div>
             {user !== null ? (
               <Nav className="d-flex align-items-center justify-content-center justify-content-lg-end ms-auto ms-auto responsive-collapse-menu">
                 <form
                   style={{ position: "relative" }}
-                  className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+                  className="  mb-3 mb-lg-0 me-lg-3"
                   role="search"
                 >
                   <input
@@ -133,6 +135,7 @@ function Header() {
                       background: darkTheme ? "#262528" : "",
                       border: darkTheme ? "none" : "",
                       color: darkTheme ? "white" : "",
+                        maxWidth:"300px"
                     }}
                   />
 
@@ -212,15 +215,15 @@ function Header() {
                 </NavDropdown>
               </Nav>
             ) : (
-              <div className="d-flex gap-3 flex-column flex-lg-row">
+              <div className="d-flex gap-3 align-content-center flex-column flex-md-row align-items-center">
                   <form
                       style={{ position: "relative" }}
-                      className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+                      className=" me-lg-3 w-100 mb-md-0 mb-3"
                       role="search"
                       >
                       <input
                           type="search"
-                          className="form-control"
+                          className="form-control w-100"
                           placeholder="Search..."
                           aria-label="Search"
                           value={searchInput}
@@ -229,7 +232,8 @@ function Header() {
                               background: darkTheme ? "#262528" : "",
                               border: darkTheme ? "none" : "",
                               color: darkTheme ? "white" : "",
-                              zIndex:"1040"
+                              zIndex:"1040",
+                              minWidth:"250px"
                               //                                            width:"315px"
                       }}
                       />
@@ -277,18 +281,19 @@ function Header() {
                           : null}
                       </div>
                   </form>
-                  <div className="w-100 d-flex gap-3">
+                  <div className="w-100 d-flex gap-3  align-items-center mb-md-0 mb-4" >
                 <button
                   type="button"
-                    className="btn me-2 btn-outline-primary text-primary fw-semibold hover-button-login"
-                    style={{outline:"1px solid rgba(13,110,253)"}}
+                    className="btn me-2 btn-outline-primary text-primary fw-semibold hover-button-login button-login-logout w-50 w-md-0"
+                    style={{outline:"1px solid rgba(13,110,253)",minWidth:"63px"}}
                   onClick={() => setShowLoginMenu(true)}
                 >
                   Login
                 </button>
                 <button
                   type="button"
-                    className="btn btn-primary bg-primary text-white fw-semibold"
+                    className="btn btn-primary bg-primary text-white fw-semibold button-login-logout w-50 w-md-0"
+                    style={{minWidth:"84px"}}
                   onClick={() => setShowRegisterMenu(true)}
                 >
                   Sign-up
@@ -296,6 +301,33 @@ function Header() {
                       </div>
               </div>
             )}
+              <div className="header__menu-responsive">
+                  <div className="d-flex flex-fill  align-items-center"
+                      style={{color:darkTheme?"white":null,borderBottom:"1px solid gray",cursor:"pointer",height:"50px"}}>
+                      <h5 className="m-0">List Of All</h5>
+                  </div>
+                  <div className="d-flex flex-fill align-items-center justify-content-between"
+                      style={{color:darkTheme?"white":null,borderBottom:"1px solid gray",cursor:"pointer",height:"50px"}}>
+                      <h5 className="m-0">Most Popular</h5><i className="bi bi-caret-down-fill d-flex align-items-center fs-3"></i>
+                  </div>
+                  <div className="d-flex flex-fill align-items-center justify-content-between"
+                      style={{color:darkTheme?"white":null,borderBottom:"1px solid gray",cursor:"pointer",height:"50px"}}>
+                      <h5 className="m-0">Favourites</h5><i className="bi bi-caret-down-fill d-flex align-items-center fs-3"></i>
+                  </div>
+                  <div className="d-flex flex-fill align-items-center "
+                      style={{color:darkTheme?"white":null,borderBottom:"1px solid gray",cursor:"pointer",height:"50px"}}>
+                      <h5 className="m-0">Trending</h5>
+                  </div>
+                  <div className="d-flex flex-fill align-items-center "
+                      style={{color:darkTheme?"white":null,borderBottom:"1px solid gray",cursor:"pointer",height:"50px"}}>
+                      <h5 className="m-0">Contact Us</h5>
+                  </div>
+                  <div className="d-flex flex-fill align-items-center mb-3"
+                      style={{color:darkTheme?"white":null,borderBottom:"1px solid gray",cursor:"pointer",height:"50px"}}>
+                      <h5 className="m-0">Dark Theme</h5>
+                  </div>
+                  <div className="testowanie"></div>
+              </div>
           </Navbar.Collapse>
         </div>
       </Navbar>

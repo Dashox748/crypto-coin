@@ -322,3 +322,56 @@ tr {
 .dropdown > a::after {
     color: red;
 }
+
+.header__menu-responsive{
+    display: none;
+}
+/*@media only screen and (max-width: 1055px)*/
+@media only screen and (max-width:655px){
+    .sticky-sidebar,.symbol-crypto{
+        display: none !important;
+    }
+.header__menu-responsive{
+        display: block !important;
+    }
+}
+@media only screen and (max-width:740px){
+    .favourite-th,
+    .favourite-td{
+        display: none !important;
+    }
+}
+@media only screen and (max-width:555px){
+    .seven-day-chart,.button-page{
+        display: none !important;
+    }
+}
+
+@media only screen and (max-width:465px){
+    .number-on-list{
+        display: none !important;
+    }
+}
+
+/*    .navbaro-darko{*/
+/*        box-shadow: rgba(17, 17, 26, 0.9) 0px 35px 15px;*/
+/*    }*/
+/*.navbaro-lighto{*/
+/*        box-shadow: rgba(17, 17, 26, 0.1) 0px 20px 15px;*/
+/*    }*/
+
+
+
+/*@media only screen and (max-width:991px){*/
+/*    .button-login-logout{*/
+/*        width:50%;*/
+/*    }*/
+
+/*}*/
+.site-title{
+    font-size: clamp(2rem,1rem+9vw,7rem);
+}
+.welcome-clamp{
+    font-size: clamp(1rem,1rem+90vw,5rem);
+
+}
