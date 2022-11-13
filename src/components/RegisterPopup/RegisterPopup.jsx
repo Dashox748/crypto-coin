@@ -85,7 +85,7 @@ function RegisterPopup({ handleClose }) {
   return (
     <>
       <Form
-          style={{ width: "500px", padding: "2rem",background:darkTheme ? "#2c2b2e" : ""  }}
+          style={{  padding: "2rem",background:darkTheme ? "#2c2b2e" : ""  }}
         onSubmit={handleRegisterWithForm}
       >
           <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formBasicUsername">
