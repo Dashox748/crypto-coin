@@ -151,9 +151,9 @@ const ChartAdvanced = ({ id }) => {
   }, [id, activeRange, activeType]);
   console.log();
   return (
-    <div className="advanced_contaier_left-main-info-chart chart-container my-5">
-      <div className="d-flex justify-content-between mb-3">
-        <div className="d-flex gap-4 buttons-group-range">
+    <div className="advanced_contaier_left-main-info-chart chart-container my-5 py-5 m-auto">
+      <div className="d-flex justify-content-between mb-3 flex-column flex-sm-row gap-3">
+        <div className="d-flex gap-1 gap-md-4 buttons-group-range">
           <button
             className="rounded-4 px-3 py-1"
             style={{ background: activeType ? "#F3F3F3" : null }}
@@ -169,7 +169,7 @@ const ChartAdvanced = ({ id }) => {
             Market Cap
           </button>
         </div>
-        <div className="d-flex gap-4 buttons-group-range ">
+        <div className="d-flex gap-1 gap-md-4 buttons-group-range ">
           <button
             className="rounded-4 px-3 py-1"
             style={{ background: activeRange === "1" ? "#F3F3F3" : null }}

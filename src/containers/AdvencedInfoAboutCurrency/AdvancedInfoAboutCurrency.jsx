@@ -4,16 +4,17 @@ import ChartAdvanced from "../../components/Charts/ChartAdvanced";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
-import {changeLoadingStateToFalse} from "../../redux/loadingSlice";
-import {changeLoadingStateToTrue} from "../../redux/loadingSlice";
-import {useDispatch} from "react-redux";
+import { changeLoadingStateToFalse } from "../../redux/loadingSlice";
+import { changeLoadingStateToTrue } from "../../redux/loadingSlice";
+import { useDispatch } from "react-redux";
+import "./advancedInfoAboutCurrency.css";
 
-    import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
 function AdvancedInfoAboutCurrency() {
-        const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+  const darkTheme = useSelector((state) => state.darkTheme.value);
 
   const [infoAboutCurrency, setInfoAboutCurrency] = useState([]);
   const [ohlcInfoAboutCurrency, setOhlcInfoAboutCurrency] = useState({});
@@ -27,30 +28,29 @@ function AdvancedInfoAboutCurrency() {
   const time = new Date();
 
   const getDataForTimeData = async () => {
-
     let [sevenDaysInfo, thirtyDaysInfo, nintyDaysInfo] = await Promise.all([
       fetch(
         `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${
           new Date().getTime() / 1000 - 604800
-        }&to=${new Date().getTime() / 1000}`,
+        }&to=${new Date().getTime() / 1000}`
       )
         .then((response) => response.json())
         .then((data) => data.prices),
       fetch(
         `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${
           new Date().getTime() / 1000 - 2629743
-        }&to=${new Date().getTime() / 1000}`,
+        }&to=${new Date().getTime() / 1000}`
       )
         .then((response) => response.json())
         .then((data) => data.prices),
       fetch(
         `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${
           new Date().getTime() / 1000 - 7889229
-        }&to=${new Date().getTime() / 1000}`,
+        }&to=${new Date().getTime() / 1000}`
       )
         .then((response) => response.json())
         .then((data) => data.prices),
-    ]).catch((error)=>console.log(error));
+    ]).catch((error) => console.log(error));
 
     setOhlcInfoAboutCurrency({
       sevenDaysInfoMin: Math.min(...sevenDaysInfo.map((o) => o[1])).toFixed(2),
@@ -71,14 +71,19 @@ function AdvancedInfoAboutCurrency() {
   }
 
   useEffect(() => {
-      dispatch(changeLoadingStateToTrue())
-      fetch(`https://api.coingecko.com/api/v3/coins/${id}`, )
+    dispatch(changeLoadingStateToTrue());
+    fetch(`https://api.coingecko.com/api/v3/coins/${id}`)
       .then((response) => response.json())
-    .then((data) =>{
-        setInfoAboutCurrency(data)
+      .then((data) => {
+        setInfoAboutCurrency(data);
         getDataForTimeData();
-        dispatch(changeLoadingStateToFalse())
-    }).catch((error)=>toast("You've exceeded the Rate Limit, please wait, try again in 1 minute"))
+        dispatch(changeLoadingStateToFalse());
+      })
+      .catch((error) =>
+        toast(
+          "You've exceeded the Rate Limit, please wait, try again in 1 minute"
+        )
+      );
   }, [id]);
 
   function get_domain_from_url(url) {
@@ -109,25 +114,16 @@ function AdvancedInfoAboutCurrency() {
       }
     }
   };
-  const openInNewTab = url => {
-      window.open(url, '_blank', 'noopener,noreferrer');
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
   };
   return (
     <>
       {infoAboutCurrency.length !== 0 ? (
-
-        <div
-
-          className="advanced_container m-xxl-4 m-xl-3 m-1 p-xxl-4 d-flex gap-xxl-5 gap-2 w-100"
-          style={{ maxWidth: "2200px" }}
-        >
-            {console.log(infoAboutCurrency)}
-          <div
-            className="advanced_container_left"
-            style={{ maxWidth: "1300px" }}
-          >
+        <>
+          <div className="grid-layout m-0 m-md-3 m-xl-4 m-xxl-5">
             <div
-              className="advanced_contaier_left-main biale p-5 d-flex flex-column w-100"
+              className="advanced_contaier_left-main biale  p-md-4 d-flex flex-column w-100"
               style={{ background: darkTheme ? "#262528" : "white" }}
             >
               <div className="advanced_contaier_left-main-info">
@@ -181,7 +177,7 @@ function AdvancedInfoAboutCurrency() {
                 </div>
 
                 <div
-                  style={{ width: "400px" }}
+                  style={{ maxWidth: "400px" }}
                   className="advanced_contaier_left-main-info-24range d-flex flex-column mt-4"
                 >
                   <ProgressBar
@@ -486,6 +482,209 @@ function AdvancedInfoAboutCurrency() {
                 </div>
               </div>
             </div>
+
+            <div className="d-flex flex-column gap-5">
+              <div
+                className="biale p-4 d-flex flex-column gap-3"
+                style={{
+                  background: darkTheme ? "#262528" : "white",
+                  color: darkTheme ? "white" : null,
+                }}
+              >
+                <h1>General Info</h1>
+                <div className="d-flex gap-2">
+                  Rank:{" "}
+                  <Button
+                    className="py-0 bg-secondary text-white"
+                    variant="secondary"
+                    style={{ height: "27px" }}
+                  >
+                    1
+                  </Button>
+                </div>
+                <div className="d-flex gap-2">
+                  Categories:{" "}
+                  <Button
+                    className="py-0 bg-secondary text-white bg-secondary text-white"
+                    variant="secondary"
+                    style={{ height: "27px" }}
+                  >
+                    CryptoCurrency
+                  </Button>
+                </div>
+                <div className="d-flex gap-2">
+                  Comunity:
+                  <Button
+                    className="py-0 bg-secondary text-white"
+                    variant="secondary"
+                    style={{ height: "27px" }}
+                    onClick={() =>
+                      openInNewTab(infoAboutCurrency.links.subreddit_url)
+                    }
+                  >
+                    Reddit
+                  </Button>
+                  <Button
+                    className="py-0 bg-secondary text-white"
+                    variant="secondary"
+                    style={{ height: "25px" }}
+                    onClick={() =>
+                      openInNewTab(infoAboutCurrency.links.repos_url.github[0])
+                    }
+                  >
+                    github
+                  </Button>
+                </div>
+                <div className="d-flex gap-2">
+                  Homepage:
+                  <Button
+                    className="py-0 bg-secondary text-white"
+                    variant="secondary"
+                    style={{ height: "27px" }}
+                    onClick={() =>
+                      openInNewTab(infoAboutCurrency.links.homepage[0])
+                    }
+                  >
+                    {get_domain_from_url(infoAboutCurrency.links.homepage[0])}
+                  </Button>
+                </div>
+                <div className="d-flex gap-2">
+                  Blockchains:{" "}
+                  <Button
+                    className="py-0 bg-secondary text-white"
+                    variant="secondary"
+                    style={{ height: "27px" }}
+                    onClick={() =>
+                      openInNewTab(infoAboutCurrency.links.blockchain_site[0])
+                    }
+                  >
+                    {get_domain_from_url(
+                      infoAboutCurrency.links.blockchain_site[0]
+                    )}
+                  </Button>
+                </div>
+                <div className="d-flex gap-2">
+                  Last Updated: {time.toLocaleTimeString("en-US")}
+                </div>
+              </div>
+              <div
+                className="biale p-4 d-flex flex-column gap-4"
+                style={{
+                  background: darkTheme ? "#262528" : "white",
+                  color: darkTheme ? "white" : null,
+                }}
+              >
+                <h1>Price Stats</h1>
+                <div className="d-flex justify-content-between py-1 gap-4">
+                  <span>{infoAboutCurrency.name} Price</span>
+                  <span>
+                    ${infoAboutCurrency.market_data.current_price.usd}
+                  </span>
+                </div>
+                <div className="d-flex justify-content-between py-1 gap-4">
+                  <span>24h high / 24h low</span>
+                  <span className="spany">
+                    ${infoAboutCurrency.market_data.high_24h.usd}/ $
+                    {infoAboutCurrency.market_data.low_24h.usd}{" "}
+                  </span>
+                </div>
+                <div className="d-flex justify-content-between py-1 gap-4">
+                  <span>7d high / 7d low</span>
+                  <span className="spany">
+                    ${ohlcInfoAboutCurrency.sevenDaysInfoMax}/ $
+                    {ohlcInfoAboutCurrency.sevenDaysInfoMin}
+                  </span>
+                </div>
+                <div className="d-flex justify-content-between py-1 gap-4">
+                  <span>30d high / 30d low</span>
+                  <span className="spany">
+                    ${ohlcInfoAboutCurrency.thirtyDaysInfoMax}/ $
+                    {ohlcInfoAboutCurrency.thirtyDaysInfoMin}
+                  </span>
+                </div>
+                <div className="d-flex justify-content-between py-1 gap-4">
+                  <span>90d high / 90d low</span>
+                  <span className="spany align-items-end justify-content-end">
+                    ${ohlcInfoAboutCurrency.ninetyDaysInfoMax} / $
+                    {ohlcInfoAboutCurrency.ninetyDaysInfoMin}
+                  </span>
+                </div>
+              </div>
+              <div
+                className="biale p-4 d-flex flex-column gap-4"
+                style={{
+                  background: darkTheme ? "#262528" : "white",
+                  color: darkTheme ? "white" : null,
+                }}
+              >
+                <h1>Currency Converter</h1>
+                <div
+                  className={
+                    darkTheme
+                      ? "d-flex border-0 rounded-3 overflow-hidden"
+                      : "d-flex border rounded-3 overflow-hidden"
+                  }
+                >
+                  <div
+                    className="align-items-center d-flex p-3 fs-5 text-muted border-end"
+                    style={{
+                      minWidth: "70px",
+                      background: darkTheme ? "rgb(20, 19, 22)" : null,
+                    }}
+                  >
+                    {infoAboutCurrency.symbol.toUpperCase()}
+                  </div>
+                  <input
+                    dir="rtl"
+                    className="border-0  h-100 p-4 rounded-end text-muted"
+                    placeholder="1,00"
+                    style={{
+                      width: "100%",
+                      background: darkTheme ? "rgb(20, 19, 22)" : null,
+                    }}
+                    ref={inputCryptoCurrencyRef}
+                    value={inputCryptoCurrency}
+                    onChange={(e) => {
+                      calculate("crypto");
+                      setInputCryptoCurrency(e.target.value);
+                    }}
+                  ></input>
+                </div>
+
+                <div
+                  className={
+                    darkTheme
+                      ? "d-flex border-0 rounded-3 overflow-hidden"
+                      : "d-flex border rounded-3 overflow-hidden"
+                  }
+                >
+                  <div
+                    className="align-items-center d-flex p-3 fs-5 text-muted border-end"
+                    style={{
+                      minWidth: "70px",
+                      background: darkTheme ? "rgb(20, 19, 22)" : null,
+                    }}
+                  >
+                    USD
+                  </div>
+                  <input
+                    dir="rtl"
+                    className="border-0  h-100 p-4 rounded-end text-muted"
+                    placeholder="1,00"
+                    style={{
+                      width: "100%",
+                      background: darkTheme ? "rgb(20, 19, 22)" : null,
+                    }}
+                    value={inputCurrency}
+                    ref={inputCurrencyRef}
+                    onChange={(e) => {
+                      calculate("currency");
+                      setInputCurrency(e.target.value);
+                    }}
+                  ></input>
+                </div>
+              </div>
+            </div>
             <div
               className="d-flex flex-column biale my-5 p-4"
               style={{
@@ -509,199 +708,7 @@ function AdvancedInfoAboutCurrency() {
               </Button>
             </div>
           </div>
-          <div className="d-flex flex-column gap-5">
-            <div
-              className="biale p-4 d-flex flex-column gap-3"
-              style={{
-                background: darkTheme ? "#262528" : "white",
-                color: darkTheme ? "white" : null,
-              }}
-            >
-              <h1>General Info</h1>
-              <div className="d-flex gap-2">
-                Rank:{" "}
-                <Button
-                  className="py-0 bg-secondary text-white"
-                  variant="secondary"
-                  style={{ height: "27px" }}
-                >
-                  1
-                </Button>
-              </div>
-              <div className="d-flex gap-2">
-                Categories:{" "}
-                <Button
-                  className="py-0 bg-secondary text-white bg-secondary text-white"
-                  variant="secondary"
-                  style={{ height: "27px" }}
-                >
-                  CryptoCurrency
-                </Button>
-              </div>
-              <div className="d-flex gap-2">
-                Comunity:
-                <Button
-                  className="py-0 bg-secondary text-white"
-                  variant="secondary"
-                  style={{ height: "27px" }}
-                    onClick={()=>openInNewTab(infoAboutCurrency.links.subreddit_url)}
-                >
-                  Reddit 
-                </Button>
-                <Button
-                  className="py-0 bg-secondary text-white"
-                  variant="secondary"
-                  style={{ height: "25px" }}
-                    onClick={()=>openInNewTab(infoAboutCurrency.links.repos_url.github[0])}
-                >
-                  github
-                </Button>
-              </div>
-              <div className="d-flex gap-2">
-                Homepage:
-                <Button
-                  className="py-0 bg-secondary text-white"
-                  variant="secondary"
-                  style={{ height: "27px" }}
-                    onClick={()=>openInNewTab(infoAboutCurrency.links.homepage[0])}
-                >
-                  {get_domain_from_url(infoAboutCurrency.links.homepage[0])}
-                </Button>
-              </div>
-              <div className="d-flex gap-2">
-                Blockchains:{" "}
-                <Button
-                  className="py-0 bg-secondary text-white"
-                  variant="secondary"
-                  style={{ height: "27px" }}
-                    onClick={()=>openInNewTab(infoAboutCurrency.links.blockchain_site[0])}
-                >
-                  {get_domain_from_url(
-                    infoAboutCurrency.links.blockchain_site[0]
-                  )}
-                </Button>
-              </div>
-              <div className="d-flex gap-2">
-                Last Updated: {time.toLocaleTimeString("en-US")}
-              </div>
-            </div>
-            <div
-              className="biale p-4 d-flex flex-column gap-4"
-              style={{
-                background: darkTheme ? "#262528" : "white",
-                color: darkTheme ? "white" : null,
-              }}
-            >
-              <h1>Price Stats</h1>
-              <div className="d-flex justify-content-between py-1 gap-4">
-                <span>{infoAboutCurrency.name} Price</span>
-                <span>${infoAboutCurrency.market_data.current_price.usd}</span>
-              </div>
-              <div className="d-flex justify-content-between py-1 gap-4">
-                <span>24h high / 24h low</span>
-                <span className="spany">
-                  ${infoAboutCurrency.market_data.high_24h.usd}/ $
-                  {infoAboutCurrency.market_data.low_24h.usd}{" "}
-                </span>
-              </div>
-              <div className="d-flex justify-content-between py-1 gap-4">
-                <span>7d high / 7d low</span>
-                <span className="spany">
-                  ${ohlcInfoAboutCurrency.sevenDaysInfoMax}/ $
-                  {ohlcInfoAboutCurrency.sevenDaysInfoMin}
-                </span>
-              </div>
-              <div className="d-flex justify-content-between py-1 gap-4">
-                <span>30d high / 30d low</span>
-                <span className="spany">
-                  ${ohlcInfoAboutCurrency.thirtyDaysInfoMax}/ $
-                  {ohlcInfoAboutCurrency.thirtyDaysInfoMin}
-                </span>
-              </div>
-              <div className="d-flex justify-content-between py-1 gap-4">
-                <span>90d high / 90d low</span>
-                <span className="spany align-items-end justify-content-end">
-                  ${ohlcInfoAboutCurrency.ninetyDaysInfoMax} / $
-                  {ohlcInfoAboutCurrency.ninetyDaysInfoMin}
-                </span>
-              </div>
-            </div>
-            <div
-              className="biale p-4 d-flex flex-column gap-4"
-              style={{
-                background: darkTheme ? "#262528" : "white",
-                color: darkTheme ? "white" : null,
-              }}
-            >
-              <h1>Currency Converter</h1>
-              <div
-                className={
-                  darkTheme
-                    ? "d-flex border-0 rounded-3 overflow-hidden"
-                    : "d-flex border rounded-3 overflow-hidden"
-                }
-              >
-                <div
-                  className="align-items-center d-flex p-3 fs-5 text-muted border-end"
-                  style={{
-                    minWidth: "70px",
-                    background: darkTheme ? "rgb(20, 19, 22)" : null,
-                  }}
-                >
-                  {infoAboutCurrency.symbol.toUpperCase()}
-                </div>
-                <input
-                  dir="rtl"
-                  className="border-0  h-100 p-4 rounded-end text-muted"
-                  placeholder="1,00"
-                  style={{
-                    width: "100%",
-                    background: darkTheme ? "rgb(20, 19, 22)" : null,
-                  }}
-                  ref={inputCryptoCurrencyRef}
-                  value={inputCryptoCurrency}
-                  onChange={(e) => {
-                    calculate("crypto");
-                    setInputCryptoCurrency(e.target.value);
-                  }}
-                ></input>
-              </div>
-
-              <div
-                className={
-                  darkTheme
-                    ? "d-flex border-0 rounded-3 overflow-hidden"
-                    : "d-flex border rounded-3 overflow-hidden"
-                }
-              >
-                <div
-                  className="align-items-center d-flex p-3 fs-5 text-muted border-end"
-                  style={{
-                    minWidth: "70px",
-                    background: darkTheme ? "rgb(20, 19, 22)" : null,
-                  }}
-                >
-                  USD
-                </div>
-                <input
-                  dir="rtl"
-                  className="border-0  h-100 p-4 rounded-end text-muted"
-                  placeholder="1,00"
-                  style={{
-                    width: "100%",
-                    background: darkTheme ? "rgb(20, 19, 22)" : null,
-                  }}
-                  value={inputCurrency}
-                  ref={inputCurrencyRef}
-                  onChange={(e) => {
-                    calculate("currency");
-                    setInputCurrency(e.target.value);
-                  }}
-                ></input>
-              </div>
-            </div>
-          </div>
-        </div>
+        </>
       ) : null}
     </>
   );
