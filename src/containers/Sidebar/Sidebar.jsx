@@ -1,4 +1,4 @@
-import React, {useEffect,useLayoutEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -11,18 +11,19 @@ import { NavLink } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { checkData } from "../../firebase";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
 import {changeTheme} from "../../redux/darkThemeSlice";
 
-const Sidebar = ({ updateFavourite, setDarkTheme }) => {
+const Sidebar = () => {
   const [showFavourite, setShowFavourite] = useState(false);
   const [showPopular, setShowPopular] = useState(false);
   const [favourite, setFavourite] = useState([]);
   const [popular, setPopular] = useState([]);
   const [user] = useAuthState(auth);
   const  darkTheme = useSelector((state)=>state.darkTheme.value)
+    const  loadFavourite = useSelector((state)=>state.loadFavourite.value)
     const dispatch = useDispatch()
 
 
@@ -32,7 +33,7 @@ const Sidebar = ({ updateFavourite, setDarkTheme }) => {
       return;
     }
     checkData(user.uid).then((listFavourite) => setFavourite(listFavourite));
-  }, [user, updateFavourite]);
+  }, [user, loadFavourite]);
 
   useEffect(() => {
     fetch(

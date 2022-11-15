@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { addFavourite, deleteFavourite, checkData } from "../../firebase";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import ChartSparkline from "../../components/Charts/ChartSparkline";
 import { useSelector } from "react-redux";
 import { changeLoadingStateToFalse } from "../../redux/loadingSlice";
 import { changeLoadingStateToTrue } from "../../redux/loadingSlice";
 import { useDispatch } from "react-redux";
+import { loadFavouriteFromDatabse } from "../../redux/loadFavourite";
 
-function TrendingCurrency({ user, updateFavourite, setUpdateFavourite }) {
+function TrendingCurrency({ user }) {
   const darkTheme = useSelector((state) => state.darkTheme.value);
   const dispatch = useDispatch();
   const [trendingList, setTrendingList] = useState([]);
   const [whichCurrency, setWhichCurrency] = useState(["usd", "$"]);
   const [favouriteToCheck, setFavouriteToCheck] = useState([]);
+  const updateFavourite = useSelector((state) => state.loadFavourite.value);
 
   const getDataTrendingList = async () => {
     dispatch(changeLoadingStateToTrue());
@@ -218,7 +220,7 @@ function TrendingCurrency({ user, updateFavourite, setUpdateFavourite }) {
                                   data.id,
                                   data.image
                                 );
-                                setUpdateFavourite(!updateFavourite);
+                                dispatch(loadFavouriteFromDatabse());
                               }}
                             ></i>
                           ) : (
@@ -227,7 +229,7 @@ function TrendingCurrency({ user, updateFavourite, setUpdateFavourite }) {
                               style={{ color: "orange" }}
                               onClick={() => {
                                 deleteFavourite(user.uid, data.name);
-                                setUpdateFavourite(!updateFavourite);
+                                dispatch(loadFavouriteFromDatabse());
                               }}
                             ></i>
                           )}

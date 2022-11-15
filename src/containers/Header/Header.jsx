@@ -12,8 +12,9 @@ import logoDark from "../../images/logo-dark.png";
 import logoWhite from "../../images/logo-white.png";
 import { Link } from "react-router-dom";
 import "./header.css";
-import { useSelector, useDispatch } from 'react-redux'
-import {changeTheme} from "../../redux/darkThemeSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { changeTheme } from "../../redux/darkThemeSlice";
+import { checkData } from "../../firebase";
 
 function Header() {
   const [user] = useAuthState(auth);
@@ -22,9 +23,33 @@ function Header() {
   const [searchInput, setSearchInput] = useState("");
   const [searchRespond, setSearchRespond] = useState([]);
   const [showSearchlist, setShowSearchlist] = useState(false);
+  const [toggleMostPopular, setToggleMostPopular] = useState(false);
+  const [toggleFavourite, setToggleFavourite] = useState(false);
+  const [favourite, setFavourite] = useState([]);
+  const [popular, setPopular] = useState([]);
   const profilePhoto = "https://graph.facebook.com/5544168012334199/picture";
   const darkTheme = useSelector((state) => state.darkTheme.value);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [showFavourite, setShowFavourite] = useState(false);
+
+  const loadFavourite = useSelector((state) => state.loadFavourite.value);
+
+  useEffect(() => {
+    if (user === null) {
+      setFavourite([]);
+      return;
+    }
+    checkData(user.uid).then((listFavourite) => setFavourite(listFavourite));
+  }, [user, loadFavourite]);
+  useEffect(() => {
+    fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cdogecoin%2Cethereum%2Cterra-luna-2&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setPopular(data);
+      });
+  }, []);
   useEffect(() => {
     if (searchInput.length < 2) {
       setSearchRespond([]);
@@ -182,7 +207,7 @@ function Header() {
                       {searchRespond.length !== 0
                         ? searchRespond.map((item) => (
                             <Link
-                                to="Currencies/ListOfAll"
+                              to="Currencies/ListOfAll"
                               style={{
                                 textDecoration: "none",
                                 color: darkTheme ? "white" : "black",
@@ -343,104 +368,187 @@ function Header() {
                 </div>
               )}
               <div className="header__menu-responsive">
-                  <Link to="Currencies/listOfAll"  style={{
-                      textDecoration: "none",
-                      color: darkTheme ? "white" : "black",
-                  }}>
+                <Link
+                  to="Currencies/listOfAll"
+                  style={{
+                    textDecoration: "none",
+                    color: darkTheme ? "white" : "black",
+                  }}
+                >
+                  <div
+                    className="d-flex flex-fill  align-items-center py-3"
+                    style={{
+                      color: darkTheme ? "white" : null,
+                      borderBottom: "1px solid gray",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <h5 className="m-0">List Of All</h5>
+                  </div>
+                </Link>
                 <div
-                  className="d-flex flex-fill  align-items-center"
+                  className="d-flex flex-column overflow-hidden"
                   style={{
                     color: darkTheme ? "white" : null,
                     borderBottom: "1px solid gray",
                     cursor: "pointer",
-                    height: "50px",
                   }}
                 >
-                  <h5 className="m-0">List Of All</h5>
-                </div>
-                  </Link>
-                <div
-                  className="d-flex flex-fill align-items-center justify-content-between"
-                  style={{
-                    color: darkTheme ? "white" : null,
-                    borderBottom: "1px solid gray",
-                    cursor: "pointer",
-                    height: "50px",
-                  }}
-                >
-                  <h5 className="m-0">Most Popular</h5>
-                  <i className="bi bi-caret-down-fill d-flex align-items-center fs-3"></i>
-                </div>
-                <div
-                  className="d-flex flex-fill align-items-center justify-content-between"
-                  style={{
-                    color: darkTheme ? "white" : null,
-                    borderBottom: "1px solid gray",
-                    cursor: "pointer",
-                    height: "50px",
-                  }}
-                >
-                  <h5 className="m-0">Favourites</h5>
-                  <i className="bi bi-caret-down-fill d-flex align-items-center fs-3"></i>
-                </div>
-                  <Link to="Currencies/Trending"
-                      style={{
-                          textDecoration: "none",
-                          color: darkTheme ? "white" : "black",
-                      }}>
-                <div
-                  className="d-flex flex-fill align-items-center "
-                  style={{
-                    color: darkTheme ? "white" : null,
-                    borderBottom: "1px solid gray",
-                    cursor: "pointer",
-                    height: "50px",
-                  }}
-                >
+                  <div
+                    className="d-flex flex-fill align-items-center justify-content-between py-3"
+                    onClick={() => setToggleMostPopular(!toggleMostPopular)}
+                  >
+                    <h5 className="m-0 ">Most Popular</h5>
+                    <i className="bi bi-caret-down-fill d-flex align-items-center fs-3"></i>
+                  </div>
 
-                  <h5 className="m-0">Trending</h5>
+                  {popular.length !== 0
+                    ? popular.map((data, index) => (
+                        <Link
+                          key={index}
+                          to={`Currencies/AdvancedInfo/${data.id}`}
+                          style={{
+                            textDecoration: "none",
+                            color: darkTheme ? "white" : "black",
+                          }}
+                        >
+                          <div
+                            className="animationCollapse  d-flex gap-3 px-2 "
+                            style={{ height: toggleMostPopular ? "50px" : "0" }}
+                          >
+                            <img
+                              src={data.image}
+                              alt="siema"
+                              style={{
+                                width: "30px",
+                                height: "30px",
+                              }}
+                            />
+                            <span className="fs-4 fw-semibold">{data.id}</span>{" "}
+                            <span className="text-muted mt-2">
+                              {data.symbol}
+                            </span>
+                          </div>
+                        </Link>
+                      ))
+                    : null}
                 </div>
-                  </Link>
-                  <Link to="/Contact"
-                      style={{
-                          textDecoration: "none",
-                          color: darkTheme ? "white" : "black",
-                      }}>
-
                 <div
-                  className="d-flex flex-fill align-items-center "
+                  className="d-flex flex-column overflow-hidden"
                   style={{
                     color: darkTheme ? "white" : null,
                     borderBottom: "1px solid gray",
                     cursor: "pointer",
-                    height: "50px",
                   }}
                 >
-                  <h5 className="m-0">Contact Us</h5>
+                  <div
+                    className="d-flex flex-fill align-items-center justify-content-between py-3"
+                    icon="star"
+                    onClick={() => {
+                      if (favourite.length !== 0) {
+                        setToggleFavourite(!toggleFavourite);
+                      } else {
+                        if (user === null) {
+                          toast.info("u have to be logged in");
+                        } else {
+                          toast.info("Favourite list is empty");
+                        }
+                      }
+                    }}
+                  >
+                    <h5 className="m-0 ">Favourites</h5>
+                    <i className="bi bi-caret-down-fill d-flex align-items-center fs-3"></i>
+                  </div>
 
+                  {favourite.length !== 0
+                    ? favourite.slice(0, 4).map((data, index) => (
+                        <Link
+                          key={index}
+                          to={`Currencies/AdvancedInfo/${data.keyToApi}`}
+                          style={{
+                            textDecoration: "none",
+                            color: darkTheme ? "white" : "black",
+                          }}
+                        >
+                          <div
+                            className="animationCollapse  d-flex gap-3 px-2 "
+                            style={{ height: toggleFavourite ? "50px" : "0" }}
+                          >
+                            <img
+                              src={data.image}
+                              alt="siema"
+                              style={{
+                                width: "30px",
+                                height: "30px",
+                              }}
+                            />
+                            <span className="fs-4 fw-semibold">
+                              {data.fullName}
+                            </span>{" "}
+                            <span className="text-muted mt-2">
+                              {data.symbol}
+                            </span>
+                          </div>
+                        </Link>
+                      ))
+                    : null}
                 </div>
-                  </Link>
+                <Link
+                  to="Currencies/Trending"
+                  style={{
+                    textDecoration: "none",
+                    color: darkTheme ? "white" : "black",
+                  }}
+                >
+                  <div
+                    className="d-flex flex-fill align-items-center "
+                    style={{
+                      color: darkTheme ? "white" : null,
+                      borderBottom: "1px solid gray",
+                      cursor: "pointer",
+                      height: "50px",
+                    }}
+                  >
+                    <h5 className="m-0">Trending</h5>
+                  </div>
+                </Link>
+                <Link
+                  to="/Contact"
+                  style={{
+                    textDecoration: "none",
+                    color: darkTheme ? "white" : "black",
+                  }}
+                >
+                  <div
+                    className="d-flex flex-fill align-items-center py-3"
+                    style={{
+                      color: darkTheme ? "white" : null,
+                      borderBottom: "1px solid gray",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <h5 className="m-0">Contact Us</h5>
+                  </div>
+                </Link>
                 <div
-                  className="d-flex flex-fill align-items-center mb-3 justify-content-between"
+                  className="d-flex flex-fill align-items-center mb-3 justify-content-between py-3"
                   style={{
                     color: darkTheme ? "white" : null,
                     borderBottom: "1px solid gray",
                     cursor: "pointer",
-                    height: "50px",
                   }}
                 >
                   <h5 className="m-0">Dark Theme</h5>
-                    <div className="d-flex justify-content-center orm-check form-switch">
+                  <div className="d-flex justify-content-center orm-check form-switch">
                     <input
-                        checked={darkTheme ? true : false}
-                        onClick={() => dispatch(changeTheme())
-                    }
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                        style={{ cursor: "pointer", paddingLeft: "30px" }}
+                      checked={darkTheme ? true : false}
+                      onClick={() => dispatch(changeTheme())}
+                      className="form-check-input"
+                      type="checkbox"
+                      id="flexSwitchCheckDefault"
+                      style={{ cursor: "pointer", paddingLeft: "30px" }}
                     />
-                        </div>
+                  </div>
                 </div>
                 <div className="testowanie"></div>
               </div>
