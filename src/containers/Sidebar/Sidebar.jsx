@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect,useLayoutEffect, useRef, useState} from "react";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -25,6 +25,7 @@ const Sidebar = ({ updateFavourite, setDarkTheme }) => {
   const  darkTheme = useSelector((state)=>state.darkTheme.value)
     const dispatch = useDispatch()
 
+
   useEffect(() => {
     if (user === null) {
       setFavourite([]);
@@ -49,23 +50,24 @@ const Sidebar = ({ updateFavourite, setDarkTheme }) => {
         style={{ display: "flex", overflow: "scroll initial", top: "115px"}}
         className={
           darkTheme
-            ? "  sticky-top sticky-sidebar  smietnik "
+            ? "sticky-top sticky-sidebar  smietnik "
             : "border-end sticky-top sticky-sidebar border-top"
         }
       >
         <CDBSidebar
-            toggled={false}
-            active={false}
-          breakpoint={1280}
+            toggled={window.innerWidth < 1400}
+            breakpoint={1400}
           textColor="black"
           backgroundColor="white"
           style={{
             background: darkTheme ? "#1B1A1D" : null,
             color: darkTheme ? "white" : null,
+
           }}
 
         >
-          <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
+
+          <CDBSidebarHeader prefix={<i  className="fa fa-bars fa-large"></i>}>
             <a
               href="/"
               className="text-decoration-none"

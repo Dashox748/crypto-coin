@@ -1,7 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 
-const initialState = {
-    value: true,
+
+const initialState = localStorage.getItem("theme") === null ? {
+    value: true
+} : {
+    value: localStorage.getItem("theme") === "true"
 }
 
 export const darkThemeSlice = createSlice({
@@ -15,6 +18,6 @@ export const darkThemeSlice = createSlice({
     },
 })
 
-export const { changeTheme } = darkThemeSlice.actions
+export const {changeTheme} = darkThemeSlice.actions
 
 export default darkThemeSlice.reducer

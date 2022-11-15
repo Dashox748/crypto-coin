@@ -12,7 +12,8 @@ import logoDark from "../../images/logo-dark.png";
 import logoWhite from "../../images/logo-white.png";
 import { Link } from "react-router-dom";
 import "./header.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux'
+import {changeTheme} from "../../redux/darkThemeSlice";
 
 function Header() {
   const [user] = useAuthState(auth);
@@ -23,7 +24,7 @@ function Header() {
   const [showSearchlist, setShowSearchlist] = useState(false);
   const profilePhoto = "https://graph.facebook.com/5544168012334199/picture";
   const darkTheme = useSelector((state) => state.darkTheme.value);
-
+  const dispatch = useDispatch()
   useEffect(() => {
     if (searchInput.length < 2) {
       setSearchRespond([]);
@@ -181,7 +182,7 @@ function Header() {
                       {searchRespond.length !== 0
                         ? searchRespond.map((item) => (
                             <Link
-                              to={`/Currencies/AdvancedInfo/${item.id}`}
+                                to="Currencies/ListOfAll"
                               style={{
                                 textDecoration: "none",
                                 color: darkTheme ? "white" : "black",
@@ -342,6 +343,10 @@ function Header() {
                 </div>
               )}
               <div className="header__menu-responsive">
+                  <Link to="Currencies/listOfAll"  style={{
+                      textDecoration: "none",
+                      color: darkTheme ? "white" : "black",
+                  }}>
                 <div
                   className="d-flex flex-fill  align-items-center"
                   style={{
@@ -353,6 +358,7 @@ function Header() {
                 >
                   <h5 className="m-0">List Of All</h5>
                 </div>
+                  </Link>
                 <div
                   className="d-flex flex-fill align-items-center justify-content-between"
                   style={{
@@ -377,6 +383,11 @@ function Header() {
                   <h5 className="m-0">Favourites</h5>
                   <i className="bi bi-caret-down-fill d-flex align-items-center fs-3"></i>
                 </div>
+                  <Link to="Currencies/Trending"
+                      style={{
+                          textDecoration: "none",
+                          color: darkTheme ? "white" : "black",
+                      }}>
                 <div
                   className="d-flex flex-fill align-items-center "
                   style={{
@@ -386,8 +397,16 @@ function Header() {
                     height: "50px",
                   }}
                 >
+
                   <h5 className="m-0">Trending</h5>
                 </div>
+                  </Link>
+                  <Link to="/Contact"
+                      style={{
+                          textDecoration: "none",
+                          color: darkTheme ? "white" : "black",
+                      }}>
+
                 <div
                   className="d-flex flex-fill align-items-center "
                   style={{
@@ -398,9 +417,11 @@ function Header() {
                   }}
                 >
                   <h5 className="m-0">Contact Us</h5>
+
                 </div>
+                  </Link>
                 <div
-                  className="d-flex flex-fill align-items-center mb-3"
+                  className="d-flex flex-fill align-items-center mb-3 justify-content-between"
                   style={{
                     color: darkTheme ? "white" : null,
                     borderBottom: "1px solid gray",
@@ -409,6 +430,17 @@ function Header() {
                   }}
                 >
                   <h5 className="m-0">Dark Theme</h5>
+                    <div className="d-flex justify-content-center orm-check form-switch">
+                    <input
+                        checked={darkTheme ? true : false}
+                        onClick={() => dispatch(changeTheme())
+                    }
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckDefault"
+                        style={{ cursor: "pointer", paddingLeft: "30px" }}
+                    />
+                        </div>
                 </div>
                 <div className="testowanie"></div>
               </div>

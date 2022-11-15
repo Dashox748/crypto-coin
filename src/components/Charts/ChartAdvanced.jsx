@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,7 +26,8 @@ ChartJS.register(
   TimeScale
 );
 
-const ChartAdvanced = ({ id }) => {
+const ChartAdvanced = ({ id}) => {
+
   const [activeRange, setActiveRange] = useState("1");
   const [activeType, setActiveType] = useState(true);
   const [data, setData] = useState({
@@ -149,9 +150,13 @@ const ChartAdvanced = ({ id }) => {
   useEffect(() => {
     getDataForChart();
   }, [id, activeRange, activeType]);
-  console.log();
+
   return (
-    <div className="advanced_contaier_left-main-info-chart chart-container my-5 py-5 m-auto">
+
+    <div className="advanced_contaier_left-main-info-chart chart-container my-5 py-5 m-auto"
+      
+        >
+
       <div className="d-flex justify-content-between mb-3 flex-column flex-sm-row gap-3">
         <div className="d-flex gap-1 gap-md-4 buttons-group-range">
           <button

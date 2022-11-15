@@ -115,8 +115,9 @@ tr {
 .chart-container {
   position: relative;
   height: 550px;
-  /* width: 63vw;
-  max-width: 1200px; */
+/*  height: 60vh;*/
+/*  width: 60vw;*/
+/*  position: relative;*/
 }
 
 @media screen and (max-width: 1100px) {
@@ -314,7 +315,9 @@ tr {
 .smietnik {
   border-top: 1px solid #585e65;
   border-right: 1px solid #585e65;
+  bottom:0;
 }
+
 
 .hover-on-star:hover {
   color: orange;

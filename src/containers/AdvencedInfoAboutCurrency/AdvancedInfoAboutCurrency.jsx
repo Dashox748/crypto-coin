@@ -24,7 +24,7 @@ function AdvancedInfoAboutCurrency() {
   const [inputCurrency, setInputCurrency] = useState(1.0);
   const inputCryptoCurrencyRef = useRef(null);
   const [inputCryptoCurrency, setInputCryptoCurrency] = useState(1.0);
-
+    const [width,setWidth]=useState(1000)
   const time = new Date();
 
   const getDataForTimeData = async () => {
@@ -117,14 +117,16 @@ function AdvancedInfoAboutCurrency() {
   const openInNewTab = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
+
   return (
     <>
       {infoAboutCurrency.length !== 0 ? (
         <>
           <div className="grid-layout m-0 m-md-3 m-xl-4 m-xxl-5">
             <div
-              className="advanced_contaier_left-main biale  p-md-4 d-flex flex-column w-100"
+              className="advanced_contaier_left-main biale p-md-4 d-flex flex-column w-100"
               style={{ background: darkTheme ? "#262528" : "white" }}
+
             >
               <div className="advanced_contaier_left-main-info">
                 <div className="advanced_contaier_left-main-info-heading d-flex align-items-center gap-3 my-2">
@@ -199,7 +201,7 @@ function AdvancedInfoAboutCurrency() {
                 </div>
               </div>
 
-              <ChartAdvanced id={id} />
+                <ChartAdvanced id={id} width={width}/>
               <div className="szmatajebana d-flex justify-content-between">
                 <div className="d-flex flex-column">
                   <p
