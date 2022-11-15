@@ -73,7 +73,7 @@ function TrendingCurrency({
               style={{ borderBottomWidth: "2px", fontSize: "16px" }}
             >
               <tr className={darkTheme ? "text-white" : null}>
-                <div className="ms-xxl-5 mt-4">
+                  <div className="ms-xxl-5 mt-4 number-on-list">
                   <th>#</th>
                 </div>
                 <th>Name</th>
@@ -82,22 +82,21 @@ function TrendingCurrency({
                   <th className="d_chart_responsive">24h%</th>
                 <th>7d%</th>
                   <th className="market_chart_responsive">Market Cap</th>
-                <th className="" style={{ maxWidth: "200px" }}>
-                  7 Day Chart
-                </th>
-                <th>
-                  <div className="d-flex align-items-center justify-content-center">
-                    Favourite
-                  </div>
-                </th>
+                  <th className="seven-day-chart">7 Day Chart</th>
+
+                  <th className="favourite-th">
+                      <div className="d-flex align-items-center justify-content-center me-xxl-5 ">
+                          Favourite
+                      </div>
+                  </th>
               </tr>
             </thead>
             <tbody>
               {trendingList !== 0
                 ? trendingList.map((data, index) => (
                     <tr className="kurwamac " key={index}>
-                      <td>
-                        <div className="d-flex align-items-center h-100 ms-xxl-5">
+                        <td className="number-on-list">
+                            <div className="d-flex align-items-center h-100 ms-xxl-5">
                           {index + 1}
                         </div>
                       </td>
@@ -117,7 +116,7 @@ function TrendingCurrency({
                               style={{ height: "30px" }}
                             />
                             <span className="fw-bold mx-3">{data.name}</span>
-                            <span className="text-muted">
+                              <span className="text-muted symbol-crypto">
                               {data.symbol.toUpperCase()}
                             </span>{" "}
                           </div>
@@ -193,8 +192,8 @@ function TrendingCurrency({
                           }).format(data.market_cap)}
                         </div>
                       </td>
-                      <td>
-                        <ChartSparkline
+                        <td className="seven-day-chart">
+                            <ChartSparkline
                           sparkline={data.sparkline_in_7d.price}
                           darkTheme={darkTheme}
                           dataSevenDays={
@@ -202,8 +201,8 @@ function TrendingCurrency({
                           }
                         />
                       </td>
-                      <td>
-                        <div className="d-flex align-items-center justify-content-center h-100">
+                        <td className="favourite-td">
+                            <div className="d-flex align-items-center justify-content-center h-100">
                           {!favouriteToCheck.includes(data.id) ? (
                             <i
                               className="hover-on-star bi bi-star"
