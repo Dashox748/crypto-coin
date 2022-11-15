@@ -4,25 +4,20 @@ import { addFavourite, deleteFavourite, checkData } from "../../firebase";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import ChartSparkline from "../../components/Charts/ChartSparkline";
-    import { useSelector } from 'react-redux'
-import {changeLoadingStateToFalse} from "../../redux/loadingSlice";
-    import {changeLoadingStateToTrue} from "../../redux/loadingSlice";
-    import {useDispatch} from "react-redux";
+import { useSelector } from "react-redux";
+import { changeLoadingStateToFalse } from "../../redux/loadingSlice";
+import { changeLoadingStateToTrue } from "../../redux/loadingSlice";
+import { useDispatch } from "react-redux";
 
-function TrendingCurrency({
-  user,
-  updateFavourite,
-  setUpdateFavourite,
-}) {
-
-    const  darkTheme = useSelector((state)=>state.darkTheme.value)
-    const dispatch = useDispatch()
+function TrendingCurrency({ user, updateFavourite, setUpdateFavourite }) {
+  const darkTheme = useSelector((state) => state.darkTheme.value);
+  const dispatch = useDispatch();
   const [trendingList, setTrendingList] = useState([]);
   const [whichCurrency, setWhichCurrency] = useState(["usd", "$"]);
   const [favouriteToCheck, setFavouriteToCheck] = useState([]);
 
   const getDataTrendingList = async () => {
-      dispatch(changeLoadingStateToTrue())
+    dispatch(changeLoadingStateToTrue());
 
     let x = [];
     await fetch("https://api.coingecko.com/api/v3/search/trending")
@@ -31,13 +26,18 @@ function TrendingCurrency({
         data.coins.map((data) => {
           x.push(data.item.id);
         })
-        ).catch((error)=>toast("You've exceeded the Rate Limit, try again in 1 minute"))
+      )
+      .catch((error) =>
+        toast("You've exceeded the Rate Limit, try again in 1 minute")
+      );
     fetch(
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${x[0]}%2C${x[1]}%2C${x[2]}%2C${x[3]}%2C${x[4]}%2C${x[5]}%2C${x[6]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
     )
       .then((response) => response.json())
-    .then((data) => {setTrendingList(data)
-        dispatch(changeLoadingStateToFalse())})
+      .then((data) => {
+        setTrendingList(data);
+        dispatch(changeLoadingStateToFalse());
+      });
   };
   const getFavouritesToCheck = async () => {
     let x = [];
@@ -73,30 +73,30 @@ function TrendingCurrency({
               style={{ borderBottomWidth: "2px", fontSize: "16px" }}
             >
               <tr className={darkTheme ? "text-white" : null}>
-                  <div className="ms-xxl-5 mt-4 number-on-list">
+                <div className="ms-xxl-5 mt-4 number-on-list">
                   <th>#</th>
                 </div>
                 <th>Name</th>
                 <th>Price</th>
-                  <th className="h_chart_responsive">1h%</th>
-                  <th className="d_chart_responsive">24h%</th>
+                <th className="h_chart_responsive">1h%</th>
+                <th className="d_chart_responsive">24h%</th>
                 <th>7d%</th>
-                  <th className="market_chart_responsive">Market Cap</th>
-                  <th className="seven-day-chart">7 Day Chart</th>
+                <th className="market_chart_responsive">Market Cap</th>
+                <th className="seven-day-chart">7 Day Chart</th>
 
-                  <th className="favourite-th">
-                      <div className="d-flex align-items-center justify-content-center me-xxl-5 ">
-                          Favourite
-                      </div>
-                  </th>
+                <th className="favourite-th">
+                  <div className="d-flex align-items-center justify-content-center me-xxl-5 ">
+                    Favourite
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
               {trendingList !== 0
                 ? trendingList.map((data, index) => (
                     <tr className="kurwamac " key={index}>
-                        <td className="number-on-list">
-                            <div className="d-flex align-items-center h-100 ms-xxl-5">
+                      <td className="number-on-list">
+                        <div className="d-flex align-items-center h-100 ms-xxl-5">
                           {index + 1}
                         </div>
                       </td>
@@ -116,7 +116,7 @@ function TrendingCurrency({
                               style={{ height: "30px" }}
                             />
                             <span className="fw-bold mx-3">{data.name}</span>
-                              <span className="text-muted symbol-crypto">
+                            <span className="text-muted symbol-crypto">
                               {data.symbol.toUpperCase()}
                             </span>{" "}
                           </div>
@@ -133,7 +133,7 @@ function TrendingCurrency({
                           }).format(data.current_price)}
                         </div>
                       </td>
-                        <td className="h_chart_responsive">
+                      <td className="h_chart_responsive">
                         <div
                           style={{ width: "70px" }}
                           className={
@@ -150,7 +150,7 @@ function TrendingCurrency({
                           %
                         </div>
                       </td>
-                        <td className="d_chart_responsive">
+                      <td className="d_chart_responsive">
                         <div
                           style={{ width: "70px" }}
                           className={
@@ -182,7 +182,7 @@ function TrendingCurrency({
                           %
                         </div>
                       </td>
-                        <td className="market_chart_responsive">
+                      <td className="market_chart_responsive">
                         <div className="d-flex align-items-center h-100">
                           $
                           {new Intl.NumberFormat("de-DE", {
@@ -192,8 +192,8 @@ function TrendingCurrency({
                           }).format(data.market_cap)}
                         </div>
                       </td>
-                        <td className="seven-day-chart">
-                            <ChartSparkline
+                      <td className="seven-day-chart">
+                        <ChartSparkline
                           sparkline={data.sparkline_in_7d.price}
                           darkTheme={darkTheme}
                           dataSevenDays={
@@ -201,8 +201,8 @@ function TrendingCurrency({
                           }
                         />
                       </td>
-                        <td className="favourite-td">
-                            <div className="d-flex align-items-center justify-content-center h-100">
+                      <td className="favourite-td">
+                        <div className="d-flex align-items-center justify-content-center h-100">
                           {!favouriteToCheck.includes(data.id) ? (
                             <i
                               className="hover-on-star bi bi-star"
