@@ -3,29 +3,31 @@ import { useEffect, useState, useRef } from "react";
 import ChartAdvanced from "../../components/Charts/ChartAdvanced";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Button from "react-bootstrap/Button";
-import { ToastContainer, toast } from "react-toastify";
-import { changeLoadingStateToFalse } from "../../redux/loadingSlice";
-import { changeLoadingStateToTrue } from "../../redux/loadingSlice";
-import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  changeLoadingStateToFalse,
+  changeLoadingStateToTrue,
+} from "../../redux/loadingSlice";
+import { useDispatch, useSelector } from "react-redux";
 import "./advancedInfoAboutCurrency.css";
+import { loadFavouriteFromDatabse } from "../../redux/loadFavourite";
+import { addFavourite, deleteFavourite, checkData } from "../../firebase";
 
-import { useSelector } from "react-redux";
-
-function AdvancedInfoAboutCurrency() {
+function AdvancedInfoAboutCurrency({ user }) {
+  const time = new Date();
   const dispatch = useDispatch();
-
+  const { id } = useParams();
   const darkTheme = useSelector((state) => state.darkTheme.value);
+  const updateFavourite = useSelector((state) => state.loadFavourite.value);
 
   const [infoAboutCurrency, setInfoAboutCurrency] = useState([]);
   const [ohlcInfoAboutCurrency, setOhlcInfoAboutCurrency] = useState({});
-  const { id } = useParams();
   const [open, setOpen] = useState(false);
   const inputCurrencyRef = useRef(null);
   const [inputCurrency, setInputCurrency] = useState(1.0);
   const inputCryptoCurrencyRef = useRef(null);
   const [inputCryptoCurrency, setInputCryptoCurrency] = useState(1.0);
-    const [width,setWidth]=useState(1000)
-  const time = new Date();
+  const [favouriteToCheck, setFavouriteToCheck] = useState([]);
 
   const getDataForTimeData = async () => {
     let [sevenDaysInfo, thirtyDaysInfo, nintyDaysInfo] = await Promise.all([
@@ -87,7 +89,7 @@ function AdvancedInfoAboutCurrency() {
   }, [id]);
 
   function get_domain_from_url(url) {
-    var a = document.createElement("a");
+    let a = document.createElement("a");
     a.href = url;
     return a.hostname;
   }
@@ -117,20 +119,29 @@ function AdvancedInfoAboutCurrency() {
   const openInNewTab = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
-
+  const getFavouritesToCheck = async () => {
+    let x = [];
+    let newArray = [];
+    await checkData(user.uid).then((response) => (x = response));
+    x.map((item) => newArray.push(item.keyToApi));
+    setFavouriteToCheck(newArray);
+  };
+  useEffect(() => {
+    if (user === null) return;
+    getFavouritesToCheck();
+  }, [user, updateFavourite]);
   return (
     <>
       {infoAboutCurrency.length !== 0 ? (
         <>
           <div className="grid-layout m-0 m-md-3 m-xl-4 m-xxl-5">
             <div
-              className="advanced_contaier_left-main biale p-md-4 d-flex flex-column w-100"
+              className="advanced_contaier_left-main shadow-box-for-divs-in-advanced p-md-4 d-flex flex-column w-100"
               style={{ background: darkTheme ? "#262528" : "white" }}
-
             >
               <div className="advanced_contaier_left-main-info">
                 <div className="advanced_contaier_left-main-info-heading d-flex align-items-center gap-3 my-2">
-                  <img src={`${infoAboutCurrency.image.small}`} />
+                  <img src={`${infoAboutCurrency.image.small}`} alt="logo" />
                   <h1
                     style={{
                       fontSize: "50px",
@@ -143,6 +154,35 @@ function AdvancedInfoAboutCurrency() {
                   <h4 className="text-uppercase fw-normal text-muted align-self-lg-end">
                     {infoAboutCurrency.symbol}
                   </h4>
+                  {!favouriteToCheck.includes(infoAboutCurrency.id) ? (
+                    <i
+                      className="hover-on-star bi bi-star"
+                      style={{ color: "white" }}
+                      onClick={() => {
+                        if (user === null) {
+                          toast.info("u have to be logged in");
+                          return;
+                        }
+                        addFavourite(
+                          user.uid,
+                          infoAboutCurrency.name,
+                          infoAboutCurrency.symbol,
+                          infoAboutCurrency.id,
+                          infoAboutCurrency.image.small
+                        );
+                        dispatch(loadFavouriteFromDatabse());
+                      }}
+                    ></i>
+                  ) : (
+                    <i
+                      className="bi bi-star-fill"
+                      style={{ color: "orange" }}
+                      onClick={() => {
+                        deleteFavourite(user.uid, infoAboutCurrency.name);
+                        dispatch(loadFavouriteFromDatabse());
+                      }}
+                    ></i>
+                  )}
                 </div>
 
                 <div className="advanced_contaier_left-main-info-price d-flex align-items-center gap-3">
@@ -201,8 +241,8 @@ function AdvancedInfoAboutCurrency() {
                 </div>
               </div>
 
-                <ChartAdvanced id={id} width={width}/>
-              <div className="szmatajebana d-flex justify-content-between">
+              <ChartAdvanced id={id} />
+              <div className="responsive-info-advanced d-flex justify-content-between">
                 <div className="d-flex flex-column">
                   <p
                     style={{
@@ -216,7 +256,7 @@ function AdvancedInfoAboutCurrency() {
                   </p>
                   <span
                     style={{ color: darkTheme ? "white" : null }}
-                    className="d-flex justify-content-center"
+                    className="d-flex justify-content-center fw-semibold fs-5"
                   >
                     {infoAboutCurrency.market_data.market_cap_rank}
                   </span>
@@ -234,7 +274,7 @@ function AdvancedInfoAboutCurrency() {
                   </p>
                   <span
                     style={{ color: darkTheme ? "white" : null }}
-                    className="d-flex justify-content-center"
+                    className="d-flex justify-content-center fw-semibold fs-5"
                   >
                     $
                     {new Intl.NumberFormat("de-DE", {
@@ -257,15 +297,13 @@ function AdvancedInfoAboutCurrency() {
                   </p>
                   <span
                     style={{ color: darkTheme ? "white" : null }}
-                    className="d-flex justify-content-center"
+                    className="d-flex justify-content-center fw-semibold fs-5"
                   >
                     {new Intl.NumberFormat("de-DE", {
                       minimumSignificantDigits: 3,
                       maximumSignificantDigits: 12,
                       maximumFractionDigits: 0,
-                    }).format(
-                      infoAboutCurrency.market_data.circulating_supply
-                    )}{" "}
+                    }).format(infoAboutCurrency.market_data.circulating_supply)}
                     {infoAboutCurrency.symbol.toUpperCase()}
                   </span>
                 </div>
@@ -282,7 +320,7 @@ function AdvancedInfoAboutCurrency() {
                   </p>
                   <span
                     style={{ color: darkTheme ? "white" : null }}
-                    className="d-flex justify-content-center"
+                    className="d-flex justify-content-center fw-semibold fs-5"
                   >
                     {new Intl.NumberFormat("de-DE", {
                       minimumSignificantDigits: 3,
@@ -487,7 +525,7 @@ function AdvancedInfoAboutCurrency() {
 
             <div className="d-flex flex-column gap-5">
               <div
-                className="biale p-4 d-flex flex-column gap-3"
+                className="shadow-box-for-divs-in-advanced p-4 d-flex flex-column gap-3"
                 style={{
                   background: darkTheme ? "#262528" : "white",
                   color: darkTheme ? "white" : null,
@@ -505,7 +543,7 @@ function AdvancedInfoAboutCurrency() {
                   </Button>
                 </div>
                 <div className="d-flex gap-2">
-                  Categories:{" "}
+                  Categories:
                   <Button
                     className="py-0 bg-secondary text-white bg-secondary text-white"
                     variant="secondary"
@@ -551,7 +589,7 @@ function AdvancedInfoAboutCurrency() {
                   </Button>
                 </div>
                 <div className="d-flex gap-2">
-                  Blockchains:{" "}
+                  Blockchains:
                   <Button
                     className="py-0 bg-secondary text-white"
                     variant="secondary"
@@ -570,7 +608,7 @@ function AdvancedInfoAboutCurrency() {
                 </div>
               </div>
               <div
-                className="biale p-4 d-flex flex-column gap-4"
+                className="shadow-box-for-divs-in-advanced p-4 d-flex flex-column gap-4"
                 style={{
                   background: darkTheme ? "#262528" : "white",
                   color: darkTheme ? "white" : null,
@@ -585,35 +623,35 @@ function AdvancedInfoAboutCurrency() {
                 </div>
                 <div className="d-flex justify-content-between py-1 gap-4">
                   <span>24h high / 24h low</span>
-                  <span className="spany">
+                  <span className="advanced-info-spans">
                     ${infoAboutCurrency.market_data.high_24h.usd}/ $
-                    {infoAboutCurrency.market_data.low_24h.usd}{" "}
+                    {infoAboutCurrency.market_data.low_24h.usd}
                   </span>
                 </div>
                 <div className="d-flex justify-content-between py-1 gap-4">
                   <span>7d high / 7d low</span>
-                  <span className="spany">
+                  <span className="advanced-info-spans">
                     ${ohlcInfoAboutCurrency.sevenDaysInfoMax}/ $
                     {ohlcInfoAboutCurrency.sevenDaysInfoMin}
                   </span>
                 </div>
                 <div className="d-flex justify-content-between py-1 gap-4">
                   <span>30d high / 30d low</span>
-                  <span className="spany">
+                  <span className="advanced-info-spans">
                     ${ohlcInfoAboutCurrency.thirtyDaysInfoMax}/ $
                     {ohlcInfoAboutCurrency.thirtyDaysInfoMin}
                   </span>
                 </div>
                 <div className="d-flex justify-content-between py-1 gap-4">
                   <span>90d high / 90d low</span>
-                  <span className="spany align-items-end justify-content-end">
+                  <span className="advanced-info-spans align-items-end justify-content-end">
                     ${ohlcInfoAboutCurrency.ninetyDaysInfoMax} / $
                     {ohlcInfoAboutCurrency.ninetyDaysInfoMin}
                   </span>
                 </div>
               </div>
               <div
-                className="biale p-4 d-flex flex-column gap-4"
+                className="shadow-box-for-divs-in-advanced p-4 d-flex flex-column gap-4"
                 style={{
                   background: darkTheme ? "#262528" : "white",
                   color: darkTheme ? "white" : null,
@@ -688,7 +726,7 @@ function AdvancedInfoAboutCurrency() {
               </div>
             </div>
             <div
-              className="d-flex flex-column biale my-5 p-4"
+              className="d-flex flex-column shadow-box-for-divs-in-advanced my-5 p-4"
               style={{
                 maxWidth: "1200px",
                 maxHeight: open ? null : "260px",

@@ -2,7 +2,7 @@ import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import LoginPopup from "../../components/LoginPopup/LoginPopup";
 import RegisterPopup from "../../components/RegisterPopup/RegisterPopup";
-import { auth, logout } from "../../firebase";
+import { auth, logout, checkData } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import Nav from "react-bootstrap/Nav";
@@ -11,13 +11,17 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import logoDark from "../../images/logo-dark.png";
 import logoWhite from "../../images/logo-white.png";
 import { Link } from "react-router-dom";
-import "./header.css";
 import { useSelector, useDispatch } from "react-redux";
 import { changeTheme } from "../../redux/darkThemeSlice";
-import { checkData } from "../../firebase";
+import "./header.css";
 
 function Header() {
   const [user] = useAuthState(auth);
+  const dispatch = useDispatch();
+  const profilePhoto = "https://graph.facebook.com/5544168012334199/picture";
+  const loadFavourite = useSelector((state) => state.loadFavourite.value);
+  const darkTheme = useSelector((state) => state.darkTheme.value);
+
   const [showLoginMenu, setShowLoginMenu] = useState(false);
   const [showRegisterMenu, setShowRegisterMenu] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -27,13 +31,8 @@ function Header() {
   const [toggleFavourite, setToggleFavourite] = useState(false);
   const [favourite, setFavourite] = useState([]);
   const [popular, setPopular] = useState([]);
-  const profilePhoto = "https://graph.facebook.com/5544168012334199/picture";
-  const darkTheme = useSelector((state) => state.darkTheme.value);
-  const dispatch = useDispatch();
-  const [showFavourite, setShowFavourite] = useState(false);
 
-  const loadFavourite = useSelector((state) => state.loadFavourite.value);
-
+  // import favourite from database if logged in
   useEffect(() => {
     if (user === null) {
       setFavourite([]);
@@ -50,6 +49,8 @@ function Header() {
         setPopular(data);
       });
   }, []);
+
+  // search for any coin if stopped typing for 0.5 s
   useEffect(() => {
     if (searchInput.length < 2) {
       setSearchRespond([]);
@@ -79,8 +80,11 @@ function Header() {
 
   return (
     <>
-      <div className="sticky-top waznehed" />
-      <div className={darkTheme ? "fixed-top" : "header__container fixed-top"}>
+      <div className="sticky-top header-position" />
+      <div
+        className={darkTheme ? "fixed-top" : "fixed-top"}
+        style={{ background: darkTheme ? "" : "white" }}
+      >
         {showLoginMenu === true ? (
           <Modal
             show={showLoginMenu}
@@ -160,16 +164,22 @@ function Header() {
                 >
                   Welcome
                 </h2>
-                <p className={darkTheme ? "siema text-white-50" : "siema"}>
-                  Here is the information about all crypto currencies, Login to
-                  get more options
+                <p
+                  className={
+                    darkTheme ? "welcome-text text-white-50" : "welcome-text"
+                  }
+                >
+                  Here is the information about all crypto currencies,{" "}
+                  {user === null ? (
+                    <span>Login to get more options</span>
+                  ) : null}
                 </p>
               </div>
               {user !== null ? (
                 <Nav className="d-flex align-items-center justify-content-center justify-content-lg-end ms-auto ms-auto responsive-collapse-menu">
                   <form
                     style={{ position: "relative" }}
-                    className="  mb-3 mb-lg-0 me-lg-3"
+                    className="me-lg-3"
                     role="search"
                   >
                     <input
@@ -291,7 +301,6 @@ function Header() {
                         color: darkTheme ? "white" : "",
                         zIndex: "1040",
                         minWidth: "250px",
-                        //                                            width:"315px"
                       }}
                     />
 
@@ -418,7 +427,7 @@ function Header() {
                           >
                             <img
                               src={data.image}
-                              alt="siema"
+                              alt="logo"
                               style={{
                                 width: "30px",
                                 height: "30px",
@@ -476,7 +485,7 @@ function Header() {
                           >
                             <img
                               src={data.image}
-                              alt="siema"
+                              alt="logo"
                               style={{
                                 width: "30px",
                                 height: "30px",
@@ -541,8 +550,8 @@ function Header() {
                   <h5 className="m-0">Dark Theme</h5>
                   <div className="d-flex justify-content-center orm-check form-switch">
                     <input
-                      checked={darkTheme ? true : false}
-                      onClick={() => dispatch(changeTheme())}
+                      checked={!!darkTheme}
+                      onChange={() => dispatch(changeTheme())}
                       className="form-check-input"
                       type="checkbox"
                       id="flexSwitchCheckDefault"

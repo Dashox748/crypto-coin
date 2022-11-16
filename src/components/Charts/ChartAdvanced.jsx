@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
-import { useEffect,useRef } from "react";
+import { useEffect } from "react";
+import "./chartResponsive.css";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,8 +27,7 @@ ChartJS.register(
   TimeScale
 );
 
-const ChartAdvanced = ({ id}) => {
-
+const ChartAdvanced = ({ id }) => {
   const [activeRange, setActiveRange] = useState("1");
   const [activeType, setActiveType] = useState(true);
   const [data, setData] = useState({
@@ -89,35 +89,6 @@ const ChartAdvanced = ({ id}) => {
     }
   }
 
-  // not used right now, maybe in feature as left legend of the chart
-  //    function convertToShort(x) {
-  //        if(isNaN(x)) return x;
-  //
-  //        if(x < 9999) {
-  //            return x;
-  //        }
-  //
-  //        if(x < 1000000) {
-  //            return Math.round(x/1000) + "K";
-  //        }
-  //        if( x < 10000000) {
-  //            return (x/1000000).toFixed(2) + "M";
-  //        }
-  //
-  //        if(x < 1000000000) {
-  //            return Math.round((x/1000000)) + "M";
-  //        }
-  //
-  //        if(x < 1000000000000) {
-  //            return Math.round((x/1000000000)) + "B";
-  //        }
-  //
-  //        return "1T+";
-  //    }
-  //    function padTo2Digits(num) {
-  //        return num.toString().padStart(2, '0');
-  //    }
-
   const getDataForChart = async () => {
     let x = [];
     let newArray = [];
@@ -152,11 +123,7 @@ const ChartAdvanced = ({ id}) => {
   }, [id, activeRange, activeType]);
 
   return (
-
-    <div className="advanced_contaier_left-main-info-chart chart-container my-5 py-5 m-auto"
-      
-        >
-
+    <div className="advanced_contaier_left-main-info-chart chart-container my-5 py-5 m-auto">
       <div className="d-flex justify-content-between mb-3 flex-column flex-sm-row gap-3">
         <div className="d-flex gap-1 gap-md-4 buttons-group-range">
           <button

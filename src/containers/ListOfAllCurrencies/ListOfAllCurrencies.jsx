@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
+import "./listOfAllCurrencies.css";
 import { addFavourite, deleteFavourite, checkData } from "../../firebase";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -158,8 +159,8 @@ function ListOfAllCurrencies({ user }) {
                   id="dropdown-basic"
                   className=""
                   style={{
-                    background: darkTheme ? "#5c636a" : "",
-                    color: darkTheme ? "white" : "",
+                    background: darkTheme ? "#5c636a" : "#5c636a",
+                    color: "white",
                   }}
                 >
                   {whichCurrency[0].toUpperCase()}
@@ -205,8 +206,8 @@ function ListOfAllCurrencies({ user }) {
                   variant="secondary"
                   id="dropdown-basic"
                   style={{
-                    background: darkTheme ? "#5c636a" : "",
-                    color: darkTheme ? "white" : "",
+                    background: darkTheme ? "#5c636a" : "#5c636a",
+                    color: "white",
                   }}
                 >
                   {howManyRows}
@@ -263,9 +264,8 @@ function ListOfAllCurrencies({ user }) {
               style={{ borderBottomWidth: "2px", fontSize: "16px" }}
             >
               <tr className={darkTheme ? "text-white" : null}>
-                <div className="ms-xxl-5 mt-4 number-on-list">
-                  <th className="">#</th>
-                </div>
+                <th className="text-center number-on-list">#</th>
+
                 <th>Name</th>
                 <th>Price</th>
                 <th className="h_chart_responsive">1h%</th>
@@ -283,9 +283,9 @@ function ListOfAllCurrencies({ user }) {
             <tbody>
               {filteredListOfAllCurrencies !== 0
                 ? filteredListOfAllCurrencies.map((data, index) => (
-                    <tr className="kurwamac" key={index}>
-                      <td className="number-on-list">
-                        <div className="d-flex align-items-center h-100 ms-xxl-5">
+                    <tr className="tr-with-index" key={index}>
+                      <td className="number-on-list text-center">
+                        <div className="h-100 d-flex align-items-center justify-content-center">
                           {index + 1}
                         </div>
                       </td>
@@ -400,6 +400,7 @@ function ListOfAllCurrencies({ user }) {
                                   toast.info("u have to be logged in");
                                   return;
                                 }
+                                console.log(data);
                                 addFavourite(
                                   user.uid,
                                   data.name,
@@ -461,14 +462,28 @@ function ListOfAllCurrencies({ user }) {
                   <Button
                     className={
                       darkTheme
-                        ? "fw-bold buttons-group-hover rounded-3 text-white"
-                        : "fw-bold buttons-group-hover rounded-3"
+                        ? "fw-bold buttons-group-hover rounded-3 text-white button-responsive-pc"
+                        : "fw-bold buttons-group-hover rounded-3 button-responsive-pc "
                     }
                     style={{
                       background: whichPage === 1 ? "#4322ef" : null,
                       color: whichPage === 1 ? "white" : "",
                     }}
                     onClick={() => setWhichPage(1)}
+                  >
+                    1
+                  </Button>
+                  <Button
+                    className={
+                      darkTheme
+                        ? "fw-bold buttons-group-hover rounded-3 text-white button-responsive-mobile"
+                        : "fw-bold buttons-group-hover rounded-3 button-responsive-mobile "
+                    }
+                    style={{
+                      background: whichPage === whichPage ? "#4322ef" : null,
+                      color: whichPage === 1 ? "white" : "",
+                    }}
+                    onClick={() => setWhichPage(whichPage)}
                   >
                     {whichPage}
                   </Button>

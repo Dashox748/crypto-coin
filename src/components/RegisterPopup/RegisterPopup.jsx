@@ -7,12 +7,10 @@ import {
   registerWithEmailAndPassword,
   signInWithFacebook,
 } from "../../firebase";
-    import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
 function RegisterPopup({ handleClose }) {
-
-
-    const  darkTheme = useSelector((state)=>state.darkTheme.value)
+  const darkTheme = useSelector((state) => state.darkTheme.value);
 
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -28,7 +26,7 @@ function RegisterPopup({ handleClose }) {
   });
   const [showUsed, setShowUsed] = useState("");
   const handleRegisterWithForm = async (event) => {
-      event.preventDefault();
+    event.preventDefault();
     if (!re.test(email) && password.length < 5) {
       setShowError({
         emailValidationLocal: true,
@@ -85,24 +83,35 @@ function RegisterPopup({ handleClose }) {
   return (
     <>
       <Form
-          style={{  padding: "2rem",background:darkTheme ? "#2c2b2e" : ""  }}
+        style={{ padding: "2rem", background: darkTheme ? "#2c2b2e" : "" }}
         onSubmit={handleRegisterWithForm}
       >
-          <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formBasicUsername">
+        <Form.Group
+          className={darkTheme ? "mb-3 text-white" : "mb-3"}
+          controlId="formBasicUsername"
+        >
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Username"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
-              style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
+            style={{
+              background: darkTheme ? "#141316" : null,
+              border: darkTheme ? "none" : null,
+              color: darkTheme ? "white" : null,
+            }}
+            autoComplete="username"
           />
 
           <Form.Text className="text-muted">
             Unique Username, u can change it later
           </Form.Text>
         </Form.Group>
-          <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formBasicEmail">
+        <Form.Group
+          className={darkTheme ? "mb-3 text-white" : "mb-3"}
+          controlId="formBasicEmail"
+        >
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="text"
@@ -110,7 +119,11 @@ function RegisterPopup({ handleClose }) {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className={showError.emailValidationLocal ? "inputError" : ""}
-              style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
+            style={{
+              background: darkTheme ? "#141316" : null,
+              border: darkTheme ? "none" : null,
+              color: darkTheme ? "white" : null,
+            }}
           />
           {showError.emailValidationLocal ? (
             <Form.Text className="text-danger">{showUsed}</Form.Text>
@@ -121,7 +134,10 @@ function RegisterPopup({ handleClose }) {
           )}
         </Form.Group>
 
-          <Form.Group className={darkTheme?"mb-3 text-white":"mb-3"} controlId="formGroupPassword">
+        <Form.Group
+          className={darkTheme ? "mb-3 text-white" : "mb-3"}
+          controlId="formGroupPassword"
+        >
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -129,7 +145,12 @@ function RegisterPopup({ handleClose }) {
             value={password}
             onChange={(event) => setPassowrd(event.target.value)}
             className={showError.passwordValidationLocal ? "inputError" : ""}
-              style={{background:darkTheme?"#141316":null,border:darkTheme?"none":null,color:darkTheme?"white":null}}
+            style={{
+              background: darkTheme ? "#141316" : null,
+              border: darkTheme ? "none" : null,
+              color: darkTheme ? "white" : null,
+            }}
+            autoComplete="current-password"
           />
           {showError.passwordValidationLocal ? (
             <Form.Text className="text-danger">Password is too short</Form.Text>
@@ -138,7 +159,12 @@ function RegisterPopup({ handleClose }) {
           )}
         </Form.Group>
 
-          <Button variant="primary" type="submit" className="bg-primary text-white" style={{ width: "100%" }}>
+        <Button
+          variant="primary"
+          type="submit"
+          className="bg-primary text-white"
+          style={{ width: "100%" }}
+        >
           Register
         </Button>
         <Form.Group
@@ -149,18 +175,18 @@ function RegisterPopup({ handleClose }) {
             Or use Social Network
           </Form.Label>
           <div className="d-flex align-content-center align-items-center justify-content-center gap-4 ">
-            <h1
+            <i
               className="bi bi-facebook"
               onClick={() => handleLoginWithSocials("facebook")}
-            ></h1>
-            <h1
+            />
+            <i
               className="bi bi-github"
               onClick={() => handleLoginWithSocials("github")}
-            ></h1>
-            <h1
+            />
+            <i
               className="bi bi-google"
               onClick={() => handleLoginWithSocials("google")}
-            ></h1>
+            />
           </div>
         </Form.Group>
       </Form>

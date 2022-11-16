@@ -26,7 +26,7 @@ ChartJS.register(
   TimeScale
 );
 
-const Chart = ({ sparkline, darkTheme, dataSevenDays }) => {
+const Chart = ({ sparkline, dataSevenDays }) => {
   const [data, setData] = useState({
     labels: new Array(sparkline.length).fill(""),
     datasets: [

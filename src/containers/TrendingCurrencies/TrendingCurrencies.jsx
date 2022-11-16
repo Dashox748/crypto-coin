@@ -14,7 +14,6 @@ function TrendingCurrency({ user }) {
   const darkTheme = useSelector((state) => state.darkTheme.value);
   const dispatch = useDispatch();
   const [trendingList, setTrendingList] = useState([]);
-  const [whichCurrency, setWhichCurrency] = useState(["usd", "$"]);
   const [favouriteToCheck, setFavouriteToCheck] = useState([]);
   const updateFavourite = useSelector((state) => state.loadFavourite.value);
 
@@ -24,11 +23,7 @@ function TrendingCurrency({ user }) {
     let x = [];
     await fetch("https://api.coingecko.com/api/v3/search/trending")
       .then((response) => response.json())
-      .then((data) =>
-        data.coins.map((data) => {
-          x.push(data.item.id);
-        })
-      )
+      .then((data) => data.coins.map((data) => x.push(data.item.id)))
       .catch((error) =>
         toast("You've exceeded the Rate Limit, try again in 1 minute")
       );
@@ -44,9 +39,7 @@ function TrendingCurrency({ user }) {
   const getFavouritesToCheck = async () => {
     let x = [];
     let newArray = [];
-    const response = await checkData(user.uid).then(
-      (response) => (x = response)
-    );
+    await checkData(user.uid).then((response) => (x = response));
     x.map((item) => newArray.push(item.keyToApi));
     setFavouriteToCheck(newArray);
   };
@@ -75,9 +68,7 @@ function TrendingCurrency({ user }) {
               style={{ borderBottomWidth: "2px", fontSize: "16px" }}
             >
               <tr className={darkTheme ? "text-white" : null}>
-                <div className="ms-xxl-5 mt-4 number-on-list">
-                  <th>#</th>
-                </div>
+                <th className="text-center number-on-list">#</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th className="h_chart_responsive">1h%</th>
@@ -96,9 +87,9 @@ function TrendingCurrency({ user }) {
             <tbody>
               {trendingList !== 0
                 ? trendingList.map((data, index) => (
-                    <tr className="kurwamac " key={index}>
+                    <tr className="tr-with-index" key={index}>
                       <td className="number-on-list">
-                        <div className="d-flex align-items-center h-100 ms-xxl-5">
+                        <div className="h-100 d-flex align-items-center justify-content-center">
                           {index + 1}
                         </div>
                       </td>
@@ -127,7 +118,7 @@ function TrendingCurrency({ user }) {
 
                       <td>
                         <div className="d-flex align-items-center h-100 pe-3">
-                          {whichCurrency[1]}{" "}
+                          ${" "}
                           {new Intl.NumberFormat("de-DE", {
                             minimumSignificantDigits: 3,
                             maximumSignificantDigits: 8,

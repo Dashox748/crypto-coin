@@ -15,15 +15,12 @@ import {
   getDocs,
   collection,
   where,
-  getDoc,
   addDoc,
   setDoc,
   doc,
   deleteDoc,
 } from "firebase/firestore";
 import { GithubAuthProvider, FacebookAuthProvider } from "firebase/auth";
-
-//const credential = GithubAuthProvider.credential(token);
 
 // Initalize App
 
@@ -134,10 +131,9 @@ const registerWithEmailAndPassword = async (name, email, password) => {
 const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent!");
+    return true;
   } catch (err) {
-    console.error(err);
-    alert(err.message);
+    return false;
   }
 };
 const logout = () => {
@@ -168,7 +164,6 @@ const checkData = async (uid) => {
 
 const addFavourite = async (uid, fullName, shortName, keyToApi, imageUrl) => {
   let x = "";
-  const dbRef = collection(db, "users");
   const q = query(collection(db, "users"), where("uid", "==", uid));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
@@ -193,13 +188,9 @@ const deleteFavourite = async (uid, fullName) => {
     return x;
   };
   const docRef = doc(db, "users", await findDocId(uid), "favourite", fullName);
-  deleteDoc(docRef)
-    .then(() => {
-      console.log("Entire Document has been deleted successfully.");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  deleteDoc(docRef).catch((error) => {
+    console.log(error);
+  });
 };
 
 export {

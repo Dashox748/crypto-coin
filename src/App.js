@@ -1,8 +1,6 @@
 import "./App.css";
 import Header from "./containers/Header/Header";
 import Sidebar from "./containers/Sidebar/Sidebar";
-import Home from "./containers/Home/Home";
-import MostPopular from "./containers/MostPopular/MostPopular";
 import TrendingCurrencies from "./containers/TrendingCurrencies/TrendingCurrencies";
 import FavouriteCurrencies from "./containers/FavouriteCurrencies/FavouriteCurrencies";
 import AdvancedInfoAboutCurrency from "./containers/AdvencedInfoAboutCurrency/AdvancedInfoAboutCurrency";
@@ -11,7 +9,7 @@ import NotFound from "./containers/NotFound/NotFound";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import Contact from "./containers/Contact/Contact";
 import Thanks from "./components/Thanks/Thanks";
@@ -48,10 +46,13 @@ function App() {
           <div
             className={
               darkTheme
-                ? "d-flex flex-column flex-fill background-dark"
-                : "d-flex flex-fill background"
+                ? "d-flex flex-column flex-fill"
+                : "d-flex flex-column flex-fill background-light"
             }
-            style={{ position: "relative" }}
+            style={{
+              position: "relative",
+              background: darkTheme ? "#1b1a1d" : "",
+            }}
           >
             {loading ? <div className="loading_bar" /> : null}
 
@@ -69,7 +70,6 @@ function App() {
                     <ListOfAllCurrencies user={user} darkTheme={darkTheme} />
                   }
                 />
-                <Route path="MostPopular" element={<MostPopular />} />
                 <Route path="Favourites" element={<FavouriteCurrencies />} />
                 <Route
                   path="Trending"
@@ -79,7 +79,7 @@ function App() {
                 />
                 <Route
                   path="AdvancedInfo/:id"
-                  element={<AdvancedInfoAboutCurrency darkTheme={darkTheme} />}
+                  element={<AdvancedInfoAboutCurrency user={user} />}
                 />
               </Route>
               <Route

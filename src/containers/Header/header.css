@@ -1,0 +1,55 @@
+/*Header css*/
+.header-position {
+  min-height: 115px !important;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background: blue;
+}
+
+.site-title {
+  font-size: clamp(2rem, 1rem+9vw, 7rem);
+}
+.welcome-clamp {
+  font-size: clamp(1rem, 1rem+90vw, 5rem);
+}
+.dropdown-menu[data-bs-popper] {
+  left: -100px !important;
+}
+
+.hover-search-list:hover {
+  background: #eef0f3;
+}
+
+.hover-search-list-dark:hover {
+  background: #5c636a;
+}
+
+.responsive-navbar-nav {
+  color: white !important;
+}
+.header__menu-responsive {
+  display: none;
+}
+.hover-button-login:hover {
+  color: white !important;
+}
+@media only screen and (max-width: 655px) {
+  .header__menu-responsive {
+    display: block !important;
+  }
+}
+@media (max-width: 1400px) {
+  .welcome-text {
+    max-width: 400px;
+  }
+}
+@media only screen and (max-width: 1155px) {
+  .welcome-responsive {
+    display: none;
+  }
+
+  .responsive-navbar-search {
+    flex-grow: 0 !important;
+  }
+}
