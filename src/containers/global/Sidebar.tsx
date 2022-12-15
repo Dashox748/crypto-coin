@@ -9,13 +9,15 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import ErrorIcon from '@mui/icons-material/Error';
 import ChatIcon from '@mui/icons-material/Chat';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import {Link} from "react-router-dom"
+import {ReactNode} from "react";
 
 
 const SidebarLeft = () => {
     const {collapseSidebar, collapsed} = useProSidebar();
 
-    const createMenuItem = (itemIcon: any, name: any) => {
-        return <MenuItem icon={itemIcon} rootStyles={{
+    const createMenuItem = (itemIcon: ReactNode, name: string, link: string) => {
+        return <MenuItem icon={itemIcon} routerLink={<Link to={link}/>} rootStyles={{
             ['.' + menuClasses.button]: {
                 backgroundColor: '#1B2028',
                 color: '#9E9E9E',
@@ -28,7 +30,7 @@ const SidebarLeft = () => {
         > {name} </MenuItem>
     }
 
-    const createSubMenu = (subMenuIcon: any, label: string, items: any) => {
+    const createSubMenu = (subMenuIcon: ReactNode, label: string, items: ReactNode) => {
         return <SubMenu icon={subMenuIcon} label={label} rootStyles={{
             ['& > .' + menuClasses.button]: {
                 backgroundColor: "#1B2028",
@@ -48,7 +50,6 @@ const SidebarLeft = () => {
                      rootStyles={{
                          height: "100%",
                          border: "0",
-
                      }}>
                 <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
                     <Menu>
@@ -62,33 +63,37 @@ const SidebarLeft = () => {
                             },
                         }}>
                             <Box display="flex" justifyContent="space-between" alignItems="center">
-                                {!collapsed ? <Box display="flex" gap="6px"><img src={logoDark} alt=""
-                                                                                 style={{width: "35px"}}/><Typography
-                                    sx={{fontSize: "21px", fontWeight: "700"}}>CryptoCoin</Typography></Box> : null}
+                                {!collapsed ?
+                                    <Link to="/" style={{textDecoration: "none", color: "white"}}><Box display="flex"
+                                                                                                       gap="6px"><img
+                                        src={logoDark} alt=""
+                                        style={{width: "35px"}}/><Typography
+                                        sx={{fontSize: "21px", fontWeight: "700"}}>CryptoCoin</Typography></Box>
+                                    </Link> : null}
                                 <IconButton onClick={() => collapseSidebar()}>
                                     <MenuOutlinedIcon style={{color: "white"}}/>
                                 </IconButton>
                             </Box>
                         </MenuItem>
-                        {createMenuItem(<ListAltIcon/>, "List Of All")}
+                        {createMenuItem(<ListAltIcon/>, "List Of All", "listOfAll")}
                         {createSubMenu(<WhatshotIcon/>, "Most Popular", [
-                            createMenuItem(<ListAltIcon/>, "BitCoin"),
-                            createMenuItem(<ListAltIcon/>, "Ethereum"),
-                            createMenuItem(<ListAltIcon/>, "DogeCoin"),
-                            createMenuItem(<ListAltIcon/>, "Terra    "),
+                            createMenuItem(<ListAltIcon/>, "BitCoin", "bitcoin"),
+                            createMenuItem(<ListAltIcon/>, "Ethereum", "ethereum"),
+                            createMenuItem(<ListAltIcon/>, "DogeCoin", "dogecoin"),
+                            createMenuItem(<ListAltIcon/>, "Terra", "terra"),
                         ])}
                         {createSubMenu(<StarIcon/>, "Favourite", [
-                            createMenuItem(<ListAltIcon/>, "BitCoin"),
-                            createMenuItem(<ListAltIcon/>, "BitCoin"),
-                            createMenuItem(<ListAltIcon/>, "BitCoin"),
-                            createMenuItem(<ListAltIcon/>, "BitCoin"),
+                            createMenuItem(<ListAltIcon/>, "BitCoin", "bitcoin"),
+                            createMenuItem(<ListAltIcon/>, "Ethereum", "ethereum"),
+                            createMenuItem(<ListAltIcon/>, "DogeCoin", "dogecoin"),
+                            createMenuItem(<ListAltIcon/>, "Terra", "terra"),
                         ])}
-                        {createMenuItem(<TrendingUpIcon/>, "Trending")}
-                        {createMenuItem(<ErrorIcon/>, "404 page")}
+                        {createMenuItem(<TrendingUpIcon/>, "Trending", "trending")}
+                        {createMenuItem(<ErrorIcon/>, "404 page", "notFound")}
                     </Menu>
                     <Menu>
-                        {createMenuItem(<ChatIcon/>, "Cotact Us")}
-                        {createMenuItem(<DarkModeIcon/>, "Dark Mode")}
+                        {createMenuItem(<ChatIcon/>, "Cotact Us", "contact")}
+                        {createMenuItem(<DarkModeIcon/>, "Dark Mode", "mode")}
 
                     </Menu>
                 </Box>
