@@ -8,11 +8,15 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {useState} from "react";
 import InputBase from '@mui/material/InputBase';
+import LoginForm from "../../components/LoginForm/LoginForm";
+import RegisterForm from "../../components/RegisterForm/RegisterForm";
+import {auth, logout} from "../../firebase";
+import {useAuthState} from "react-firebase-hooks/auth";
 
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Topbar = () => {
+    const [user] = useAuthState(auth);
+
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const handleOpenUserMenu = (event: any) => {
@@ -22,46 +26,66 @@ const Topbar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    console.log(user)
     return (
-        <AppBar position="sticky" sx={{background: "transparent", boxShadow: "none"}}>
+        <AppBar position="sticky" sx={{background: "transparent", boxShadow: "none", marginTop: "15px"}}>
             <Container maxWidth={false}>
-                <Toolbar sx={{display:"flex",justifyContent:"space-between"}}>
+                <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
                     <Typography variant="h4" fontWeight="600" textAlign="center">Most Popular</Typography>
-
                     <InputBase
-                        sx={{ml: 1,flex:1,maxWidth:"500px", background: "#1B2028", borderRadius: "10px", padding: "6px 25px", color: "gray"}}
+                        sx={{
+                            m:2,
+                            flex: 1,
+                            maxWidth: "500px",
+                            background: "#1B2028",
+                            borderRadius: "10px",
+                            padding: "6px 25px",
+                            color: "gray"
+                        }}
                         placeholder="Search any coin..."
-                        inputProps={{'aria-label': 'search google maps'}}
                     />
-                    <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Open settings">
+                    <Box sx={{flexGrow: 0, display: "flex", gap: "15px"}}>
+                        {user ? <><Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
                             </IconButton>
                         </Tooltip>
-                        <Menu
-                            sx={{mt: '45px'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                            <Menu
+                                sx={{mt: '45px'}}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem>
+                                    <Typography textAlign="center">Profile</Typography>
                                 </MenuItem>
-                            ))}
-                        </Menu>
+                                <MenuItem>
+                                    <Typography textAlign="center">Account</Typography>
+                                </MenuItem>
+                                <MenuItem>
+                                    <Typography textAlign="center">Settings</Typography>
+                                </MenuItem>
+                                <MenuItem onClick={() => {
+                                    logout()
+                                    handleCloseUserMenu()
+                                }}>
+                                    <Typography textAlign="center">Logout</Typography>
+                                </MenuItem>
+                            </Menu></> : <>
+                            <LoginForm/>
+                            <RegisterForm/>
+                        </>}
+
                     </Box>
                 </Toolbar>
             </Container>
