@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import {initializeApp} from "firebase/app";
 import {
     GoogleAuthProvider,
     getAuth,
@@ -8,6 +8,7 @@ import {
     sendPasswordResetEmail,
     sendEmailVerification,
     signOut,
+    updateProfile
 } from "firebase/auth";
 import {
     getFirestore,
@@ -20,7 +21,7 @@ import {
     doc,
     deleteDoc,
 } from "firebase/firestore";
-import { GithubAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import {GithubAuthProvider, FacebookAuthProvider} from "firebase/auth";
 
 // Initalize App
 
@@ -102,33 +103,34 @@ const signInWithFacebook = async () => {
     }
 };
 
-const logInWithEmailAndPassword = async (email:string, password:string) => {
+const logInWithEmailAndPassword = async (email: string, password: string) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        return true;
-    } catch (err) {
-        alert(err);
         return false;
+    } catch (err) {
+        return true;
     }
+
 };
-const registerWithEmailAndPassword = async (name:string, email:string, password:string) => {
+const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
+        await updateProfile(auth.currentUser, {
+            displayName: name
+        })
         await addDoc(collection(db, "users"), {
             uid: user.uid,
             name,
             authProvider: "local",
             email,
         });
-        await sendEmailVerification(auth.currentUser);
-        await signOut(auth);
-        return true;
-    } catch (err) {
         return false;
+    } catch (err) {
+        return true;
     }
 };
-const sendPasswordReset = async (email:string) => {
+const sendPasswordReset = async (email: string) => {
     try {
         await sendPasswordResetEmail(auth, email);
         return true;
@@ -142,8 +144,8 @@ const logout = () => {
 
 // Functions to menage database
 
-const checkData = async (uid:string) => {
-    const findDocId = async (uid:string) => {
+const checkData = async (uid: string) => {
+    const findDocId = async (uid: string) => {
         let x = "";
         const q = query(collection(db, "users"), where("uid", "==", uid));
         const querySnapshot = await getDocs(q);
@@ -154,7 +156,7 @@ const checkData = async (uid:string) => {
     };
     const docRef = collection(db, "users", await findDocId(uid), "favourite");
     const querySnapshot = await getDocs(docRef);
-    const newRecord:any= [];
+    const newRecord: any = [];
     querySnapshot.forEach((doc) => {
         newRecord.push(doc.data());
     });
@@ -162,7 +164,7 @@ const checkData = async (uid:string) => {
     return newRecord;
 };
 
-const addFavourite = async (uid:string, fullName:string, shortName:string, keyToApi:string, imageUrl:string) => {
+const addFavourite = async (uid: string, fullName: string, shortName: string, keyToApi: string, imageUrl: string) => {
     let x = "";
     const q = query(collection(db, "users"), where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
@@ -177,8 +179,8 @@ const addFavourite = async (uid:string, fullName:string, shortName:string, keyTo
         image: imageUrl,
     });
 };
-const deleteFavourite = async (uid:string, fullName:string) => {
-    const findDocId = async (uid:string) => {
+const deleteFavourite = async (uid: string, fullName: string) => {
+    const findDocId = async (uid: string) => {
         let x = "";
         const q = query(collection(db, "users"), where("uid", "==", uid));
         const querySnapshot = await getDocs(q);

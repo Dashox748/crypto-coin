@@ -1,22 +1,20 @@
-import {Box, IconButton, Typography} from "@mui/material";
+import {useState,useEffect} from "react";
+import {auth, logout} from "../../firebase";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {Box, IconButton, Typography, Container} from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {useState} from "react";
 import InputBase from '@mui/material/InputBase';
-import LoginForm from "../../components/LoginForm/LoginForm";
-import RegisterForm from "../../components/RegisterForm/RegisterForm";
-import {auth, logout} from "../../firebase";
-import {useAuthState} from "react-firebase-hooks/auth";
+import LoginForm from "../../components/Forms/LoginForm";
+import RegisterForm from "../../components/Forms/RegisterForm";
 
 
 const Topbar = () => {
     const [user] = useAuthState(auth);
-
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const handleOpenUserMenu = (event: any) => {
@@ -26,7 +24,7 @@ const Topbar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    console.log(user)
+
     return (
         <AppBar position="sticky" sx={{background: "transparent", boxShadow: "none", marginTop: "15px"}}>
             <Container maxWidth={false}>
@@ -34,7 +32,7 @@ const Topbar = () => {
                     <Typography variant="h4" fontWeight="600" textAlign="center">Most Popular</Typography>
                     <InputBase
                         sx={{
-                            m:2,
+                            m: 2,
                             flex: 1,
                             maxWidth: "500px",
                             background: "#1B2028",
@@ -44,12 +42,14 @@ const Topbar = () => {
                         }}
                         placeholder="Search any coin..."
                     />
-                    <Box sx={{flexGrow: 0, display: "flex", gap: "15px"}}>
-                        {user ? <><Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
-                            </IconButton>
-                        </Tooltip>
+                    <Box sx={{flexGrow: 0, display: "flex", gap: "15px", alignItems: "center"}}>
+                        {user ? <>
+                            <Typography>{user.displayName}</Typography>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                    <Avatar alt={user.displayName} src="/static/images/avatar/2.jpg"/>
+                                </IconButton>
+                            </Tooltip>
                             <Menu
                                 sx={{mt: '45px'}}
                                 id="menu-appbar"

@@ -64,12 +64,13 @@ const SidebarLeft = () => {
                         }}>
                             <Box display="flex" justifyContent="space-between" alignItems="center">
                                 {!collapsed ?
-                                    <Link to="/" style={{textDecoration: "none", color: "white"}}><Box display="flex"
-                                                                                                       gap="6px"><img
+                                    <Box display="flex"
+                                         gap="6px"><img
                                         src={logoDark} alt=""
                                         style={{width: "35px"}}/><Typography
-                                        sx={{fontSize: "21px", fontWeight: "700"}}>CryptoCoin</Typography></Box>
-                                    </Link> : null}
+                                        sx={{fontSize: "21px", fontWeight: "700"}}>CryptoCoin</Typography>
+                                    </Box>
+                                    : null}
                                 <IconButton onClick={() => collapseSidebar()}>
                                     <MenuOutlinedIcon style={{color: "white"}}/>
                                 </IconButton>
