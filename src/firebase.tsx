@@ -8,7 +8,7 @@ import {
     sendPasswordResetEmail,
     sendEmailVerification,
     signOut,
-    updateProfile
+    updateProfile,
 } from "firebase/auth";
 import {
     getFirestore,
@@ -110,15 +110,16 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
     } catch (err) {
         return true;
     }
-
 };
-const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
+const registerWithEmailAndPassword = async (
+    name: string,
+    email: string,
+    password: string
+) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
-        await updateProfile(auth.currentUser, {
-            displayName: name
-        })
+        await updateUserProfile(auth.currentUser, name)
         await addDoc(collection(db, "users"), {
             uid: user.uid,
             name,
@@ -142,6 +143,15 @@ const logout = () => {
     signOut(auth);
 };
 
+const updateUserProfile = async (user: any, name: string) => {
+    await updateProfile(user, {
+        displayName: name
+    })
+}
+//const  updateUserProfile(user: User, name: string) {
+//    updateProfile((user), {
+//        displayName: name, photoURL: `https://gravatar.com/avatar${md5(user.email)}?d=identicon`
+//    })
 // Functions to menage database
 
 const checkData = async (uid: string) => {
@@ -164,7 +174,13 @@ const checkData = async (uid: string) => {
     return newRecord;
 };
 
-const addFavourite = async (uid: string, fullName: string, shortName: string, keyToApi: string, imageUrl: string) => {
+const addFavourite = async (
+    uid: string,
+    fullName: string,
+    shortName: string,
+    keyToApi: string,
+    imageUrl: string
+) => {
     let x = "";
     const q = query(collection(db, "users"), where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
