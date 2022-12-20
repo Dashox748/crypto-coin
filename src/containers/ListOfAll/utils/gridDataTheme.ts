@@ -15,7 +15,7 @@ export const CustomDataGrid = styled(DataGrid)((background:any) => ({
     },
     '& .MuiDataGrid-cell': {
         borderBottom: "none",
-        height: "80px"
+        height: "80px",
     },
     '& .MuiDataGrid-iconSeparator': {
         display: 'none',

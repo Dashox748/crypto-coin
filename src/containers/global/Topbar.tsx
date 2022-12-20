@@ -1,7 +1,7 @@
-import {useState} from "react";
+import {useState, lazy, Suspense} from "react";
 import {auth, logout} from "../../firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {Box, IconButton, Typography, Container, useTheme} from "@mui/material";
+import {Box, IconButton, Typography, Container, useTheme, Button} from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
@@ -9,11 +9,14 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import InputBase from "@mui/material/InputBase";
-import LoginForm from "../../components/Forms/LoginForm";
-import RegisterForm from "../../components/Forms/RegisterForm";
+
+const LoginForm = lazy(() => import("../../components/Forms/LoginForm"))
+const RegisterForm = lazy(() => import("../../components/Forms/RegisterForm"))
 
 const Topbar = () => {
     const [user] = useAuthState(auth);
+    const [showLogin, setShowLogin] = useState<boolean>(false)
+    const [showRegister, setShowRegister] = useState<boolean>(false)
     const theme = useTheme()
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -37,7 +40,7 @@ const Topbar = () => {
                 display: "flex",
                 marginBottom: "50px",
                 height: "120px",
-                zIndex:"2"
+                zIndex: "2"
             }}
         >
             <Container maxWidth={false}>
@@ -114,8 +117,32 @@ const Topbar = () => {
                             </>
                         ) : (
                             <>
-                                <LoginForm/>
-                                <RegisterForm/>
+                                <Box>
+                                    <Button
+                                        variant="outlined"
+                                        sx={{fontWeight: "600", textTransform: "none", fontSize: "15px"}}
+                                        onClick={() => setShowLogin(!showLogin)}
+                                    >
+                                        Login
+                                    </Button>
+                                    {showLogin && <Suspense>
+                                        <LoginForm setShowLogin={setShowLogin}/>
+                                    </Suspense>}
+                                </Box>
+                                <Box>
+                                    <Button
+                                        variant="contained"
+                                        sx={{fontWeight: "600", textTransform: "none", fontSize: "15px"}}
+                                        onClick={() => setShowRegister(!showRegister)}
+                                    >
+                                        Sign-up
+                                    </Button>
+                                    {showRegister &&
+                                        <Suspense>
+                                            <RegisterForm setShowRegister={setShowRegister}/>
+                                        </Suspense>
+                                    }
+                                </Box>
                             </>
                         )}
                     </Box>

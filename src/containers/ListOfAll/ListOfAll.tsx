@@ -4,7 +4,6 @@ import {columns} from "./utils/gridColumnsSetup";
 import {CustomDataGrid} from "./utils/gridDataTheme";
 import {Box, useTheme} from "@mui/material";
 
-
 const ListOfAll = () => {
     const [allCoins, setAllCoins] = useState<any[]>([])
     const theme = useTheme()
@@ -12,7 +11,6 @@ const ListOfAll = () => {
 
         (async () => {
             const x = await fetchAllCoins()
-            console.log(x)
             setAllCoins(x.map((coin: any, index: number) => {
                     return {
                         id: index,
@@ -26,7 +24,10 @@ const ListOfAll = () => {
                         "24h%": coin.price_change_percentage_24h_in_currency,
                         "7d%": coin.price_change_percentage_7d_in_currency,
                         "Market Cap": coin.market_cap,
-                        "7 Day Chart": "chart",
+                        "7 Day Chart": {
+                            sparkline:coin.sparkline_in_7d,
+                            change:coin.price_change_percentage_7d_in_currency
+                        },
                         "Favourite": "x"
                     }
                 }

@@ -1,26 +1,26 @@
 import {GridColDef, GridCellParams, GridRenderCellParams} from '@mui/x-data-grid';
 import {Link} from "react-router-dom";
 import clsx from 'clsx';
-
+import SparklineChart from "../../../components/Charts/SparklineChart";
 
 
 export const columns: GridColDef[] = [
-    {field: 'id', headerName: 'ID', width: 80},
+    {field: 'id', headerName: 'ID', minWidth: 10, maxWidth: 40},
     {
         field: "Name",
         renderCell: (cellValues: GridRenderCellParams) => {
             return (
                 <Link to={cellValues.value.link}
-                    style={{textDecoration:"none",color:"white", cursor: "pointer",
-                        width: "100%",
-                        height: "100%",
-                        display: "flex",
-                        gap: "15px",
-                        alignItems: "center",}}>
-
-                        <img src={cellValues.value.img} style={{width: "30px"}}/>
-                        {cellValues.value.Name}
-
+                      style={{
+                          textDecoration: "none", color: "white", cursor: "pointer",
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          gap: "15px",
+                          alignItems: "center",
+                      }}>
+                    <img src={cellValues.value.img} style={{width: "30px", height: "30px"}}/>
+                    {cellValues.value.Name}
                 </Link>
 
             );
@@ -40,7 +40,7 @@ export const columns: GridColDef[] = [
         field: '1h%',
         description: 'price change in last hour',
         valueFormatter: ({value}) => `${value.toFixed(2)} %`,
-        flex: 1, cellClassName: (params: GridCellParams<number>) => {
+        flex: 0.7, cellClassName: (params: GridCellParams<number>) => {
             if (params.value == null) {
                 return '';
             }
@@ -55,7 +55,7 @@ export const columns: GridColDef[] = [
         field: '24h%',
         description: 'price change in last day',
         valueFormatter: ({value}) => `${value.toFixed(2)} %`,
-        flex: 1, cellClassName: (params: GridCellParams<number>) => {
+        flex: 0.7, cellClassName: (params: GridCellParams<number>) => {
             if (params.value == null) {
                 return '';
             }
@@ -70,7 +70,7 @@ export const columns: GridColDef[] = [
         field: '7d%',
         description: 'price change in last week',
         valueFormatter: ({value}) => `${value.toFixed(2)} %`,
-        flex: 1, cellClassName: (params: GridCellParams<number>) => {
+        flex: 0.7, cellClassName: (params: GridCellParams<number>) => {
             if (params.value == null) {
                 return '';
             }
@@ -93,10 +93,15 @@ export const columns: GridColDef[] = [
     },
     {
         field: '7 Day Chart',
-        description: 'This column has a value getter and is not sortable.', flex: 1
+        description: 'This column has a value getter and is not sortable.', flex: 1.5, maxWidth: 300,
+        renderCell: (cellValues: GridRenderCellParams) => {
+            return (
+                <SparklineChart sparkLineData={cellValues.value}/>
+            );
+        },
     },
     {
         field: 'Favourite',
-        description: 'This column has a value getter and is not sortable.', flex: 1,
+        description: 'This column has a value getter and is not sortable.', width: 20,
     },
 ];

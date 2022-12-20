@@ -3,11 +3,14 @@ import SidebarLeft from "./containers/global/Sidebar";
 import Topbar from "./containers/global/Topbar";
 import {Route, Routes} from "react-router-dom";
 import {Box, Container} from "@mui/material";
-import React, {useState} from "react";
+import React, {useState, lazy, Suspense} from "react";
 import ListOfAll from "./containers/ListOfAll/ListOfAll";
-import NotFound from "./containers/NotFound/NotFound";
-import Contact from "./containers/Contact/Contact";
-import TrendingCurrencies from "./containers/TrendingCurrencies/TrendingCurrencies";
+
+const NotFound = lazy(() => import("./containers/NotFound/NotFound"))
+const Contact = lazy(() => import("./containers/Contact/Contact"))
+const TrendingCurrencies = lazy(() => import("./containers/TrendingCurrencies/TrendingCurrencies"))
+const AdvancedInfoAboutCurrency = lazy(() => import("./containers/AdvancedInfoAboutCurrency/AdvancedInfoAboutCurrency"))
+
 import {
     ThemeProvider
 } from "@mui/material";
@@ -32,9 +35,11 @@ function App() {
                             <Route path="profile/:id"/>
                             <Route path="settings/:id"/>
                             <Route path="listOfAll" element={<ListOfAll/>}/>
-                            <Route path="trending" element={<TrendingCurrencies/>}/>
-                            <Route path="advancedInfo/:coin"/>
-                            <Route path="contact" element={<Contact/>}/>
+                            <Route path="trending" element={<Suspense><TrendingCurrencies/></Suspense>}/>
+                            <Route path="advancedInfo/:coin"
+                                   element={<Suspense>< AdvancedInfoAboutCurrency/></Suspense>}/>
+                            <Route path="contact" element={<Suspense><Contact/></Suspense>}/>
+                            <Route path="notFound" element={<Suspense><NotFound/></Suspense>}/>
                         </Routes>
                     </Container>
                 </Container>
