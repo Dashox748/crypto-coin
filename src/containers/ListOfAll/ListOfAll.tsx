@@ -3,17 +3,19 @@ import {useEffect, useState} from "react";
 import {columns} from "./utils/gridColumnsSetup";
 import {CustomDataGrid} from "./utils/gridDataTheme";
 import {Box, useTheme} from "@mui/material";
+import {FetchAllCoins,AllCoinsState} from "./utils/interfaces";
 
 const ListOfAll = () => {
-    const [allCoins, setAllCoins] = useState<any[]>([])
+    const [allCoins, setAllCoins] = useState<AllCoinsState[]>([])
     const theme = useTheme()
     useEffect(() => {
 
         (async () => {
             const x = await fetchAllCoins()
-            setAllCoins(x.map((coin: any, index: number) => {
+            console.log(x)
+            setAllCoins(x.map((coin: FetchAllCoins, index: number) => {
                     return {
-                        id: index,
+                        id: index+1,
                         Name: {
                             Name: coin.name,
                             img: coin.image,

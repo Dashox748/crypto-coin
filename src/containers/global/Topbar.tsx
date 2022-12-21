@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import InputBase from "@mui/material/InputBase";
+import useResponsive from "../../components/hooks/useResponsive";
 
 const LoginForm = lazy(() => import("../../components/Forms/LoginForm"))
 const RegisterForm = lazy(() => import("../../components/Forms/RegisterForm"))
@@ -29,7 +30,7 @@ const Topbar = () => {
         setAnchorElUser(null);
     };
 
-
+    const xd = useResponsive("up", 1200);
     return (
         <AppBar
             position="sticky"
@@ -129,7 +130,7 @@ const Topbar = () => {
                                         <LoginForm setShowLogin={setShowLogin}/>
                                     </Suspense>}
                                 </Box>
-                                <Box>
+                                {xd && <Box>
                                     <Button
                                         variant="contained"
                                         sx={{fontWeight: "600", textTransform: "none", fontSize: "15px"}}
@@ -142,7 +143,8 @@ const Topbar = () => {
                                             <RegisterForm setShowRegister={setShowRegister}/>
                                         </Suspense>
                                     }
-                                </Box>
+                                </Box>}
+
                             </>
                         )}
                     </Box>

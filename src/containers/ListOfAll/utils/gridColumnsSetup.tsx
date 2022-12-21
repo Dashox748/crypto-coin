@@ -19,7 +19,8 @@ export const columns: GridColDef[] = [
                           gap: "15px",
                           alignItems: "center",
                       }}>
-                    <img src={cellValues.value.img} style={{width: "30px", height: "30px"}}/>
+                    <img src={cellValues.value.img} alt={`${cellValues.value.Name} Logo`}
+                         style={{width: "30px", height: "30px"}}/>
                     {cellValues.value.Name}
                 </Link>
 

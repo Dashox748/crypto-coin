@@ -20,7 +20,11 @@ import {fetchMostPopularCrypto} from "./utils/fetch";
 import {useEffect, useState} from "react";
 import {fetchCoins} from "./utils/interfaces";
 
-const SidebarLeft = ({changeTheme}: any) => {
+interface props {
+    changeTheme: () => void;
+}
+
+const SidebarLeft = ({changeTheme}: props) => {
     const theme = useTheme()
     const {collapseSidebar, collapsed} = useProSidebar();
     const [mostPopular, setMostPopular] = useState<fetchCoins[]>([])
@@ -66,7 +70,7 @@ const SidebarLeft = ({changeTheme}: any) => {
                             >
                                 {!collapsed ? (
                                     <Box display="flex" gap="6px">
-                                        <img src={logoDark} alt="" style={{width: "35px"}}/>
+                                        <img src={logoDark} alt="" style={{width: "35px", height: "35px"}}/>
                                         <Typography sx={{fontSize: "21px", fontWeight: "700"}}>
                                             CryptoCoin
                                         </Typography>
@@ -77,17 +81,18 @@ const SidebarLeft = ({changeTheme}: any) => {
                                 </IconButton>
                             </Box>
                         </MenuItem>
-                        {createMenuItem(<ListAltIcon/>, "List Of All", "listOfAll",theme)}
+                        {createMenuItem(<ListAltIcon/>, "List Of All", "listOfAll", theme)}
                         {createSubMenu(<WhatshotIcon/>, "Most Popular", [
-                            mostPopular.map((item: fetchCoins) => createMenuItem(<img style={{width: "25px", height: "25px"}}
-                                                                               src={item.image}/>, item.name, `/advancedInfo/${item.id}`,theme))
+                            mostPopular.map((item: fetchCoins) => createMenuItem(<img
+                                style={{width: "25px", height: "25px"}}
+                                src={item.image}/>, item.name, `/advancedInfo/${item.id}`, theme))
                         ])}
                         {createSubMenu(<StarIcon/>, "Favourite", [])}
-                        {createMenuItem(<TrendingUpIcon/>, "Trending", "trending",theme)}
-                        {createMenuItem(<ErrorIcon/>, "404 page", "notFound",theme)}
+                        {createMenuItem(<TrendingUpIcon/>, "Trending", "trending", theme)}
+                        {createMenuItem(<ErrorIcon/>, "404 page", "notFound", theme)}
                     </Menu>
                     <Menu>
-                        {createMenuItem(<ChatIcon/>, "Cotact Us", "contact",theme)}
+                        {createMenuItem(<ChatIcon/>, "Cotact Us", "contact", theme)}
                         <MenuItem
                             onClick={() => changeTheme()}
                             icon={<DarkModeIcon/>}
