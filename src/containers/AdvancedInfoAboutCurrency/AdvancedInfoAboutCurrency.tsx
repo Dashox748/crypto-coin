@@ -1,29 +1,30 @@
-import {Box, Container} from "@mui/material";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import {fetchCoin} from "./utils/fetchCoin";
-import {useParamCoin,CoinInfoTypes} from "./utils/interfaces";
-
+import { Box, Container } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchCoin } from "./utils/fetchCoin";
+import { CoinInfoTypes, FetchCoinTypes } from "./utils/interfaces";
 
 const AdvancedInfoAboutCurrency = () => {
-    const {coin} = useParams<useParamCoin>()
-    const [coinInfo, setCoinInfo] = useState<CoinInfoTypes>({} as CoinInfoTypes)
+  const { coin } = useParams<string>();
+  const [coinInfo, setCoinInfo] = useState<FetchCoinTypes>(
+    {} as FetchCoinTypes
+  );
+  console.log(coinInfo);
+  useEffect(() => {
+    (async () => {
+      if (coin) {
+        setCoinInfo(await fetchCoin(coin));
+        const x = await fetchCoin(coin);
+        console.log(x.market_data.current_price.usd);
+      }
+    })();
+  }, [coin]);
+  console.log(coinInfo);
+  return (
+    <Box>
+      <button onClick={() => console.log(coinInfo)}></button>
+    </Box>
+  );
+};
 
-    useEffect(() => {
-        (async () => {
-            if (coin) {
-                setCoinInfo(await fetchCoin(coin))
-            }
-
-        })()
-    }, [coin])
-    return (
-        <Box>
-            <button onClick={()=>console.log(coinInfo)}></button>
-            {coinInfo?.name}
-            {coinInfo.priceData?.currentPrice}
-        </Box>
-    )
-}
-
-export default AdvancedInfoAboutCurrency
+export default AdvancedInfoAboutCurrency;
