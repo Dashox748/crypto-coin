@@ -4,15 +4,15 @@ With CryptoCoins you can safely track all of your cryptocurrencies in one place
 
 ### Built with
 - React
-- javascript
+- TypeScript
 - CSS
 - Redux
-- Bootstrap
+- Material ui
 - Firebase auth
 - FireStore (database)
 - API
 - Local storage
-- Animations
+
 
 
 

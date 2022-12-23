@@ -27,6 +27,7 @@ export const columns: GridColDef[] = [
             );
         },
         flex: 1,
+        sortable:false,
     },
     {
         field: 'Price', valueFormatter: ({value}) =>
@@ -99,10 +100,10 @@ export const columns: GridColDef[] = [
             return (
                 <SparklineChart sparkLineData={cellValues.value}/>
             );
-        },
+        },sortable:false,
     },
     {
         field: 'Favourite',
-        description: 'This column has a value getter and is not sortable.', width: 20,
+        description: 'This column has a value getter and is not sortable.', width: 20,sortable:false,
     },
 ];

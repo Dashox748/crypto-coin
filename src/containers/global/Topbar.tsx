@@ -9,7 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import InputBase from "@mui/material/InputBase";
-import useResponsive from "../../components/hooks/useResponsive";
+import useResponsive from "../../utils/hooks/useResponsive";
 
 const LoginForm = lazy(() => import("../../components/Forms/LoginForm"))
 const RegisterForm = lazy(() => import("../../components/Forms/RegisterForm"))
