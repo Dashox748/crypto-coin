@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { Box, Container } from "@mui/material";
 import React, { useState, lazy, Suspense } from "react";
 import ListOfAll from "./containers/ListOfAll/ListOfAll";
+import useResponsive from "./utils/hooks/useResponsive";
 
 const NotFound = lazy(() => import("./containers/NotFound/NotFound"));
 const Contact = lazy(() => import("./containers/Contact/Contact"));
@@ -21,6 +22,7 @@ import { darkTheme, lightTheme } from "./utils/Theme";
 
 function App() {
   const [lightMode, setLightMode] = useState<boolean>(true);
+  const responsive = useResponsive("down", 1200);
 
   const changeTheme = () => {
     setLightMode(!lightMode);
@@ -34,12 +36,11 @@ function App() {
           sx={{
             background: (theme) => theme.palette.background.default,
             overflow: "auto",
-            padding: "0",
-            margin: "0",
+            padding: responsive ? "0 10px!important" : "",
           }}
         >
           <Topbar />
-          <Container maxWidth={false} sx={{}}>
+          <Container maxWidth={false} sx={{ padding: "0!important" }}>
             <Routes>
               <Route path="/" element={<ListOfAll />} />
               <Route path="profile/:id" />

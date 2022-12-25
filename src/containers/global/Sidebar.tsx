@@ -19,6 +19,7 @@ import { createSubMenu, createMenuItem } from "./utils/menu";
 import { fetchMostPopularCrypto } from "./utils/fetch";
 import { useEffect, useState } from "react";
 import { fetchCoins } from "./utils/interfaces";
+import useResponsive from "../../utils/hooks/useResponsive";
 
 interface props {
   changeTheme: () => void;
@@ -26,6 +27,7 @@ interface props {
 
 const SidebarLeft = ({ changeTheme }: props) => {
   const theme = useTheme();
+  const responsiveCollapse = useResponsive("down", 1000);
   const { collapseSidebar, collapsed } = useProSidebar();
   const [mostPopular, setMostPopular] = useState<fetchCoins[]>([]);
 
@@ -38,7 +40,9 @@ const SidebarLeft = ({ changeTheme }: props) => {
   return (
     <Box>
       <Sidebar
-        width="225px"
+        width="238px"
+        customBreakPoint="720px"
+        defaultCollapsed={responsiveCollapse}
         backgroundColor={theme.palette.background.paper}
         rootStyles={{
           height: "100%",
