@@ -6,9 +6,10 @@ import {
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import SparklineChart from "../../../components/Charts/SparklineChart";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
 
 export const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", minWidth: 10, maxWidth: 30 },
+  { field: "id", headerName: "#", minWidth: 10, maxWidth: 30 },
   {
     field: "Name",
     renderCell: (cellValues: GridRenderCellParams) => {
@@ -115,13 +116,6 @@ export const columns: GridColDef[] = [
     renderCell: (cellValues: GridRenderCellParams) => {
       return <SparklineChart sparkLineData={cellValues.value} />;
     },
-    sortable: false,
-  },
-  {
-    field: "Favourite",
-    description: "This column has a value getter and is not sortable.",
-    minWidth: 10,
-    maxWidth: 30,
     sortable: false,
   },
 ];

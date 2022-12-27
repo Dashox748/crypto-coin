@@ -1,23 +1,31 @@
 import { fetchAllCoins } from "./utils/fetch";
-import { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { columns } from "./utils/gridColumnsSetup";
 import { CustomDataGrid } from "./utils/gridDataTheme";
 import { Box, useTheme } from "@mui/material";
 import { FetchAllCoins, AllCoinsState } from "./utils/interfaces";
 import useResponsive from "../../utils/hooks/useResponsive";
+import Pagination from "@mui/material/Pagination";
+import LinearProgress from "@mui/material/LinearProgress";
 
-const ListOfAll = () => {
+const ListOfAll = ({ setFetching }: any) => {
   const [allCoins, setAllCoins] = useState<AllCoinsState[]>([]);
   const down1000px = useResponsive("up", 1000);
   const down750px = useResponsive("up", 750);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  // const [fetching, setFetching] = useState(false);
 
-  useEffect(() => {
-    console.log("zmieniam");
-  }, [down1000px]);
+  const handleChangeCurrentPage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setCurrentPage(value);
+  };
   const theme = useTheme();
   useEffect(() => {
+    setFetching(true);
     (async () => {
-      const x = await fetchAllCoins();
+      const x = await fetchAllCoins(currentPage);
       console.log(x);
       setAllCoins(
         x.map((coin: FetchAllCoins, index: number) => {
@@ -37,14 +45,14 @@ const ListOfAll = () => {
               sparkline: coin.sparkline_in_7d,
               change: coin.price_change_percentage_7d_in_currency,
             },
-            Favourite: "x",
           };
         })
       );
+      setFetching(false);
     })();
-  }, []);
+  }, [currentPage]);
   return (
-    <Box>
+    <Box display="flex" flexDirection="column">
       <CustomDataGrid
         rows={allCoins}
         columns={columns}
@@ -53,14 +61,23 @@ const ListOfAll = () => {
         disableSelectionOnClick
         components={{
           NoRowsOverlay: () => (
-            <Box
-              width={1}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <h1>Loading</h1>
-            </Box>
+            <></>
+            // <Box
+            //   width={1}
+            //   display="flex"
+            //   justifyContent="center"
+            //   alignItems="center"
+            // >
+            //   <h1>Loading</h1>
+            // </Box>
+          ),
+          Pagination: () => (
+            <Pagination
+              sx={{ margin: "20px auto 50px auto" }}
+              count={11}
+              defaultPage={currentPage}
+              onChange={handleChangeCurrentPage}
+            />
           ),
         }}
         getRowClassName={(params) =>
@@ -69,9 +86,7 @@ const ListOfAll = () => {
             : "odd"
         }
         columnVisibilityModel={{
-          // Hide columns status and traderName, the other columns will remain visible
           "1h%": down750px,
-          //   "24h%": down750px,
           "7 Day Chart": down1000px,
         }}
       />
