@@ -27,7 +27,7 @@ interface props {
 
 const SidebarLeft = ({ changeTheme }: props) => {
   const theme = useTheme();
-  const responsiveCollapse = useResponsive("down", 1000);
+  const responsiveCollapse = useResponsive("down", 1100);
   const { collapseSidebar, collapsed } = useProSidebar();
   const [mostPopular, setMostPopular] = useState<fetchCoins[]>([]);
 
@@ -41,7 +41,7 @@ const SidebarLeft = ({ changeTheme }: props) => {
     <Box>
       <Sidebar
         width="238px"
-        customBreakPoint="720px"
+        customBreakPoint="750px"
         defaultCollapsed={responsiveCollapse}
         backgroundColor={theme.palette.background.paper}
         rootStyles={{
@@ -74,13 +74,8 @@ const SidebarLeft = ({ changeTheme }: props) => {
               >
                 {!collapsed ? (
                   <Box display="flex" gap="6px">
-                    <img
-                      src={logoDark}
-                      alt=""
-                      style={{ width: "35px", height: "35px" }}
-                    />
                     <Typography sx={{ fontSize: "21px", fontWeight: "700" }}>
-                      CryptoCoin
+                      Menu
                     </Typography>
                   </Box>
                 ) : null}
