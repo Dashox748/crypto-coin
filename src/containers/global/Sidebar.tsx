@@ -20,6 +20,7 @@ import {fetchMostPopularCrypto} from "./utils/fetch";
 import {useEffect, useState} from "react";
 import {fetchCoins} from "./utils/interfaces";
 import useResponsive from "../../utils/hooks/useResponsive";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface props {
     changeTheme: () => void;
@@ -51,10 +52,10 @@ const SidebarLeft = ({changeTheme, collapseSidebar, collapsed}: props) => {
                 rootStyles={{
                     height: "100%",
                     border: "0",
-                    zIndex:"55",
-                    position:down750px?"fixed":"static",
-                    left:collapsed?"-750px":"0",
-                    width:down750px&&"100vw"
+                    zIndex: "55",
+                    position: down750px ? "fixed" : "static",
+                    left: collapsed ? "-750px" : "0",
+                    width: down750px && "100vw"
                 }}
             >
                 <Box
@@ -87,9 +88,9 @@ const SidebarLeft = ({changeTheme, collapseSidebar, collapsed}: props) => {
                                         </Typography>
                                     </Box>
                                 ) : null}
-                                {!down750px && <IconButton onClick={() => collapseSidebar()}>
-                                    <MenuOutlinedIcon style={{color: "white"}}/>
-                                </IconButton>}
+                                <IconButton onClick={() => collapseSidebar()}>
+                                    {!down750px ? <MenuOutlinedIcon/> : <CloseIcon/>}
+                                </IconButton>
                             </Box>
                         </MenuItem>
                         {createMenuItem(<ListAltIcon/>, "List Of All", "listOfAll", theme)}
