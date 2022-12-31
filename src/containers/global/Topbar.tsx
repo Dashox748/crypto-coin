@@ -1,44 +1,36 @@
 import {useState, lazy, Suspense} from "react";
-import {auth, logout} from "../../firebase";
+import {auth} from "../../firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {
     Box,
-    IconButton,
     Typography,
     Container,
     useTheme,
-    Button,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from '@mui/icons-material/Menu';
 import InputBase from "@mui/material/InputBase";
 import useResponsive from "../../utils/hooks/useResponsive";
 import logoDark from "../../assets/logo-dark.png";
+import TopbarMenu from "./utils/TopbarMenu";
+import IconButton from '@mui/material/IconButton';
 
-const LoginForm = lazy(() => import("../../components/Forms/LoginForm"));
-const RegisterForm = lazy(() => import("../../components/Forms/RegisterForm"));
+interface props {
 
-const Topbar = () => {
-    const [user] = useAuthState(auth);
-    const [showLogin, setShowLogin] = useState<boolean>(false);
-    const [showRegister, setShowRegister] = useState<boolean>(false);
+    collapseSidebar: () => void,
+
+
+}
+
+const Topbar = ({collapseSidebar}:props) => {
+    const [showMenu, setShowMenu] = useState<boolean>(false)
     const theme = useTheme();
 
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-    const handleOpenUserMenu = (event: any) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
-    const up650px = useResponsive("up", 700);
+    const up700px = useResponsive("up", 800);
+    const up750px = useResponsive("up", 751);
+    const up500px = useResponsive("up", 551);
     return (
         <AppBar
             position="sticky"
@@ -67,9 +59,9 @@ const Topbar = () => {
                             alt=""
                             style={{width: "50px", height: "50px"}}
                         />
-                        {up650px && <Typography sx={{fontSize: "calc(1.375rem + 1.3vw)", fontWeight: "700"}}>
+                        {up700px && <Typography sx={{fontSize: "calc(1.375rem + 1.3vw)", fontWeight: "700"}}>
                             CryptoCoin
-                    </Typography>}
+                        </Typography>}
                     </Box>
                     <InputBase
                         sx={{
@@ -91,90 +83,10 @@ const Topbar = () => {
                             alignItems: "center",
                         }}
                     >
-                        {user ? (
-                            <>
-                                <Typography>{user.displayName}</Typography>
-                                <Tooltip title="Open settings">
-                                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                        <Avatar alt="witam"/>
-                                    </IconButton>
-                                </Tooltip>
-                                <Menu
-                                    sx={{mt: "45px"}}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: "top",
-                                        horizontal: "right",
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: "top",
-                                        horizontal: "right",
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                >
-                                    <MenuItem>
-                                        <Typography textAlign="center">Profile</Typography>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <Typography textAlign="center">Account</Typography>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <Typography textAlign="center">Settings</Typography>
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                            logout();
-                                            handleCloseUserMenu();
-                                        }}
-                                    >
-                                        <Typography textAlign="center">Logout</Typography>
-                                    </MenuItem>
-                                </Menu>
-                            </>
-                        ) : (
-                            <>
-                                <Box>
-                                    <Button
-                                        variant="outlined"
-                                        sx={{
-                                            fontWeight: "600",
-                                            textTransform: "none",
-                                            fontSize: "15px",
-                                        }}
-                                        onClick={() => setShowLogin(!showLogin)}
-                                    >
-                                        Login
-                                    </Button>
-                                    {showLogin && (
-                                        <Suspense>
-                                            <LoginForm setShowLogin={setShowLogin}/>
-                                        </Suspense>
-                                    )}
-                                </Box>
-
-                                <Box>
-                                    <Button
-                                        variant="contained"
-                                        sx={{
-                                            fontWeight: "600",
-                                            textTransform: "none",
-                                            fontSize: "15px",
-                                        }}
-                                        onClick={() => setShowRegister(!showRegister)}
-                                    >
-                                        Sign-up
-                                    </Button>
-                                    {showRegister && (
-                                        <Suspense>
-                                            <RegisterForm setShowRegister={setShowRegister}/>
-                                        </Suspense>
-                                    )}
-                                </Box>
-                            </>
-                        )}
+                        {!up750px ? <><IconButton onClick={() => collapseSidebar()}><MenuIcon/></IconButton>
+                            <Box position="fixed" top="0" bottom="0" left={showMenu ? "0" : "-550px"} bgcolor="#1B2028"
+                                 width={up500px ? "200px" : "100%"} sx={{transition: "all 0.5s ease-in-out"}}>
+                            </Box></> : <TopbarMenu/>}
                     </Box>
                 </Toolbar>
             </Container>

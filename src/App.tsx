@@ -7,6 +7,10 @@ import React, {useState, lazy, Suspense, useEffect} from "react";
 import ListOfAll from "./containers/ListOfAll/ListOfAll";
 import useResponsive from "./utils/hooks/useResponsive";
 import LinearProgress from "@mui/material/LinearProgress";
+import {
+    useProSidebar,
+
+} from "react-pro-sidebar";
 
 const NotFound = lazy(() => import("./containers/NotFound/NotFound"));
 const Contact = lazy(() => import("./containers/Contact/Contact"));
@@ -26,15 +30,19 @@ function App() {
     const responsive = useResponsive("down", 750);
     const down1200px = useResponsive("down", 1200);
     const [fetching, setFetching] = useState<boolean>(true);
+    const {collapseSidebar, collapsed} = useProSidebar();
 
     const changeTheme = () => {
         setLightMode(!lightMode);
     };
+    const changeSidebar = () => {
+        setSidebarCollapse(!sidebarCollapse)
+    }
 
     return (
         <ThemeProvider theme={lightMode ? lightTheme : darkTheme}>
             <Box className="app">
-                <SidebarLeft changeTheme={changeTheme}/>
+                <SidebarLeft changeTheme={changeTheme} collapseSidebar={collapseSidebar} collapsed={collapsed}/>
 
                 <Container
                     maxWidth={false}
@@ -55,7 +63,7 @@ function App() {
                             }}
                         />
                     )}
-                    <Topbar/>
+                    <Topbar collapseSidebar={collapseSidebar}/>
                     <Container
                         maxWidth={false}
                         sx={{padding: responsive ? "0 0px!important" : "0 10px!important"}}
