@@ -1,3 +1,6 @@
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+
 import {
     Sidebar,
     Menu,
@@ -5,6 +8,8 @@ import {
     useProSidebar,
     menuClasses,
 } from "react-pro-sidebar";
+import {createSubMenu, createMenuItem} from "./utils/SidebarMenus";
+
 import {Box, IconButton, Typography, useTheme} from "@mui/material";
 import logoDark from "../../assets/logo-dark.png";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -15,31 +20,30 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ErrorIcon from "@mui/icons-material/Error";
 import ChatIcon from "@mui/icons-material/Chat";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import {createSubMenu, createMenuItem} from "./utils/SidebarMenus";
-import {fetchMostPopularCrypto} from "./utils/fetch";
-import {useEffect, useState} from "react";
-import {fetchCoins} from "./utils/interfaces";
-import useResponsive from "../../utils/hooks/useResponsive";
 import CloseIcon from '@mui/icons-material/Close';
 
-interface props {
-    changeTheme: () => void;
-    collapseSidebar: () => void,
-    collapsed: boolean
+import {fetchMostPopularCrypto} from "./utils/fetch";
+import {fetchCoins} from "./utils/interfaces";
+import useResponsive from "../../utils/hooks/useResponsive";
+import SidebarProps from "./utils/interface"
 
-}
 
-const SidebarLeft = ({changeTheme, collapseSidebar, collapsed}: props) => {
+
+
+const SidebarLeft = ({changeTheme, collapseSidebar, collapsed}: SidebarProps) => {
     const theme = useTheme();
     const responsiveCollapse = useResponsive("down", 1100);
     const down750px = useResponsive("down", 750);
     const [mostPopular, setMostPopular] = useState<fetchCoins[]>([]);
+    const {coin} = useParams<string>();
+    const [showLogin, setShowLogin] = useState<boolean>(false)
 
     useEffect(() => {
         (async () => {
             setMostPopular(await fetchMostPopularCrypto());
         })();
     }, []);
+
 
 
     return (

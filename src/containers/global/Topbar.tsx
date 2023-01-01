@@ -11,19 +11,17 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import MenuIcon from '@mui/icons-material/Menu';
 import InputBase from "@mui/material/InputBase";
+
 import useResponsive from "../../utils/hooks/useResponsive";
+import TopbarProps from "../utils/interfaces"
+
 import logoDark from "../../assets/logo-dark.png";
 import TopbarMenu from "./utils/TopbarMenu";
 import IconButton from '@mui/material/IconButton';
 
-interface props {
-
-    collapseSidebar: () => void,
 
 
-}
-
-const Topbar = ({collapseSidebar}:props) => {
+const Topbar = ({collapseSidebar}: TopbarProps) => {
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const theme = useTheme();
 

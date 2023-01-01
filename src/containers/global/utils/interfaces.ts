@@ -26,3 +26,12 @@ export interface fetchCoins{
     total_supply:number | null,
     total_volume:number
 }
+
+export interface SidebarProps {
+    changeTheme: () => void;
+    collapseSidebar: () => void,
+    collapsed: boolean
+}
+export interface TopbarProps {
+    collapseSidebar: () => void,
+}
