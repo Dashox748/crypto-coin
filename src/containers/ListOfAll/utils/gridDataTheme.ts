@@ -19,7 +19,7 @@ export const CustomDataGrid = styled(DataGrid)((background: any) => ({
   },
   "& .MuiDataGrid-columnHeader": {
     padding: "0 5px",
-      fontWeight:"700"
+    fontWeight: "700",
   },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",

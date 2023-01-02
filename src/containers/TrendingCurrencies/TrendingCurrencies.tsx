@@ -1,9 +1,5 @@
+const TrendingCurrencies = () => {
+  return <div>trending</div>;
+};
 
-
-const TrendingCurrencies =()=>{
-    return(
-        <div>trending</div>
-    )
-}
-
-export default TrendingCurrencies
+export default TrendingCurrencies;

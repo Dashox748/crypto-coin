@@ -87,3 +87,8 @@ export interface FetchCoinTypes {
   links: pages;
   market_data: market;
 }
+
+export interface coinDataTypes{
+    price:number,
+    date:number,
+}
