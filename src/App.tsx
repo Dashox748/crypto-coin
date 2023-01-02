@@ -94,7 +94,7 @@ function App() {
                 path="advancedInfo/:coin"
                 element={
                   <Suspense>
-                      <AdvancedInfoAboutCurrency setFetching={setFetching}/>
+                    <AdvancedInfoAboutCurrency setFetching={setFetching} />
                   </Suspense>
                 }
               />

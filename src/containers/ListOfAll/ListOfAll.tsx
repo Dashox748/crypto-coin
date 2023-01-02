@@ -1,9 +1,9 @@
-import {fetchAllCoins} from "./utils/fetch";
-import React, {Dispatch, useEffect, useState} from "react";
-import {columns} from "./utils/gridColumnsSetup";
-import {CustomDataGrid} from "./utils/gridDataTheme";
-import {Box, useTheme} from "@mui/material";
-import {FetchAllCoins, AllCoinsState} from "./utils/interfaces";
+import { fetchAllCoins } from "./utils/fetch";
+import React, { Dispatch, useEffect, useState } from "react";
+import { columns } from "./utils/gridColumnsSetup";
+import { CustomDataGrid } from "./utils/gridDataTheme";
+import { Box, useTheme } from "@mui/material";
+import { FetchAllCoins, AllCoinsState } from "./utils/interfaces";
 import useResponsive from "../../utils/hooks/useResponsive";
 import Pagination from "@mui/material/Pagination";
 
