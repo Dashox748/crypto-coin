@@ -7,6 +7,10 @@ export const darkTheme = createTheme({
       primary: `#ffffff`,
       secondary: `#6c757d`,
     },
+
+    secondary: {
+      main: `rgba(108,117,125,.5)`,
+    },
     background: {
       default: `#262528`,
       paper: `rgb(27, 26, 29)`,
@@ -20,6 +24,9 @@ export const lightTheme = createTheme({
     primary: {
       main: `#1976d2`,
     },
+    secondary: {
+      main: `rgba(108,117,125,.5)`,
+    },
     text: {
       primary: `#ffffff`,
       secondary: `#6c757d`,
@@ -27,6 +34,10 @@ export const lightTheme = createTheme({
     background: {
       default: `rgb(49, 53, 63)`,
       paper: `#1B2028`,
+    },
+    action: {
+      disabledBackground: `gray`,
+      disabled: `white`,
     },
   },
 });
