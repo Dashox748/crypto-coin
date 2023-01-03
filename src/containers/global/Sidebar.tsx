@@ -1,17 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
-import {
-  Sidebar,
-  Menu,
-  MenuItem,
-  useProSidebar,
-  menuClasses,
-} from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem, menuClasses } from "react-pro-sidebar";
 import { createSubMenu, createMenuItem } from "./utils/SidebarMenus";
-
+import { useLocation } from "react-router-dom";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import logoDark from "../../assets/logo-dark.png";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
@@ -25,40 +17,45 @@ import CloseIcon from "@mui/icons-material/Close";
 import { fetchMostPopularCrypto } from "./utils/fetch";
 import { fetchCoins } from "./utils/interfaces";
 import useResponsive from "../../utils/hooks/useResponsive";
-import SidebarProps from "./utils/interface";
+import { SidebarProps } from "./utils/interfaces";
 
 const SidebarLeft = ({
   changeTheme,
   collapseSidebar,
   collapsed,
+  sidebarCollapse,
+  changeSidebar,
 }: SidebarProps) => {
+  let location = useLocation();
   const theme = useTheme();
   const responsiveCollapse = useResponsive("down", 1100);
   const down750px = useResponsive("down", 750);
   const [mostPopular, setMostPopular] = useState<fetchCoins[]>([]);
-  const { coin } = useParams<string>();
-  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       setMostPopular(await fetchMostPopularCrypto());
     })();
   }, []);
+  useEffect(() => {
+    if (!down750px) return;
+    changeSidebar();
+  }, [location]);
 
   return (
     <Box>
       <Sidebar
         width="238px"
-        transitionDuration="300"
-        defaultCollapsed={responsiveCollapse}
+        transitionDuration={300}
+        defaultCollapsed={responsiveCollapse ? !down750px : false}
         backgroundColor={theme.palette.background.paper}
         rootStyles={{
           height: "100%",
           border: "0",
           zIndex: "55",
           position: down750px ? "fixed" : "static",
-          left: collapsed ? "-750px" : "0",
-          width: down750px && "100vw",
+          left: !sidebarCollapse ? "-750px" : "0",
+          width: down750px ? "100vw" : "238px",
         }}
       >
         <Box
@@ -91,7 +88,11 @@ const SidebarLeft = ({
                     </Typography>
                   </Box>
                 ) : null}
-                <IconButton onClick={() => collapseSidebar()}>
+                <IconButton
+                  onClick={() =>
+                    down750px ? changeSidebar() : collapseSidebar()
+                  }
+                >
                   {!down750px ? <MenuOutlinedIcon /> : <CloseIcon />}
                 </IconButton>
               </Box>

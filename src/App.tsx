@@ -3,7 +3,7 @@ import SidebarLeft from "./containers/global/Sidebar";
 import Topbar from "./containers/global/Topbar";
 import { Route, Routes } from "react-router-dom";
 import { Box, Container } from "@mui/material";
-import React, { useState, lazy, Suspense, useEffect } from "react";
+import { useState, lazy, Suspense } from "react";
 import ListOfAll from "./containers/ListOfAll/ListOfAll";
 import useResponsive from "./utils/hooks/useResponsive";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -28,6 +28,7 @@ function App() {
   const down1200px = useResponsive("down", 1200);
   const [fetching, setFetching] = useState<boolean>(false);
   const { collapseSidebar, collapsed } = useProSidebar();
+  const [sidebarCollapse, setSidebarCollapse] = useState<boolean>(false);
 
   const changeTheme = () => {
     setLightMode(!lightMode);
@@ -43,6 +44,8 @@ function App() {
           changeTheme={changeTheme}
           collapseSidebar={collapseSidebar}
           collapsed={collapsed}
+          sidebarCollapse={sidebarCollapse}
+          changeSidebar={changeSidebar}
         />
 
         <Container
@@ -64,7 +67,10 @@ function App() {
               }}
             />
           )}
-          <Topbar collapseSidebar={collapseSidebar} />
+          <Topbar
+            collapseSidebar={collapseSidebar}
+            changeSidebar={changeSidebar}
+          />
           <Container
             maxWidth={false}
             sx={{

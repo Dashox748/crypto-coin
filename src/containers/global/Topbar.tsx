@@ -1,26 +1,22 @@
-import { useState, lazy, Suspense } from "react";
-import { auth } from "../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { Box, Typography, Container, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import MenuIcon from "@mui/icons-material/Menu";
 import InputBase from "@mui/material/InputBase";
+import { Link } from "react-router-dom";
 
 import useResponsive from "../../utils/hooks/useResponsive";
-import TopbarProps from "../utils/interfaces";
+import { TopbarProps } from "./utils/interfaces";
 
 import logoDark from "../../assets/logo-dark.png";
 import TopbarMenu from "./utils/TopbarMenu";
 import IconButton from "@mui/material/IconButton";
 
-const Topbar = ({ collapseSidebar }: TopbarProps) => {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+const Topbar = ({ changeSidebar }: TopbarProps) => {
   const theme = useTheme();
 
   const up700px = useResponsive("up", 800);
   const up750px = useResponsive("up", 751);
-  const up500px = useResponsive("up", 551);
   return (
     <AppBar
       position="sticky"
@@ -44,11 +40,13 @@ const Topbar = ({ collapseSidebar }: TopbarProps) => {
           }}
         >
           <Box display="flex" gap="15px" alignItems="center">
-            <img
-              src={logoDark}
-              alt=""
-              style={{ width: "50px", height: "50px" }}
-            />
+            <Link to="/">
+              <img
+                src={logoDark}
+                alt=""
+                style={{ width: "50px", height: "50px" }}
+              />
+            </Link>
             {up700px && (
               <Typography
                 sx={{ fontSize: "calc(1.375rem + 1.3vw)", fontWeight: "700" }}
@@ -79,18 +77,9 @@ const Topbar = ({ collapseSidebar }: TopbarProps) => {
           >
             {!up750px ? (
               <>
-                <IconButton onClick={() => collapseSidebar()}>
+                <IconButton onClick={() => changeSidebar()}>
                   <MenuIcon />
                 </IconButton>
-                <Box
-                  position="fixed"
-                  top="0"
-                  bottom="0"
-                  left={showMenu ? "0" : "-550px"}
-                  bgcolor="#1B2028"
-                  width={up500px ? "200px" : "100%"}
-                  sx={{ transition: "all 0.5s ease-in-out" }}
-                ></Box>
               </>
             ) : (
               <TopbarMenu />

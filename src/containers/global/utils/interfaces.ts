@@ -30,8 +30,12 @@ export interface fetchCoins {
 export interface SidebarProps {
   changeTheme: () => void;
   collapseSidebar: () => void;
+  changeSidebar: () => void;
+
   collapsed: boolean;
+  sidebarCollapse: boolean;
 }
 export interface TopbarProps {
   collapseSidebar: () => void;
+  changeSidebar: () => void;
 }

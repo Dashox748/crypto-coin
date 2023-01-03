@@ -1,4 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
@@ -30,7 +31,9 @@ const NotFound = () => {
         We couldn't fint the page you were looking for, or maybe it never
         existed, Try heading back to the home page.
       </Typography>
-      <Button variant="contained">Back Home</Button>
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <Button variant="contained">Back Home</Button>
+      </Link>
     </Box>
   );
 };
