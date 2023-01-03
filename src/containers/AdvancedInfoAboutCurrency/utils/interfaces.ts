@@ -68,6 +68,7 @@ interface market {
   market_cap_rank: number;
   circulating_supply: number;
   max_supply: number;
+  total_supply: number;
   current_price: currency;
   price_change_percentage_1h: number;
   price_change_percentage_24h: number;
@@ -75,6 +76,8 @@ interface market {
   price_change_percentage_30d: number;
   price_change_percentage_1y: number;
   market_cap: currency;
+  high_24h: currency;
+  low_24h: currency;
 }
 
 export interface FetchCoinTypes {
@@ -88,7 +91,7 @@ export interface FetchCoinTypes {
   market_data: market;
 }
 
-export interface coinDataTypes {
+export interface CoinDataTypes {
   price: number;
-  date: number;
+  date: string;
 }

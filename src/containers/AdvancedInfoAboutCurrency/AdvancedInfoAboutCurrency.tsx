@@ -6,6 +6,8 @@ import { CoinInfoTypes, FetchCoinTypes } from "./utils/interfaces";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+
 import {
   AreaChart,
   Area,
@@ -14,19 +16,18 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  defs,
-  linearGradient,
 } from "recharts";
-import Prices from "./utils/data";
-import CoinDataTypes from "./utils/interfaces";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
+import Prices from "./utils/data.json";
+import { CoinDataTypes } from "./utils/interfaces";
+import LinearProgress from "@mui/material/LinearProgress";
 import StarIcon from "@mui/icons-material/Star";
-
+import changeFormat from "../../utils/hooks/changeFormat";
+import useResponsive from "../../utils/hooks/useResponsive";
 const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
+  const down540px = useResponsive("down", 540);
+
   const { coin } = useParams<string>();
-  const [coinData, setCoinData] = useState<CoinDataTypes>();
+  const [coinData, setCoinData] = useState<any>();
   const [coinInfo, setCoinInfo] = useState<FetchCoinTypes>(
     {} as FetchCoinTypes
   );
@@ -50,21 +51,37 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
     color: theme.palette.text.secondary,
   }));
   useEffect(() => {
-    let tempData = [];
-    Prices.prices.map((item) => {
+    let tempData: any = [];
+    Prices.prices.map((item: any) => {
       let obj = {
         date: new Date(item[0]).toLocaleTimeString("sv").slice(0, 5),
         price: item[1].toFixed(0),
       };
       tempData.push(obj);
     });
+
     setCoinData(tempData);
   }, []);
 
+  const createGeneralInfoItem = (name: string, buttonName: string) => {
+    return (
+      <Box display="flex" gap="15px" alignItems="center">
+        <Typography color="white">{name}: </Typography>
+        <Button
+          size="small"
+          disabled
+          variant="contained"
+          sx={{ textTransform: "none" }}
+        >
+          {buttonName}
+        </Button>
+      </Box>
+    );
+  };
   return (
     <Box width="100%" height="100%">
-        <Grid container spacing={{ xs: 5, md: 1,lg:3,xl:5 }} columns={16}>
-        <Grid item xs={16} md={12}>
+      <Grid container spacing={{ xs: 5, md: 5, lg: 3, xl: 5 }} columns={17}>
+        <Grid item xs={17} md={17} lg={12}>
           <Item
             sx={{
               height: "100%",
@@ -84,7 +101,7 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                   src={coinInfo?.image?.small}
                 />
                 <Typography
-                  variant="h3"
+                  variant={down540px ? "h4" : "h3"}
                   sx={{ color: "white", fontWeight: "600" }}
                 >
                   {coinInfo?.name}
@@ -95,9 +112,9 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 <StarIcon sx={{ color: "orange" }} />
               </Box>
               <Box display="flex" alignItems="center" gap="15px">
-                <Typography variant="h4">Price</Typography>
+                <Typography variant={down540px ? "h5" : "h4"}>Price</Typography>
                 <Typography
-                  variant="h4"
+                  variant={down540px ? "h5" : "h4"}
                   sx={{ color: "white", fontWeight: "600" }}
                 >
                   ${coinInfo?.market_data?.current_price.usd}
@@ -127,12 +144,12 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                   </span>
                 </Typography>
               </Box>
-              <Box width="400px">
+              <Box maxWidth="400px">
                 <LinearProgress
                   variant="determinate"
                   value={
                     ((coinInfo?.market_data?.current_price.usd -
-                      coinInfo?.market_data?.low_24h.usd) *
+                      coinInfo?.market_data?.low_24h?.usd) *
                       100) /
                     (coinInfo?.market_data?.high_24h.usd -
                       coinInfo?.market_data?.low_24h.usd)
@@ -162,16 +179,17 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
               </Box>
             </Box>
             <Container
+              maxWidth={false}
               sx={{
                 width: "100%",
                 flexGrow: "1",
-                maxHeight: "500px",
+                height: "500px",
                 padding: "0!important",
               }}
             >
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
-                  width={500}
+                  width={200}
                   height={400}
                   data={coinData}
                   margin={{
@@ -192,11 +210,17 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                   <YAxis
                     tickCount={8}
                     domain={[
-                      coinData?.reduce(function (prev, curr) {
-                        return prev.price < curr.price ? prev : curr;
+                      coinData?.reduce(function (
+                        prev: number,
+                        curr: CoinDataTypes
+                      ) {
+                        return prev < curr.price ? prev : curr;
                       }),
-                      coinData?.reduce(function (prev, curr) {
-                        return prev.price > curr.price ? prev : curr;
+                      coinData?.reduce(function (
+                        prev: number,
+                        curr: CoinDataTypes
+                      ) {
+                        return prev > curr.price ? prev : curr;
                       }),
                     ]}
                   />
@@ -215,33 +239,39 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
             <Box
               display="flex"
               justifyContent="space-between"
-              padding="35px 15px"
+              sx={{ padding: "35px 0" }}
+              flexDirection={down540px ? "column" : "row"}
+              gap="5px"
             >
               <Box>
-                <Typography variant="h6">Market Cap Rank</Typography>
+                <Typography variant="h6">Cap Rank</Typography>
                 <Typography
                   variant="h5"
                   sx={{ color: "white", fontWeight: "500" }}
                 >
-                  1
+                  {coinInfo?.market_data?.market_cap_rank}
                 </Typography>
-              </Box>{" "}
+              </Box>
               <Box>
                 <Typography variant="h6">Market Cap</Typography>
                 <Typography
                   variant="h5"
-                  sx={{ color: "white", fontWeight: "500" }}
+                  sx={{
+                    color: "white",
+                    fontWeight: "500",
+                  }}
                 >
-                  $322.094.383.230
+                  ${changeFormat(coinInfo?.market_data?.market_cap.usd)}
                 </Typography>
-              </Box>{" "}
+              </Box>
               <Box>
                 <Typography variant="h6">Circulating Supply</Typography>
                 <Typography
                   variant="h5"
                   sx={{ color: "white", fontWeight: "500" }}
                 >
-                  19.250.168BTC
+                  {changeFormat(coinInfo?.market_data?.circulating_supply)}{" "}
+                  {coinInfo?.symbol?.toUpperCase()}
                 </Typography>
               </Box>
               <Box>
@@ -250,23 +280,42 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                   variant="h5"
                   sx={{ color: "white", fontWeight: "500" }}
                 >
-                  21.000.000 BTC
+                  {changeFormat(coinInfo?.market_data?.total_supply)}{" "}
+                  {coinInfo?.symbol?.toUpperCase()}
                 </Typography>
               </Box>
             </Box>
           </Item>
         </Grid>
-          <Grid item xs={16} md={4} sx={{display:"flex",flexDirection:"column",gap:"32px"}}>
+        <Grid
+          item
+          xs={17}
+          md={17}
+          lg={5}
+          xl={4}
+          sx={{ display: "flex", flexDirection: "column", gap: "32px" }}
+        >
+          <Item
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              padding: "20px",
+            }}
+          >
+            <Typography variant="h5" color="white">
+              General Info
+            </Typography>
+            {createGeneralInfoItem("Rank", "1")}
+            {createGeneralInfoItem("Categories", "Cryptocurrency")}
+            {createGeneralInfoItem("Comunity", "Reddit")}
+            {createGeneralInfoItem("Homepage", "www.bitcoin.org")}
+            {createGeneralInfoItem("Blockchains", "blockchair.com")}
+          </Item>
           <Item>
             <button onClick={() => console.log(coinInfo)}></button>
-            <button onClick={() => console.log()}></button>
-            <button onClick={() => console.log(data)}></button>
+            <button onClick={() => console.log(coinData)}></button>
           </Item>
-            <Item>
-                <button onClick={() => console.log(coinInfo)}></button>
-                <button onClick={() => console.log()}></button>
-                <button onClick={() => console.log(data)}></button>
-            </Item>
         </Grid>
       </Grid>
     </Box>
