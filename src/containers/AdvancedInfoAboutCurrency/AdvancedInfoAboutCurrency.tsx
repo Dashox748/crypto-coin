@@ -1,31 +1,22 @@
-import { Box, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Box, Container, Typography, Button, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { fetchCoin } from "./utils/fetchCoin";
 import { CoinInfoTypes, FetchCoinTypes } from "./utils/interfaces";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import createGeneralInfoItem from "./utils/generalInfoItems";
+import Item from "./utils/styled";
 import Prices from "./utils/data.json";
 import { CoinDataTypes } from "./utils/interfaces";
 import LinearProgress from "@mui/material/LinearProgress";
 import StarIcon from "@mui/icons-material/Star";
 import changeFormat from "../../utils/hooks/changeFormat";
 import useResponsive from "../../utils/hooks/useResponsive";
+import AdvancedChart from "./utils/advancedChart";
+import BasicCurrencyStats from "./utils/basicCurrencyStats";
+import CustomizedTables from "./utils/percentChangeTable";
+
 const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
   const down540px = useResponsive("down", 540);
-
   const { coin } = useParams<string>();
   const [coinData, setCoinData] = useState<any>();
   const [coinInfo, setCoinInfo] = useState<FetchCoinTypes>(
@@ -42,14 +33,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
     })();
   }, [coin]);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor:
-      theme.palette.mode === "dark" ? "#1A2027" : "rgb(27, 26, 29)",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
   useEffect(() => {
     let tempData: any = [];
     Prices.prices.map((item: any) => {
@@ -59,25 +42,9 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
       };
       tempData.push(obj);
     });
-
     setCoinData(tempData);
   }, []);
 
-  const createGeneralInfoItem = (name: string, buttonName: string) => {
-    return (
-      <Box display="flex" gap="15px" alignItems="center">
-        <Typography color="white">{name}: </Typography>
-        <Button
-          size="small"
-          disabled
-          variant="contained"
-          sx={{ textTransform: "none" }}
-        >
-          {buttonName}
-        </Button>
-      </Box>
-    );
-  };
   return (
     <Box width="100%" height="100%">
       <Grid container spacing={{ xs: 5, md: 5, lg: 3, xl: 5 }} columns={17}>
@@ -187,103 +154,32 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 padding: "0!important",
               }}
             >
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  width={200}
-                  height={400}
-                  data={coinData}
-                  margin={{
-                    top: 10,
-                    right: 30,
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <defs>
-                    <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid vertical={false} stroke="#666" />
-                  <XAxis dataKey="date" interval={40} />
-                  <YAxis
-                    tickCount={8}
-                    domain={[
-                      coinData?.reduce(function (
-                        prev: number,
-                        curr: CoinDataTypes
-                      ) {
-                        return prev < curr.price ? prev : curr;
-                      }),
-                      coinData?.reduce(function (
-                        prev: number,
-                        curr: CoinDataTypes
-                      ) {
-                        return prev > curr.price ? prev : curr;
-                      }),
-                    ]}
-                  />
-                  <Tooltip />
-                  <Area
-                    type="monotone"
-                    dataKey="price"
-                    stroke="#8884d8"
-                    strokeWidth="2px"
-                    fillOpacity={1}
-                    fill="url(#colorPrice)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+              <AdvancedChart chartData={coinData} />
             </Container>
+
             <Box
+              padding={down540px ? "0" : "1rem"}
               display="flex"
-              justifyContent="space-between"
-              sx={{ padding: "35px 0" }}
-              flexDirection={down540px ? "column" : "row"}
-              gap="5px"
+              flexDirection="column"
+              gap="2rem"
             >
-              <Box>
-                <Typography variant="h6">Cap Rank</Typography>
-                <Typography
-                  variant="h5"
-                  sx={{ color: "white", fontWeight: "500" }}
-                >
-                  {coinInfo?.market_data?.market_cap_rank}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6">Market Cap</Typography>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: "white",
-                    fontWeight: "500",
-                  }}
-                >
-                  ${changeFormat(coinInfo?.market_data?.market_cap.usd)}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6">Circulating Supply</Typography>
-                <Typography
-                  variant="h5"
-                  sx={{ color: "white", fontWeight: "500" }}
-                >
-                  {changeFormat(coinInfo?.market_data?.circulating_supply)}{" "}
-                  {coinInfo?.symbol?.toUpperCase()}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6">Total Supply</Typography>
-                <Typography
-                  variant="h5"
-                  sx={{ color: "white", fontWeight: "500" }}
-                >
-                  {changeFormat(coinInfo?.market_data?.total_supply)}{" "}
-                  {coinInfo?.symbol?.toUpperCase()}
-                </Typography>
-              </Box>
+              <BasicCurrencyStats
+                capRank={coinInfo?.market_cap_rank}
+                marketCap={coinInfo?.market_data?.market_cap?.usd}
+                circulatingSupply={coinInfo?.market_data?.circulating_supply}
+                totalSupply={coinInfo?.market_data?.total_supply}
+                symbol={coinInfo?.symbol}
+              />
+              <CustomizedTables
+                change1h={
+                  coinInfo?.market_data?.price_change_percentage_1h_in_currency
+                    .usd
+                }
+                change24h={coinInfo?.market_data?.price_change_percentage_24h}
+                change7d={coinInfo?.market_data?.price_change_percentage_7d}
+                change30d={coinInfo?.market_data?.price_change_percentage_30d}
+                change1y={coinInfo?.market_data?.price_change_percentage_1y}
+              />
             </Box>
           </Item>
         </Grid>
