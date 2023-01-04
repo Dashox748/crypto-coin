@@ -38,7 +38,7 @@ const SidebarLeft = ({
     })();
   }, []);
   useEffect(() => {
-    if (!down750px) return;
+    if (!sidebarCollapse) return;
     changeSidebar();
   }, [location]);
 
