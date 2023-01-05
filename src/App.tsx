@@ -53,7 +53,7 @@ function App() {
           sx={{
             background: (theme) => theme.palette.background.default,
             overflowY: "auto",
-            padding: down1200px ? "0 0px!important" : "0 0px!important",
+            padding: "0 0px!important",
             scrollbarWidth: "3px",
           }}
         >
@@ -92,7 +92,7 @@ function App() {
                 path="trending"
                 element={
                   <Suspense>
-                    <TrendingCurrencies />
+                    <TrendingCurrencies setFetching={setFetching} />
                   </Suspense>
                 }
               />

@@ -39,14 +39,22 @@ const Topbar = ({ changeSidebar }: TopbarProps) => {
             padding: "15px 0!important",
           }}
         >
-          <Box display="flex" gap="15px" alignItems="center">
-            <Link to="/">
-              <img
-                src={logoDark}
-                alt=""
-                style={{ width: "50px", height: "50px" }}
-              />
-            </Link>
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              gap: "15px",
+              alignItems: "center",
+              textDecoration: "none",
+              color: "white",
+            }}
+          >
+            <img
+              src={logoDark}
+              alt="logo"
+              style={{ width: "50px", height: "50px" }}
+            />
+
             {up700px && (
               <Typography
                 sx={{ fontSize: "calc(1.375rem + 1.3vw)", fontWeight: "700" }}
@@ -54,7 +62,7 @@ const Topbar = ({ changeSidebar }: TopbarProps) => {
                 CryptoCoin
               </Typography>
             )}
-          </Box>
+          </Link>
           <InputBase
             sx={{
               m: 2,
