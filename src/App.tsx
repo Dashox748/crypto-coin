@@ -53,7 +53,7 @@ function App() {
           sx={{
             background: (theme) => theme.palette.background.default,
             overflowY: "auto",
-            padding: down1200px ? "0 0px!important" : "0 13px!important",
+            padding: down1200px ? "0 0px!important" : "0 0px!important",
             scrollbarWidth: "3px",
           }}
         >
@@ -74,7 +74,7 @@ function App() {
           <Container
             maxWidth={false}
             sx={{
-              padding: responsive ? "0 0px!important" : "0 10px!important",
+              padding: responsive ? "0 0px!important" : "0 20px!important",
             }}
           >
             <Routes>

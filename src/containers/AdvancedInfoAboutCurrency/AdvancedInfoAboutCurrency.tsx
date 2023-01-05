@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Typography, Button, Grid } from "@mui/material";
+import { Box, Container, Typography,ButtonGroup, Button, Grid,ToggleButtonGroup,ToggleButton } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { fetchCoin } from "./utils/fetchCoin";
+import { fetchCoin, fetchCoinChartData } from "./utils/fetchCoin";
 import { CoinInfoTypes, FetchCoinTypes } from "./utils/interfaces";
 import createGeneralInfoItem from "./utils/generalInfoItems";
 import Item from "./utils/styled";
@@ -16,34 +16,45 @@ import BasicCurrencyStats from "./utils/basicCurrencyStats";
 import CustomizedTables from "./utils/percentChangeTable";
 
 const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
+    const [alignment, setAlignment] = useState<string>("1");
   const down540px = useResponsive("down", 540);
   const { coin } = useParams<string>();
+  const [coinChartDays,setCoinChartDays] = useState<string>("7");
+  const [coinChartType,setCoinChartType] = useState<string>("prices");
   const [coinData, setCoinData] = useState<any>();
   const [coinInfo, setCoinInfo] = useState<FetchCoinTypes>(
     {} as FetchCoinTypes
   );
+
+  const handleChange = (
+          event: React.MouseEvent<HTMLElement>,
+          newAlignment: string,
+          ) => {
+      if(!newAlignment)return
+      if(newAlignment.length>3){
+          setCoinChartType(newAlignment);
+          return
+      }
+      setCoinChartDays(newAlignment);
+  };
   useEffect(() => {
     setFetching(true);
     (async () => {
       if (coin) {
         setCoinInfo(await fetchCoin(coin));
-        const x = await fetchCoin(coin);
       }
       setFetching(false);
     })();
   }, [coin]);
 
   useEffect(() => {
-    let tempData: any = [];
-    Prices.prices.map((item: any) => {
-      let obj = {
-        date: new Date(item[0]).toLocaleTimeString("sv").slice(0, 5),
-        price: item[1].toFixed(0),
-      };
-      tempData.push(obj);
-    });
-    setCoinData(tempData);
-  }, []);
+      (async () => {
+          if (coin) {
+              setCoinData(await fetchCoinChartData(coin,coinChartDays,coinChartType));
+          }
+      })();
+      }, [coin,coinChartDays,coinChartType]);
+
 
   return (
     <Box width="100%" height="100%">
@@ -145,16 +156,42 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 </Box>
               </Box>
             </Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center" flexDirection={down540px?"column":"row"} padding="0 2rem 20px 3rem" gap="1rem">
+                  <ToggleButtonGroup
+                      color="primary"
+                      value={coinChartType}
+                      exclusive
+                      aria-label="Platform"
+                      onChange={handleChange}
+                      >
+                      <ToggleButton value="prices">Price</ToggleButton>
+                      <ToggleButton value="market_caps">Market Cap</ToggleButton>
+                  </ToggleButtonGroup>
+                  <ToggleButtonGroup
+                      color="primary"
+                      value={coinChartDays}
+                      exclusive
+                      aria-label="Platform"
+                      onChange={handleChange}
+                      >
+                      <ToggleButton value="1">1D</ToggleButton>
+                      <ToggleButton value="7">1W</ToggleButton>
+                      <ToggleButton value="30">1M</ToggleButton>
+                      <ToggleButton value="365">1Y</ToggleButton>
+                      <ToggleButton value="max">All</ToggleButton>
+                  </ToggleButtonGroup>
+              </Box>
             <Container
               maxWidth={false}
               sx={{
                 width: "100%",
                 flexGrow: "1",
-                height: "500px",
+                  height: !down540px?"500px":"400px",
                 padding: "0!important",
               }}
             >
-              <AdvancedChart chartData={coinData} />
+
+                <AdvancedChart chartData={coinData} coinChartDays={coinChartDays} coinChartType={coinChartType}/>
             </Container>
 
             <Box

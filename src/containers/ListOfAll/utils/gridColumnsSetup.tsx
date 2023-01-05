@@ -42,7 +42,7 @@ export const columns: GridColDef[] = [
   {
     field: "Price",
     valueFormatter: ({ value }) =>
-      `$ ${new Intl.NumberFormat("de-DE", {
+      `$ ${new Intl.NumberFormat("en-US", {
         minimumSignificantDigits: 3,
         maximumSignificantDigits: 8,
         maximumFractionDigits: 8,
