@@ -70,7 +70,7 @@ interface market {
   max_supply: number;
   total_supply: number;
   current_price: currency;
-  price_change_percentage_1h: number;
+  price_change_percentage_1h_in_currency: currency;
   price_change_percentage_24h: number;
   price_change_percentage_7d: number;
   price_change_percentage_30d: number;
@@ -89,6 +89,7 @@ export interface FetchCoinTypes {
   coingecko_rank: number;
   links: pages;
   market_data: market;
+  market_cap_rank: number;
 }
 
 export interface CoinDataTypes {
