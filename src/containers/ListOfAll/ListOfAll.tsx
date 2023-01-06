@@ -1,11 +1,13 @@
 import { fetchAllCoins } from "./utils/fetch";
-import React, { Dispatch, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { columns } from "./utils/gridColumnsSetup";
 import { CustomDataGrid } from "./utils/gridDataTheme";
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, Typography } from "@mui/material";
 import { FetchAllCoins, AllCoinsState } from "./utils/interfaces";
 import useResponsive from "../../utils/hooks/useResponsive";
 import Pagination from "@mui/material/Pagination";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const ListOfAll = ({ setFetching }: any) => {
   const [allCoins, setAllCoins] = useState<AllCoinsState[]>([]);
@@ -14,7 +16,11 @@ const ListOfAll = ({ setFetching }: any) => {
   const down600px = useResponsive("up", 600);
   const down450px = useResponsive("up", 600);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [howMayRows, setHowManyRows] = useState<string>("10");
 
+  const handleRowsChange = (event: SelectChangeEvent) => {
+    setHowManyRows(event.target.value);
+  };
   const handleChangeCurrentPage = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -25,7 +31,7 @@ const ListOfAll = ({ setFetching }: any) => {
   useEffect(() => {
     setFetching(true);
     (async () => {
-      const x = await fetchAllCoins(currentPage);
+      const x = await fetchAllCoins(currentPage, howMayRows);
       setAllCoins(
         x.map((coin: FetchAllCoins, index: number) => {
           return {
@@ -49,9 +55,30 @@ const ListOfAll = ({ setFetching }: any) => {
       );
       setFetching(false);
     })();
-  }, [currentPage]);
+  }, [currentPage, howMayRows]);
   return (
     <Box display="flex" flexDirection="column">
+      <Box
+        display="flex"
+        alignItems="center"
+        color="white"
+        gap="1rem"
+        margin="0 4rem 30px auto"
+      >
+        <Typography fontWeight="600">Show Rows:</Typography>
+        <Select
+          displayEmpty
+          inputProps={{ "aria-label": "Without label" }}
+          value={howMayRows}
+          onChange={handleRowsChange}
+          sx={{ width: "80px", height: "50px", borderRadius: "8px" }}
+        >
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={20}>20</MenuItem>
+          <MenuItem value={50}>50</MenuItem>
+          <MenuItem value={100}>100</MenuItem>
+        </Select>
+      </Box>
       <CustomDataGrid
         rows={allCoins}
         columns={columns}
