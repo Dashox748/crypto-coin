@@ -18,7 +18,6 @@ interface xd {
   coinChartType: any;
 }
 const AdvancedChart = ({ chartData, coinChartDays, coinChartType }: xd) => {
-  console.log(coinChartType);
   const down540px = useResponsive("down", 540);
   const [intervalTick, setIntervalTick] = useState<number>(40);
 

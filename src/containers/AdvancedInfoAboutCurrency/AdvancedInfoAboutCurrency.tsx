@@ -7,13 +7,18 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   OutlinedInput,
+  Button,
 } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-
+import Collapse from "@mui/material/Collapse";
+import parse from "html-react-parser";
 import { useParams } from "react-router-dom";
 import { fetchCoin, fetchCoinChartData } from "./utils/fetchCoin";
 import { CoinInfoTypes, FetchCoinTypes } from "./utils/interfaces";
-import createGeneralInfoItem from "./utils/generalInfoItems";
+import {
+  createGeneralInfoItem,
+  createCoinStatsItem,
+} from "./utils/generalInfoItems";
 import Item from "./utils/styled";
 import { CoinDataTypes } from "./utils/interfaces";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -22,8 +27,9 @@ import useResponsive from "../../utils/hooks/useResponsive";
 import AdvancedChart from "./utils/advancedChart";
 import BasicCurrencyStats from "./utils/basicCurrencyStats";
 import CustomizedTables from "./utils/percentChangeTable";
-
+import changeFormat from "../../utils/hooks/changeFormat";
 const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
+  const [showAbout, setShowAbout] = useState(false);
   const down540px = useResponsive("down", 540);
   const { coin } = useParams<string>();
   const [coinChartDays, setCoinChartDays] = useState<string>("7");
@@ -67,14 +73,16 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
   }, [coin, coinChartDays, coinChartType]);
 
   const handleCurrencyInput = (value: any) => {
+    if (isNaN(value)) return;
     setCurrencyValue(value);
     if (!value) {
       setCryptoValue("");
       return;
     }
-    setCryptoValue(value * coinInfo?.market_data?.current_price.usd);
+    setCryptoValue(value / coinInfo?.market_data?.current_price.usd);
   };
   const handleCryptoInput = (value: any) => {
+    if (isNaN(value)) return;
     setCryptoValue(value);
     if (!value) {
       setCurrencyValue("");
@@ -88,7 +96,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
         <Grid item xs={17} md={17} lg={12}>
           <Item
             sx={{
-              height: "100%",
               display: "flex",
               flexDirection: "column",
             }}
@@ -106,7 +113,8 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 />
                 <Typography
                   variant={down540px ? "h4" : "h3"}
-                  sx={{ color: "white", fontWeight: "600" }}
+                  color="white"
+                  fontWeight="600"
                 >
                   {coinInfo?.name}
                 </Typography>
@@ -119,19 +127,18 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 <Typography variant={down540px ? "h5" : "h4"}>Price</Typography>
                 <Typography
                   variant={down540px ? "h5" : "h4"}
-                  sx={{ color: "white", fontWeight: "600" }}
+                  color="white"
+                  fontWeight="600"
                 >
                   ${coinInfo?.market_data?.current_price.usd}
                 </Typography>
                 <Typography
                   variant="h5"
-                  sx={{
-                    color:
-                      coinInfo?.market_data?.price_change_percentage_24h > 0
-                        ? "rgb(0, 224, 142)"
-                        : "red",
-                    fontWeight: "500",
-                  }}
+                  color={
+                    coinInfo?.market_data?.price_change_percentage_24h > 0
+                      ? "rgb(0, 224, 142)"
+                      : "red"
+                  }
                 >
                   {coinInfo?.market_data?.price_change_percentage_24h.toFixed(
                     2
@@ -165,11 +172,7 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                     marginBottom: "5px",
                   }}
                 />
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  marginBottom="25px"
-                >
+                <Box display="flex" justifyContent="space-between">
                   <Typography sx={{ color: "white", fontWeight: "600" }}>
                     ${coinInfo?.market_data?.low_24h.usd}
                   </Typography>
@@ -194,7 +197,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 color="primary"
                 value={coinChartType}
                 exclusive
-                aria-label="Platform"
                 onChange={handleChange}
               >
                 <ToggleButton value="prices">Price</ToggleButton>
@@ -204,7 +206,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 color="primary"
                 value={coinChartDays}
                 exclusive
-                aria-label="Platform"
                 onChange={handleChange}
               >
                 <ToggleButton value="1">1D</ToggleButton>
@@ -217,8 +218,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
             <Container
               maxWidth={false}
               sx={{
-                width: "100%",
-                flexGrow: "1",
                 height: !down540px ? "500px" : "400px",
                 padding: "0!important",
               }}
@@ -229,7 +228,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 coinChartType={coinChartType}
               />
             </Container>
-
             <Box
               padding={down540px ? "0" : "1rem"}
               display="flex"
@@ -280,6 +278,53 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
             {createGeneralInfoItem("Comunity", "Reddit")}
             {createGeneralInfoItem("Homepage", "www.bitcoin.org")}
             {createGeneralInfoItem("Blockchains", "blockchair.com")}
+            <Typography sx={{ marginRight: "auto" }}>
+              Last Updated: {new Date().toLocaleTimeString("en-US")}
+            </Typography>
+          </Item>
+          <Item
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              padding: "20px",
+            }}
+          >
+            <Typography variant="h5" color="white">
+              Coin Statistics
+            </Typography>
+            {createCoinStatsItem(
+              "FDV",
+              `$ ${changeFormat(
+                coinInfo?.market_data?.fully_diluted_valuation?.usd,
+                12
+              )}`
+            )}
+            {createCoinStatsItem(
+              "From ATH",
+              `${changeFormat(
+                coinInfo?.market_data?.ath_change_percentage?.usd,
+                3
+              )} %`
+            )}
+            {createCoinStatsItem(
+              "From ATL",
+              `${changeFormat(
+                coinInfo?.market_data?.atl_change_percentage?.usd,
+                8
+              )} %`
+            )}
+            {createCoinStatsItem(
+              "Total Volume",
+              `$ ${changeFormat(coinInfo?.market_data?.total_volume?.usd, 12)}`
+            )}
+            {/* <Button
+              onClick={() => {
+                console.log(coinInfo);
+              }}
+            >
+              coinInfo
+            </Button> */}
           </Item>
           <Item
             sx={{
@@ -308,6 +353,32 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 </InputAdornment>
               }
             />
+          </Item>
+        </Grid>
+        <Grid item xs={17} md={17} lg={12}>
+          <Item
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              paddingBottom: "30px",
+              marginBottom: "50px",
+            }}
+          >
+            <Typography variant="h2" color="white">
+              About {coinInfo?.name}
+            </Typography>
+            <Collapse in={showAbout} collapsedSize={80}>
+              <Typography variant="h6">
+                {parse(coinInfo && `<div>${coinInfo?.description?.en}</div>`)}
+              </Typography>
+            </Collapse>
+            <Button
+              variant="contained"
+              onClick={() => setShowAbout(!showAbout)}
+              sx={{ width: "90px", marginLeft: "auto", marginRight: "30px" }}
+            >
+              {showAbout ? "Collapse" : "Expand"}
+            </Button>
           </Item>
         </Grid>
       </Grid>

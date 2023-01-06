@@ -1,6 +1,6 @@
 import { Box, Container, Typography, Button } from "@mui/material";
 
-const createGeneralInfoItem = (name: string, buttonName: string) => {
+export const createGeneralInfoItem = (name: string, buttonName: string) => {
   return (
     <Box display="flex" gap="15px" alignItems="center">
       <Typography color="white">{name}: </Typography>
@@ -16,4 +16,21 @@ const createGeneralInfoItem = (name: string, buttonName: string) => {
   );
 };
 
-export default createGeneralInfoItem;
+export const createCoinStatsItem = (
+  name: string,
+  buttonName: number | string
+) => {
+  return (
+    <Box
+      display="flex"
+      gap="15px"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <Typography fontWeight="600">{name}: </Typography>
+      <Typography color="white" fontWeight="600" variant="subtitle1">
+        {buttonName}
+      </Typography>
+    </Box>
+  );
+};

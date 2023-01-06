@@ -78,6 +78,10 @@ interface market {
   market_cap: currency;
   high_24h: currency;
   low_24h: currency;
+  fully_diluted_valuation: currency;
+  total_volume: currency;
+  ath_change_percentage: currency;
+  atl_change_percentage: currency;
 }
 
 export interface FetchCoinTypes {

@@ -12,7 +12,6 @@ export const fetchCoinChartData = async (
   days: string,
   coinChartType: string
 ) => {
-  console.log(coinChartType);
   const whichFormat = (item: any) => {
     if (days === "1") {
       return new Date(item).toLocaleTimeString("sv").slice(0, 5);
