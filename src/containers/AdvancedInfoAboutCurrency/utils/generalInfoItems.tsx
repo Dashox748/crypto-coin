@@ -1,14 +1,23 @@
 import { Box, Container, Typography, Button } from "@mui/material";
 
-export const createGeneralInfoItem = (name: string, buttonName: string) => {
+export const createGeneralInfoItem = (
+  name: string,
+  buttonName: string,
+  link: string
+) => {
   return (
     <Box display="flex" gap="15px" alignItems="center">
       <Typography color="white">{name}: </Typography>
       <Button
+        color="secondary"
         size="small"
-        disabled
         variant="contained"
         sx={{ textTransform: "none" }}
+        onClick={() =>
+          link !== "none"
+            ? window.open(link, "_blank", "noopener,noreferrer")
+            : ""
+        }
       >
         {buttonName}
       </Button>

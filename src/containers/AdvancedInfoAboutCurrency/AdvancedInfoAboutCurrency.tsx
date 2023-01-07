@@ -90,6 +90,12 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
     }
     setCurrencyValue(coinInfo?.market_data?.current_price.usd / value);
   };
+
+  function get_domain_from_url(url: any) {
+    let a = document.createElement("a");
+    a.href = url;
+    return a.hostname;
+  }
   return (
     <Box width="100%" height="100%">
       <Grid container spacing={{ xs: 5, md: 5, lg: 3, xl: 5 }} columns={17}>
@@ -273,11 +279,23 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
             <Typography variant="h5" color="white">
               General Info
             </Typography>
-            {createGeneralInfoItem("Rank", "1")}
-            {createGeneralInfoItem("Categories", "Cryptocurrency")}
-            {createGeneralInfoItem("Comunity", "Reddit")}
-            {createGeneralInfoItem("Homepage", "www.bitcoin.org")}
-            {createGeneralInfoItem("Blockchains", "blockchair.com")}
+            {createGeneralInfoItem("Rank", coinInfo?.coingecko_rank, "none")}
+            {createGeneralInfoItem("Categories", "Cryptocurrency", "none")}
+            {createGeneralInfoItem(
+              "Comunity",
+              "Reddit",
+              coinInfo?.links?.subreddit_url
+            )}
+            {createGeneralInfoItem(
+              "Homepage",
+              get_domain_from_url(coinInfo?.links?.homepage[0]),
+              coinInfo?.links?.homepage[0]
+            )}
+            {createGeneralInfoItem(
+              "Blockchains",
+              get_domain_from_url(coinInfo?.links?.blockchain_site[0]),
+              coinInfo?.links?.blockchain_site[0]
+            )}
             <Typography sx={{ marginRight: "auto" }}>
               Last Updated: {new Date().toLocaleTimeString("en-US")}
             </Typography>
@@ -318,13 +336,15 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
               "Total Volume",
               `$ ${changeFormat(coinInfo?.market_data?.total_volume?.usd, 12)}`
             )}
-            {/* <Button
-              onClick={() => {
-                console.log(coinInfo);
-              }}
-            >
-              coinInfo
-            </Button> */}
+            {
+              // <Button
+              //   onClick={() => {
+              //     console.log(coinInfo);
+              //   }}
+              // >
+              //   coinInfo
+              // </Button>
+            }
           </Item>
           <Item
             sx={{

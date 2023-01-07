@@ -18,7 +18,6 @@ const TrendingCurrencies = ({ setFetching }: any) => {
     setFetching(true);
     (async () => {
       const x = await fetchAllCoins();
-      console.log(x);
       setAllCoins(
         x.map((coin: FetchAllCoins, index: number) => {
           return {

@@ -90,7 +90,7 @@ export interface FetchCoinTypes {
   symbol: string;
   image: image;
   description: language;
-  coingecko_rank: number;
+  coingecko_rank: string;
   links: pages;
   market_data: market;
   market_cap_rank: number;
