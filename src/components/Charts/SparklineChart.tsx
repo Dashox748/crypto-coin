@@ -24,7 +24,6 @@ const SparklineChart = ({ sparkLineData }: any) => {
     setFinalData(tempData);
   }, []);
 
-  console.log(sparkLineData);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart width={300} height={100} data={finalData}>

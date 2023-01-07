@@ -336,15 +336,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
               "Total Volume",
               `$ ${changeFormat(coinInfo?.market_data?.total_volume?.usd, 12)}`
             )}
-            {
-              // <Button
-              //   onClick={() => {
-              //     console.log(coinInfo);
-              //   }}
-              // >
-              //   coinInfo
-              // </Button>
-            }
           </Item>
           <Item
             sx={{
