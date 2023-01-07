@@ -1,26 +1,53 @@
-import { Sparklines, SparklinesLine } from "react-sparklines";
+import { useEffect, useState } from "react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+} from "recharts";
 
 const SparklineChart = ({ sparkLineData }: any) => {
+  const [finalData, setFinalData] = useState<any>();
+  useEffect(() => {
+    let tempData: any = [];
+    sparkLineData.sparkline.price.map((item: any) => {
+      let obj = {
+        price: Number(item),
+      };
+      tempData.push(obj);
+    });
+    setFinalData(tempData);
+  }, []);
+
+  console.log(sparkLineData);
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Sparklines
-        data={sparkLineData.sparkline?.price}
-        style={{ width: "100%", height: "65px" }}
-      >
-        <SparklinesLine
-          color={sparkLineData?.change < 0 ? "#dc3545" : "green"}
-          style={{ fill: "none", strokeWidth: "3px" }}
+    <ResponsiveContainer width="100%" height="100%">
+      <LineChart width={300} height={100} data={finalData}>
+        <YAxis
+          hide
+          domain={[
+            finalData?.reduce(function (prev: number, curr: any) {
+              return prev < curr?.price ? prev : curr?.price;
+            }),
+            finalData?.reduce(function (prev: number, curr: any) {
+              return prev > curr?.price ? prev : curr?.price;
+            }),
+          ]}
         />
-      </Sparklines>
-    </div>
+        <Line
+          dot={false}
+          type="monotone"
+          dataKey="price"
+          stroke={sparkLineData.change > 0 ? "green" : "#dc3545"}
+          strokeWidth={2}
+        />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };
 

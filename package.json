@@ -22,7 +22,6 @@
     "react-firebase-hooks": "^5.1.1",
     "react-pro-sidebar": "^1.0.0-alpha.9",
     "react-router-dom": "^6.4.5",
-    "react-sparklines": "^1.7.0",
     "recharts": "^2.2.0"
   },
   "devDependencies": {
