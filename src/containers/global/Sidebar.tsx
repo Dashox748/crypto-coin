@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Sidebar, Menu, MenuItem, menuClasses } from "react-pro-sidebar";
-import { createSubMenu, createMenuItem } from "./utils/SidebarMenus";
+import { createSubMenu, createMenuItem } from "./utils/createSidebarMenus";
 import { useLocation } from "react-router-dom";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -13,6 +13,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import ChatIcon from "@mui/icons-material/Chat";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import CloseIcon from "@mui/icons-material/Close";
+import TopbarMenu from "./utils/TopbarMenu";
 
 import { fetchMostPopularCrypto } from "./utils/fetch";
 import { fetchCoins } from "./utils/interfaces";
@@ -97,6 +98,7 @@ const SidebarLeft = ({
                 </IconButton>
               </Box>
             </MenuItem>
+            {down750px && <TopbarMenu />}
             {createMenuItem(<ListAltIcon />, "List Of All", "listOfAll", theme)}
             {createSubMenu(<WhatshotIcon />, "Most Popular", [
               mostPopular.map((item: fetchCoins) =>

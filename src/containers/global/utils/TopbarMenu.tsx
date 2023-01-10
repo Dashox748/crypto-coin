@@ -5,6 +5,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { lazy, useState, Suspense } from "react";
+import useResponsive from "../../../utils/hooks/useResponsive";
 
 const LoginForm = lazy(() => import("../../../components/Forms/LoginForm"));
 const RegisterForm = lazy(
@@ -13,10 +14,12 @@ const RegisterForm = lazy(
 import { IconButton, Typography, Button, Box } from "@mui/material";
 
 const TopbarMenu = () => {
+  const down750px = useResponsive("down", 750);
+
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [user] = useAuthState(auth);
-  const [showLogin, setShowLogin] = useState<boolean>(false);
-  const [showRegister, setShowRegister] = useState<boolean>(false);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [showRegisterModal, setShowRegisterModal] = useState<boolean>(false);
   const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -71,41 +74,51 @@ const TopbarMenu = () => {
         </>
       ) : (
         <>
-          <Box>
-            <Button
-              variant="outlined"
-              sx={{
-                fontWeight: "600",
-                textTransform: "none",
-                fontSize: "15px",
-              }}
-              onClick={() => setShowLogin(!showLogin)}
-            >
-              Login
-            </Button>
-            {showLogin && (
-              <Suspense>
-                <LoginForm setShowLogin={setShowLogin} />
-              </Suspense>
-            )}
-          </Box>
-          <Box>
-            <Button
-              variant="contained"
-              sx={{
-                fontWeight: "600",
-                textTransform: "none",
-                fontSize: "15px",
-              }}
-              onClick={() => setShowRegister(!showRegister)}
-            >
-              Sign-up
-            </Button>
-            {showRegister && (
-              <Suspense>
-                <RegisterForm setShowRegister={setShowRegister} />
-              </Suspense>
-            )}
+          <Box
+            display="flex"
+            gap="1rem"
+            paddingX={down750px ? "20px" : "0"}
+            marginBottom={down750px ? "30px" : "0"}
+          >
+            <Box flex="1">
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{
+                  fontWeight: "600",
+                  textTransform: "none",
+                  fontSize: "15px",
+                }}
+                onClick={() => setShowLoginModal(!showLoginModal)}
+              >
+                Login
+              </Button>
+              {showLoginModal && (
+                <Suspense>
+                  <LoginForm setShowLoginModal={setShowLoginModal} />
+                </Suspense>
+              )}
+            </Box>
+            <Box flex="1">
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{
+                  fontWeight: "600",
+                  textTransform: "none",
+                  fontSize: "15px",
+                  minWidth: "94px",
+                }}
+                onClick={() => setShowRegisterModal(!showRegisterModal)}
+              >
+                Sign-up
+              </Button>
+              {showRegisterModal && (
+                <Suspense>
+                  <RegisterForm setShowRegisterModal={setShowRegisterModal} />
+                </Suspense>
+              )}
+            </Box>
           </Box>
         </>
       )}

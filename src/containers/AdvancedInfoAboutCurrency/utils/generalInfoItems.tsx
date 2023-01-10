@@ -1,13 +1,13 @@
-import { Box, Container, Typography, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 
 export const createGeneralInfoItem = (
-  name: string,
-  buttonName: string,
+  infoName: string,
+  infoValue: string,
   link: string
 ) => {
   return (
     <Box display="flex" gap="15px" alignItems="center">
-      <Typography color="white">{name}: </Typography>
+      <Typography color="white">{infoName}: </Typography>
       <Button
         color="secondary"
         size="small"
@@ -19,15 +19,15 @@ export const createGeneralInfoItem = (
             : ""
         }
       >
-        {buttonName}
+        {infoValue}
       </Button>
     </Box>
   );
 };
 
 export const createCoinStatsItem = (
-  name: string,
-  buttonName: number | string
+  statName: string,
+  statValue: number | string
 ) => {
   return (
     <Box
@@ -36,9 +36,9 @@ export const createCoinStatsItem = (
       alignItems="center"
       justifyContent="space-between"
     >
-      <Typography fontWeight="600">{name}: </Typography>
+      <Typography fontWeight="600">{statName}: </Typography>
       <Typography color="white" fontWeight="600" variant="subtitle1">
-        {buttonName}
+        {statValue}
       </Typography>
     </Box>
   );

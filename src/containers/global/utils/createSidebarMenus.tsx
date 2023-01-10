@@ -1,7 +1,7 @@
 import { ReactNode, useState, lazy, Suspense } from "react";
 import { MenuItem, menuClasses, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import { auth, logout } from "../../../firebase";
+import { auth } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 const LoginForm = lazy(() => import("../../../components/Forms/LoginForm"));
 
@@ -37,7 +37,7 @@ export const createSubMenu = (
   items: ReactNode
 ) => {
   const [user] = useAuthState(auth);
-  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   return (
     <SubMenu
       icon={subMenuIcon}
@@ -53,13 +53,13 @@ export const createSubMenu = (
         },
       }}
       onClick={() =>
-        label === "Favourite" && user === null && setShowLogin(true)
+        label === "Favourite" && user === null && setShowLoginModal(true)
       }
     >
       {items}
-      {showLogin && (
+      {showLoginModal && (
         <Suspense>
-          <LoginForm setShowLogin={setShowLogin} />
+          <LoginForm setShowLoginModal={setShowLoginModal} />
         </Suspense>
       )}
     </SubMenu>

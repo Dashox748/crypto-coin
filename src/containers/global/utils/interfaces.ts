@@ -31,7 +31,6 @@ export interface SidebarProps {
   changeTheme: () => void;
   collapseSidebar: () => void;
   changeSidebar: () => void;
-
   collapsed: boolean;
   sidebarCollapse: boolean;
 }

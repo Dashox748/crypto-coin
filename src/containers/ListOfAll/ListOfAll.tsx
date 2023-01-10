@@ -1,5 +1,5 @@
 import { fetchAllCoins } from "./utils/fetch";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { columns } from "./utils/gridColumnsSetup";
 import { CustomDataGrid } from "./utils/gridDataTheme";
 import { Box, useTheme, Typography } from "@mui/material";
@@ -8,8 +8,9 @@ import useResponsive from "../../utils/hooks/useResponsive";
 import Pagination from "@mui/material/Pagination";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import {FetchState} from "./utils/interfaces"
 
-const ListOfAll = ({ setFetching }: any) => {
+const ListOfAll = ({ setFetching }: FetchState) => {
   const [allCoins, setAllCoins] = useState<AllCoinsState[]>([]);
   const down1000px = useResponsive("up", 1000);
   const down750px = useResponsive("up", 750);

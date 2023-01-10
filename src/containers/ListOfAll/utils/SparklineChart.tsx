@@ -1,23 +1,14 @@
 import { useEffect, useState } from "react";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-} from "recharts";
+import { YAxis, ResponsiveContainer, LineChart, Line } from "recharts";
+import { sparkLineChartInterface, sparkLineDomain } from "./interfaces";
 
-const SparklineChart = ({ sparkLineData }: any) => {
+const SparklineChart = ({ sparkLineData }: sparkLineChartInterface) => {
   const [finalData, setFinalData] = useState<any>();
   useEffect(() => {
     let tempData: any = [];
-    sparkLineData.sparkline.price.map((item: any) => {
+    sparkLineData.sparkline.price.map((item: number) => {
       let obj = {
-        price: Number(item),
+        price: item,
       };
       tempData.push(obj);
     });
@@ -30,10 +21,10 @@ const SparklineChart = ({ sparkLineData }: any) => {
         <YAxis
           hide
           domain={[
-            finalData?.reduce(function (prev: number, curr: any) {
+            finalData?.reduce(function (prev: number, curr: sparkLineDomain) {
               return prev < curr?.price ? prev : curr?.price;
             }),
-            finalData?.reduce(function (prev: number, curr: any) {
+            finalData?.reduce(function (prev: number, curr: sparkLineDomain) {
               return prev > curr?.price ? prev : curr?.price;
             }),
           ]}

@@ -7,6 +7,11 @@ export const fetchCoin = async (coin: string): Promise<FetchCoinTypes> => {
     .then((res: AxiosResponse) => res.data);
 };
 
+type GetUsersResponse = {
+  market_caps: number[][];
+  prices: number[][];
+  total_volume: number[][];
+};
 export const fetchCoinChartData = async (
   coin: string,
   days: string,
@@ -29,22 +34,34 @@ export const fetchCoinChartData = async (
       return new Date(item).toLocaleString("sv").slice(0, 4);
     }
   };
-  return await axios
-    .get(
-      `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=${days}`
-    )
-    .then((res: AxiosResponse) => {
-      const fixed = res.data.prices[res.data.prices.length - 1][1] >= 2 ? 0 : 4;
-      const what =
-        coinChartType === "prices" ? res.data.prices : res.data.market_caps;
-      let tempData: any = [];
-      what.map((item: any) => {
-        let obj = {
-          date: whichFormat(item[0]),
-          price: Number(item[1]?.toFixed(fixed)),
-        };
-        tempData.push(obj);
-      });
-      return tempData;
+  try {
+    const { data, status } = await axios.get<GetUsersResponse>(
+      `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=${days}`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+    const fixed: number = data.prices[data.prices.length - 1][1] >= 2 ? 0 : 4;
+    const chartTypeData =
+      coinChartType === "prices" ? data.prices : data.market_caps;
+    let tempData: any = [];
+    chartTypeData.map((item: number[]) => {
+      let obj = {
+        date: whichFormat(item[0]),
+        price: Number(item[1]?.toFixed(fixed)),
+      };
+      tempData.push(obj);
     });
+    return tempData;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("error message: ", error.message);
+      return error.message;
+    } else {
+      console.log("unexpected error: ", error);
+      return "An unexpected error occurred";
+    }
+  }
 };

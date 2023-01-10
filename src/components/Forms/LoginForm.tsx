@@ -1,28 +1,38 @@
 import { FormEvent, useState } from "react";
-import { ThemeProvider } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import TextField from "@mui/material/TextField";
-import { Box, Typography } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import GoogleIcon from "@mui/icons-material/Google";
-import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
-import { IconButton } from "@mui/material";
 import {
   signInWithFacebook,
   signInWithGithub,
   signInWithGoogle,
   logInWithEmailAndPassword,
 } from "../../firebase";
-import { formTheme } from "./utils/muiThemes";
-import { LoginFormTypes, LoginFormErrorTypes } from "./utils/interfaces";
+import {
+  Box,
+  Typography,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Button,
+  Dialog,
+  IconButton,
+  TextField,
+} from "@mui/material";
+
+import { ThemeProvider } from "@mui/material/styles";
+
+import GitHubIcon from "@mui/icons-material/GitHub";
+import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
+import GoogleIcon from "@mui/icons-material/Google";
+import CloseIcon from "@mui/icons-material/Close";
+
+import { styledFormItems } from "./utils/styledFormItems";
+import {
+  LoginFormTypes,
+  LoginFormErrorTypes,
+  LoginState,
+} from "./utils/interfaces";
 import { validateLogin } from "./utils/validation";
 
-const LoginForm = ({ setShowLogin }: any) => {
+const LoginForm = ({ setShowLoginModal }: LoginState) => {
   const [loginForm, setLoginForm] = useState<LoginFormTypes>(
     {} as LoginFormTypes
   );
@@ -30,8 +40,8 @@ const LoginForm = ({ setShowLogin }: any) => {
     {} as LoginFormErrorTypes
   );
 
-  const handleClose = () => {
-    setShowLogin(false);
+  const handleCloseLoginModal = () => {
+    setShowLoginModal(false);
   };
 
   const handleSubmit = async (event: FormEvent) => {
@@ -47,7 +57,11 @@ const LoginForm = ({ setShowLogin }: any) => {
   };
   return (
     <div>
-      <Dialog open={true} onClose={handleClose} sx={{ margin: "auto" }}>
+      <Dialog
+        open={true}
+        onClose={handleCloseLoginModal}
+        sx={{ margin: "auto" }}
+      >
         <DialogContent sx={{ background: "rgb(49, 53, 63)" }}>
           <DialogTitle
             variant="h4"
@@ -61,7 +75,7 @@ const LoginForm = ({ setShowLogin }: any) => {
           >
             Login
             <DialogActions>
-              <IconButton size="small" onClick={handleClose}>
+              <IconButton size="small" onClick={handleCloseLoginModal}>
                 <CloseIcon
                   sx={{ color: "gray", height: "30px", width: "30px" }}
                 />
@@ -72,7 +86,7 @@ const LoginForm = ({ setShowLogin }: any) => {
             style={{ display: "flex", flexDirection: "column", gap: "15px" }}
             onSubmit={(event) => handleSubmit(event)}
           >
-            <ThemeProvider theme={formTheme}>
+            <ThemeProvider theme={styledFormItems}>
               <TextField
                 placeholder="Email"
                 helperText={

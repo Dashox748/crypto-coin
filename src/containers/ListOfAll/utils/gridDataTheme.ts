@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 
-export const CustomDataGrid = styled(DataGrid)((background: any) => ({
+export const CustomDataGrid = styled(DataGrid)(() => ({
   border: 0,
   color: "white",
   fontSize: "16px",

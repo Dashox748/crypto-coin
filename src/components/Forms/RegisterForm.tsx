@@ -1,28 +1,35 @@
 import { FormEvent, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import TextField from "@mui/material/TextField";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Typography,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Button,
+  Dialog,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import GoogleIcon from "@mui/icons-material/Google";
 import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
-import { IconButton } from "@mui/material";
 import {
   signInWithFacebook,
   signInWithGithub,
   signInWithGoogle,
   registerWithEmailAndPassword,
 } from "../../firebase";
-import { formTheme } from "./utils/muiThemes";
-import { RegisterFormTypes, RegisterFormErrorTypes } from "./utils/interfaces";
+import { styledFormItems } from "./utils/styledFormItems";
+import {
+  RegisterFormTypes,
+  RegisterFormErrorTypes,
+  RegisterState,
+} from "./utils/interfaces";
 import { validateRegister } from "./utils/validation";
 
-const RegisterForm = ({ setShowRegister }: any) => {
+const RegisterForm = ({ setShowRegisterModal }: RegisterState) => {
   const [registerForm, setRegisterForm] = useState<RegisterFormTypes>(
     {} as RegisterFormTypes
   );
@@ -30,7 +37,7 @@ const RegisterForm = ({ setShowRegister }: any) => {
     {} as RegisterFormErrorTypes
   );
   const handleClose = () => {
-    setShowRegister(false);
+    setShowRegisterModal(false);
   };
 
   const handleSubmit = async (event: FormEvent) => {
@@ -79,7 +86,7 @@ const RegisterForm = ({ setShowRegister }: any) => {
             style={{ display: "flex", flexDirection: "column", gap: "15px" }}
             onSubmit={(event) => handleSubmit(event)}
           >
-            <ThemeProvider theme={formTheme}>
+            <ThemeProvider theme={styledFormItems}>
               <TextField
                 placeholder="Username"
                 helperText={

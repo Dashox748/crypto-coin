@@ -27,3 +27,24 @@ export interface AllCoinsState {
     change: number;
   };
 }
+
+// Sparkline
+
+interface price {
+  price: number[];
+}
+interface sparkLineData {
+  sparkline: price;
+  change: number;
+}
+export interface sparkLineChartInterface {
+  sparkLineData: sparkLineData;
+}
+
+export interface sparkLineDomain {
+  price: number;
+}
+
+export interface FetchState {
+    setFetching: (value: boolean) => void;
+}

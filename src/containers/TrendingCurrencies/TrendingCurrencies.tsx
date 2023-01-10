@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { columns } from "../ListOfAll/utils/gridColumnsSetup";
 import { CustomDataGrid } from "../ListOfAll/utils/gridDataTheme";
 import { Box, useTheme } from "@mui/material";

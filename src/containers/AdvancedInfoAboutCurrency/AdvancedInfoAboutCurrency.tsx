@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import {
   Box,
   Container,
@@ -8,9 +8,12 @@ import {
   ToggleButton,
   OutlinedInput,
   Button,
+  InputAdornment,
+  Collapse,
+  LinearProgress,
 } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
-import Collapse from "@mui/material/Collapse";
+import { auth } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import parse from "html-react-parser";
 import { useParams } from "react-router-dom";
 import { fetchCoin, fetchCoinChartData } from "./utils/fetchCoin";
@@ -20,15 +23,17 @@ import {
   createCoinStatsItem,
 } from "./utils/generalInfoItems";
 import Item from "./utils/styled";
-import { CoinDataTypes } from "./utils/interfaces";
-import LinearProgress from "@mui/material/LinearProgress";
-import StarIcon from "@mui/icons-material/Star";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import useResponsive from "../../utils/hooks/useResponsive";
 import AdvancedChart from "./utils/advancedChart";
 import BasicCurrencyStats from "./utils/basicCurrencyStats";
 import CustomizedTables from "./utils/percentChangeTable";
 import changeFormat from "../../utils/hooks/changeFormat";
+const LoginForm = lazy(() => import("../../components/Forms/LoginForm"));
+
 const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [user] = useAuthState(auth);
   const [showAbout, setShowAbout] = useState(false);
   const down540px = useResponsive("down", 540);
   const { coin } = useParams<string>();
@@ -98,6 +103,11 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
   }
   return (
     <Box width="100%" height="100%">
+      {showLoginModal && (
+        <Suspense>
+          <LoginForm setShowLoginModal={setShowLoginModal} />
+        </Suspense>
+      )}
       <Grid container spacing={{ xs: 5, md: 5, lg: 3, xl: 5 }} columns={17}>
         <Grid item xs={17} md={17} lg={12}>
           <Item
@@ -127,7 +137,10 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 <Typography variant="h5">
                   {coinInfo?.symbol?.toUpperCase()}
                 </Typography>
-                <StarIcon sx={{ color: "orange" }} />
+                <StarOutlineIcon
+                  sx={{ color: "orange", cursor: "pointer" }}
+                  onClick={() => user === null && setShowLoginModal(true)}
+                />
               </Box>
               <Box display="flex" alignItems="center" gap="15px">
                 <Typography variant={down540px ? "h5" : "h4"}>Price</Typography>
@@ -315,6 +328,7 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
               "FDV",
               `$ ${changeFormat(
                 coinInfo?.market_data?.fully_diluted_valuation?.usd,
+                3,
                 12
               )}`
             )}
@@ -322,20 +336,27 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
               "From ATH",
               `${changeFormat(
                 coinInfo?.market_data?.ath_change_percentage?.usd,
-                3
+                3,
+                4
               )} %`
             )}
             {createCoinStatsItem(
               "From ATL",
               `${changeFormat(
                 coinInfo?.market_data?.atl_change_percentage?.usd,
+                3,
                 8
               )} %`
             )}
             {createCoinStatsItem(
               "Total Volume",
-              `$ ${changeFormat(coinInfo?.market_data?.total_volume?.usd, 12)}`
+              `$ ${changeFormat(
+                coinInfo?.market_data?.total_volume?.usd,
+                3,
+                12
+              )}`
             )}
+            <Button onClick={() => console.log(coinInfo)}> no elo</Button>
           </Item>
           <Item
             sx={{

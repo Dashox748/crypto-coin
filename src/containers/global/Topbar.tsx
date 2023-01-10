@@ -1,20 +1,25 @@
-import { Box, Typography, Container, useTheme } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import {
+  Box,
+  Typography,
+  Container,
+  useTheme,
+  AppBar,
+  Toolbar,
+  InputBase,
+} from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
-import InputBase from "@mui/material/InputBase";
 import { Link } from "react-router-dom";
 
 import useResponsive from "../../utils/hooks/useResponsive";
 import { TopbarProps } from "./utils/interfaces";
-
-import logoDark from "../../assets/logo-dark.png";
 import TopbarMenu from "./utils/TopbarMenu";
+
 import IconButton from "@mui/material/IconButton";
+import logoDark from "../../assets/logo-dark.png";
 
 const Topbar = ({ changeSidebar }: TopbarProps) => {
   const theme = useTheme();
-
   const up700px = useResponsive("up", 800);
   const up750px = useResponsive("up", 751);
   return (

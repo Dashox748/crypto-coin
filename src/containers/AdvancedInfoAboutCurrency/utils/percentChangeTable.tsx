@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -28,7 +27,7 @@ export default function CustomizedTables({
   }));
   return (
     <TableContainer>
-      <Table aria-label="customized table">
+      <Table>
         <TableHead>
           <TableRow>
             <StyledTableCell align="center">1h</StyledTableCell>

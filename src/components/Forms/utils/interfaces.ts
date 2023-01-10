@@ -21,3 +21,10 @@ export interface RegisterFormErrorTypes {
 
   valid: boolean;
 }
+
+export interface LoginState {
+  setShowLoginModal: (value: boolean) => void;
+}
+export interface RegisterState {
+  setShowRegisterModal: (value: boolean) => void;
+}

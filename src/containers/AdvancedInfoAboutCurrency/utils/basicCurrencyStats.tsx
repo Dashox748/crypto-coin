@@ -56,7 +56,7 @@ const BasicCurrencyStats = ({
             fontWeight: "500",
           }}
         >
-          ${changeFormat(marketCap, 12)}
+          ${changeFormat(marketCap, 3, 12)}
         </Typography>
       </Box>
       <Box>
@@ -76,7 +76,7 @@ const BasicCurrencyStats = ({
             fontWeight: "500",
           }}
         >
-          {changeFormat(circulatingSupply, 12)} {symbol?.toUpperCase()}
+          {changeFormat(circulatingSupply, 3, 12)} {symbol?.toUpperCase()}
         </Typography>
       </Box>
       <Box>
@@ -97,7 +97,7 @@ const BasicCurrencyStats = ({
             width: "auto",
           }}
         >
-          {changeFormat(totalSupply, 12)} {symbol?.toUpperCase()}
+          {changeFormat(totalSupply, 3, 12)} {symbol?.toUpperCase()}
         </Typography>
       </Box>
     </Box>

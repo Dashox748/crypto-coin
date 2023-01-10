@@ -1,14 +1,10 @@
-import "./App.css";
-import SidebarLeft from "./containers/global/Sidebar";
-import Topbar from "./containers/global/Topbar";
-import { Route, Routes } from "react-router-dom";
-import { Box, Container } from "@mui/material";
 import { useState, lazy, Suspense } from "react";
-import ListOfAll from "./containers/ListOfAll/ListOfAll";
-import useResponsive from "./utils/hooks/useResponsive";
-import LinearProgress from "@mui/material/LinearProgress";
-import { useProSidebar } from "react-pro-sidebar";
+import { Route, Routes } from "react-router-dom";
+import { Box, Container,LinearProgress } from "@mui/material";
 
+import Topbar from "./containers/global/Topbar";
+import SidebarLeft from "./containers/global/Sidebar";
+import ListOfAll from "./containers/ListOfAll/ListOfAll";
 const NotFound = lazy(() => import("./containers/NotFound/NotFound"));
 const Contact = lazy(() => import("./containers/Contact/Contact"));
 const TrendingCurrencies = lazy(
@@ -19,13 +15,15 @@ const AdvancedInfoAboutCurrency = lazy(
     import("./containers/AdvancedInfoAboutCurrency/AdvancedInfoAboutCurrency")
 );
 
+import useResponsive from "./utils/hooks/useResponsive";
+import { useProSidebar } from "react-pro-sidebar";
+
 import { ThemeProvider } from "@mui/material";
 import { darkTheme, lightTheme } from "./utils/Theme";
 
 function App() {
   const [lightMode, setLightMode] = useState<boolean>(true);
   const responsive = useResponsive("down", 750);
-  const down1200px = useResponsive("down", 1200);
   const [fetching, setFetching] = useState<boolean>(false);
   const { collapseSidebar, collapsed } = useProSidebar();
   const [sidebarCollapse, setSidebarCollapse] = useState<boolean>(false);

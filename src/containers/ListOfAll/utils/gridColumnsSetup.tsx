@@ -5,8 +5,8 @@ import {
 } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import SparklineChart from "../../../components/Charts/SparklineChart";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import SparklineChart from "./SparklineChart";
+import changeFormat from "../../../utils/hooks/changeFormat";
 
 export const columns: GridColDef[] = [
   { field: "id", headerName: "#", minWidth: 10, maxWidth: 30 },
@@ -41,12 +41,7 @@ export const columns: GridColDef[] = [
   },
   {
     field: "Price",
-    valueFormatter: ({ value }) =>
-      `$ ${new Intl.NumberFormat("en-US", {
-        minimumSignificantDigits: 3,
-        maximumSignificantDigits: 8,
-        maximumFractionDigits: 8,
-      }).format(value)}`,
+    valueFormatter: ({ value }) => `$ ${changeFormat(value, 3, 12)}`,
     flex: 1,
   },
   {
@@ -58,7 +53,6 @@ export const columns: GridColDef[] = [
       if (params.value == null) {
         return "";
       }
-
       return clsx("price-change", {
         negative: params.value < 0,
         positive: params.value > 0,
@@ -74,7 +68,6 @@ export const columns: GridColDef[] = [
       if (params.value == null) {
         return "";
       }
-
       return clsx("price-change", {
         negative: params.value < 0,
         positive: params.value > 0,
@@ -90,7 +83,6 @@ export const columns: GridColDef[] = [
       if (params.value == null) {
         return "";
       }
-
       return clsx("price-change", {
         negative: params.value < 0,
         positive: params.value > 0,
@@ -100,12 +92,7 @@ export const columns: GridColDef[] = [
   {
     field: "Market Cap",
     description: "price change in last week",
-    valueFormatter: ({ value }) =>
-      `$ ${new Intl.NumberFormat("de-DE", {
-        minimumSignificantDigits: 3,
-        maximumSignificantDigits: 8,
-        maximumFractionDigits: 8,
-      }).format(value)}`,
+    valueFormatter: ({ value }) => `$ ${changeFormat(value, 3, 12)}`,
     flex: 1,
   },
   {
