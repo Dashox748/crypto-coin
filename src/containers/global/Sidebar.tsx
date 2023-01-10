@@ -118,7 +118,7 @@ const SidebarLeft = ({
             {createMenuItem(<ErrorIcon />, "404 page", "notFound", theme)}
           </Menu>
           <Menu>
-            {createMenuItem(<ChatIcon />, "Cotact Us", "contact", theme)}
+            {createMenuItem(<ChatIcon />, "Contact Us", "contact", theme)}
             <MenuItem
               onClick={() => changeTheme()}
               icon={<DarkModeIcon />}
