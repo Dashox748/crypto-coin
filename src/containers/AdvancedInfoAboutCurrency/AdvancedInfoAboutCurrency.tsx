@@ -356,7 +356,6 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                 12
               )}`
             )}
-            <Button onClick={() => console.log(coinInfo)}> no elo</Button>
           </Item>
           <Item
             sx={{
