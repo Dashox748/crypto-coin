@@ -62,7 +62,7 @@ export const columns: GridColDef[] = [
   {
     field: "24h%",
     description: "price change in last day",
-    valueFormatter: ({ value }) => `${value.toFixed(2)} %`,
+    valueFormatter: ({ value }) => `${value?.toFixed(2)} %`,
     flex: 0.7,
     cellClassName: (params: GridCellParams<number>) => {
       if (params.value == null) {
@@ -77,7 +77,7 @@ export const columns: GridColDef[] = [
   {
     field: "7d%",
     description: "price change in last week",
-    valueFormatter: ({ value }) => `${value.toFixed(2)} %`,
+    valueFormatter: ({ value }) => `${value?.toFixed(2)} %`,
     flex: 0.7,
     cellClassName: (params: GridCellParams<number>) => {
       if (params.value == null) {
