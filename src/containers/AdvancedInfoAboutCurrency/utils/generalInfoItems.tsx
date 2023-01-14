@@ -23,7 +23,7 @@ export const createGeneralInfoItem = (
       </Button>
     </Box>
   );
-};
+};  
 
 export const createCoinStatsItem = (
   statName: string,

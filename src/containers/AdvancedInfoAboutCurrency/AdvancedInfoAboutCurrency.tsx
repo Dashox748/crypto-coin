@@ -159,7 +159,7 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
                       : "red"
                   }
                 >
-                  {coinInfo?.market_data?.price_change_percentage_24h.toFixed(
+                  {coinInfo?.market_data?.price_change_percentage_24h?.toFixed(
                     2
                   )}
                   %

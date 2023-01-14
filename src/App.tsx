@@ -18,7 +18,7 @@ const AdvancedInfoAboutCurrency = lazy(
 import useResponsive from "./utils/hooks/useResponsive";
 import { useProSidebar } from "react-pro-sidebar";
 
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider } from '@mui/material/styles';
 import { darkTheme, lightTheme } from "./utils/Theme";
 
 function App() {
