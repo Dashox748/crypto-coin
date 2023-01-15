@@ -1,27 +1,20 @@
 import { useState, useEffect, Fragment } from "react";
-import { Autocomplete } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
+import {
+  Autocomplete,
+  Grid,
+  Box,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { CssTextField } from "./styled";
 import { fetchSearchProps } from "./fetch";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
-
-interface Film {
-  id: string;
-  name: string;
-  api_symbol: string;
-  symbol: string;
-  market_cap_rank: number;
-  thumb: string;
-  large: string;
-}
+import { OptionsInf } from "./interfaces";
 
 export default function AsynchronousSearch() {
   const [inputValue, setInputValue] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState<Film[]>([]);
+  const [options, setOptions] = useState<OptionsInf[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,6 +30,7 @@ export default function AsynchronousSearch() {
       }
       setLoading(false);
     })();
+
     return () => {
       active = false;
     };

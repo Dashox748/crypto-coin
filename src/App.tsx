@@ -1,6 +1,6 @@
 import { useState, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Box, Container,LinearProgress } from "@mui/material";
+import { Box, Container, LinearProgress } from "@mui/material";
 
 import Topbar from "./containers/global/Topbar";
 import SidebarLeft from "./containers/global/Sidebar";
@@ -18,7 +18,7 @@ const AdvancedInfoAboutCurrency = lazy(
 import useResponsive from "./utils/hooks/useResponsive";
 import { useProSidebar } from "react-pro-sidebar";
 
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from "@mui/material/styles";
 import { darkTheme, lightTheme } from "./utils/Theme";
 
 function App() {

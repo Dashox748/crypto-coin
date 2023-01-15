@@ -1,17 +1,22 @@
+import { lazy, useState, Suspense } from "react";
 import { auth, logout } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { lazy, useState, Suspense } from "react";
+import {
+  IconButton,
+  Typography,
+  Button,
+  Box,
+  Tooltip,
+  Avatar,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import useResponsive from "../../../utils/hooks/useResponsive";
 
 const LoginForm = lazy(() => import("../../../components/Forms/LoginForm"));
 const RegisterForm = lazy(
   () => import("../../../components/Forms/RegisterForm")
 );
-import { IconButton, Typography, Button, Box } from "@mui/material";
 
 const TopbarMenu = () => {
   const down750px = useResponsive("down", 750);

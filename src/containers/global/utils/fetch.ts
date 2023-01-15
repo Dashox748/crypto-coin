@@ -9,10 +9,10 @@ export const fetchMostPopularCrypto = () => {
     .then((res: AxiosResponse) => res.data);
 };
 
-export const fetchSearchProps = (searchInput:string) => {
-    return axios
+export const fetchSearchProps = (searchInput: string) => {
+  return axios
     .get<fetchCoins>(
-            `https://api.coingecko.com/api/v3/search?query=${searchInput}`
-            )
+      `https://api.coingecko.com/api/v3/search?query=${searchInput}`
+    )
     .then((res: AxiosResponse) => res.data.coins);
 };

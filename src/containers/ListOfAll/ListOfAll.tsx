@@ -8,7 +8,7 @@ import useResponsive from "../../utils/hooks/useResponsive";
 import Pagination from "@mui/material/Pagination";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import {FetchState} from "./utils/interfaces"
+import { FetchState } from "./utils/interfaces";
 
 const ListOfAll = ({ setFetching }: FetchState) => {
   const [allCoins, setAllCoins] = useState<AllCoinsState[]>([]);
@@ -74,10 +74,18 @@ const ListOfAll = ({ setFetching }: FetchState) => {
           onChange={handleRowsChange}
           sx={{ width: "80px", height: "50px", borderRadius: "8px" }}
         >
-            <MenuItem value={10} onClick={()=>setCurrentPage(1)}>10</MenuItem>
-            <MenuItem value={20} onClick={()=>setCurrentPage(1)}>20</MenuItem>
-            <MenuItem value={50} onClick={()=>setCurrentPage(1)}>50</MenuItem>
-            <MenuItem value={100} onClick={()=>setCurrentPage(1)}>100</MenuItem>
+          <MenuItem value={10} onClick={() => setCurrentPage(1)}>
+            10
+          </MenuItem>
+          <MenuItem value={20} onClick={() => setCurrentPage(1)}>
+            20
+          </MenuItem>
+          <MenuItem value={50} onClick={() => setCurrentPage(1)}>
+            50
+          </MenuItem>
+          <MenuItem value={100} onClick={() => setCurrentPage(1)}>
+            100
+          </MenuItem>
         </Select>
       </Box>
       <CustomDataGrid
@@ -91,7 +99,7 @@ const ListOfAll = ({ setFetching }: FetchState) => {
           Pagination: () => (
             <Pagination
               sx={{ margin: "20px auto 50px auto" }}
-                count={5000/Number(howMayRows)}
+              count={5000 / Number(howMayRows)}
               defaultPage={currentPage}
               onChange={handleChangeCurrentPage}
             />

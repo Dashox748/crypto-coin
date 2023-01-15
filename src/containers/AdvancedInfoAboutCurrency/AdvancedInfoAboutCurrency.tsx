@@ -1,4 +1,6 @@
 import { useEffect, useState, lazy, Suspense } from "react";
+import { auth } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import {
   Box,
   Container,
@@ -12,23 +14,22 @@ import {
   Collapse,
   LinearProgress,
 } from "@mui/material";
-import { auth } from "../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import parse from "html-react-parser";
-import { useParams } from "react-router-dom";
-import { fetchCoin, fetchCoinChartData } from "./utils/fetchCoin";
-import { CoinInfoTypes, FetchCoinTypes } from "./utils/interfaces";
 import {
   createGeneralInfoItem,
   createCoinStatsItem,
 } from "./utils/generalInfoItems";
+import parse from "html-react-parser";
+import { useParams } from "react-router-dom";
+import { fetchCoin, fetchCoinChartData } from "./utils/fetchCoin";
+import { CoinInfoTypes, FetchCoinTypes } from "./utils/interfaces";
 import Item from "./utils/styled";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import useResponsive from "../../utils/hooks/useResponsive";
 import AdvancedChart from "./utils/advancedChart";
 import BasicCurrencyStats from "./utils/basicCurrencyStats";
 import CustomizedTables from "./utils/percentChangeTable";
 import changeFormat from "../../utils/hooks/changeFormat";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+
 const LoginForm = lazy(() => import("../../components/Forms/LoginForm"));
 
 const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {

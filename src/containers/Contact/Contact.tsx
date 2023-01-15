@@ -1,5 +1,4 @@
-import { Button, Container } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import { Button, Container, TextField } from "@mui/material";
 
 const Contact = () => {
   return (

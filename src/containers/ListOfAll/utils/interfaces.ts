@@ -46,5 +46,5 @@ export interface sparkLineDomain {
 }
 
 export interface FetchState {
-    setFetching: (value: boolean) => void;
+  setFetching: (value: boolean) => void;
 }

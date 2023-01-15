@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-
+import { useLocation } from "react-router-dom";
 import { Sidebar, Menu, MenuItem, menuClasses } from "react-pro-sidebar";
 import { createSubMenu, createMenuItem } from "./utils/createSidebarMenus";
-import { useLocation } from "react-router-dom";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import TopbarMenu from "./utils/TopbarMenu";
+import { fetchMostPopularCrypto } from "./utils/fetch";
+import { fetchCoins, SidebarProps } from "./utils/interfaces";
+import useResponsive from "../../utils/hooks/useResponsive";
+
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
@@ -13,12 +17,6 @@ import ErrorIcon from "@mui/icons-material/Error";
 import ChatIcon from "@mui/icons-material/Chat";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import CloseIcon from "@mui/icons-material/Close";
-import TopbarMenu from "./utils/TopbarMenu";
-
-import { fetchMostPopularCrypto } from "./utils/fetch";
-import { fetchCoins } from "./utils/interfaces";
-import useResponsive from "../../utils/hooks/useResponsive";
-import { SidebarProps } from "./utils/interfaces";
 
 const SidebarLeft = ({
   changeTheme,

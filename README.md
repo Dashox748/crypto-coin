@@ -1,8 +1,9 @@
 With CryptoCoins you can safely track all of your cryptocurrencies in one place
 
-- Live Site URL: https://cryptocurrencies-3b723.web.app/
+- Live Site URL: https://crypto-coin-rf6n.vercel.app/
 
 ### Built with
+
 - React
 - TypeScript
 - CSS
@@ -13,15 +14,7 @@ With CryptoCoins you can safely track all of your cryptocurrencies in one place
 - API
 - Local storage
 
-
-
-
 ### Data Sources and supported Exchanges
+
 - Coingecko
 - Binance
-
-
-
-
-
-
