@@ -118,7 +118,7 @@ const AdvancedInfoAboutCurrency = ({ setFetching }: any) => {
             }}
           >
             <Box
-              padding="30px"
+                padding={down540px?"20px 5px":"30px"}
               display="flex"
               flexDirection="column"
               gap="15px"
