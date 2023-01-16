@@ -43,7 +43,7 @@ export default function AsynchronousSearch() {
       open={open}
       onOpen={() => {
         setOpen(true);
-      }}
+      }} 
       onClose={() => {
         setOpen(false);
       }}
