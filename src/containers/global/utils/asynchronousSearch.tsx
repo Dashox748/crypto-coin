@@ -10,12 +10,13 @@ import {
 import { CssTextField } from "./styled";
 import { fetchSearchProps } from "./fetch";
 import { OptionsInf } from "./interfaces";
-
+import {temp} from "./staticDataForSearchbar";
 export default function AsynchronousSearch() {
   const [inputValue, setInputValue] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<OptionsInf[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
 
   useEffect(() => {
     if (inputValue.length < 3) return;
@@ -24,7 +25,6 @@ export default function AsynchronousSearch() {
 
     (async () => {
       const x = await fetchSearchProps(inputValue);
-      console.log(x);
       if (active) {
         setOptions([...x]);
       }
@@ -36,15 +36,10 @@ export default function AsynchronousSearch() {
     };
   }, [inputValue]);
 
-  useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
-
+  console.log(options);
   return (
     <Autocomplete
-      sx={{ width: 500, padding: "0!important" }}
+        sx={{maxWidth:"500px", padding: "0!important",flex:"1" }}
       open={open}
       onOpen={() => {
         setOpen(true);
@@ -52,15 +47,15 @@ export default function AsynchronousSearch() {
       onClose={() => {
         setOpen(false);
       }}
-      isOptionEqualToValue={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
-      options={options}
+      freeSolo={true}
+      getOptionLabel={(option: any) => option.name}
+      options={options.length > 0 ? options : temp}
       loading={loading}
       noOptionsText="Enter at least 3 letters"
       renderOption={(props, option) => {
         return (
           <Link
-            to={`/advancedInfo/${option.id}`}
+            to={`/advancedInfo/${option.api_symbol}`}
             style={{ textDecoration: "none", color: "white" }}
             onClick={() => setInputValue("")}
             key={option.id}
@@ -73,7 +68,11 @@ export default function AsynchronousSearch() {
                 onClick={() => setInputValue("")}
               >
                 <Grid item sx={{ display: "flex", width: 44 }}>
-                  <img src={option.thumb} alt="thumb" />
+                  <img
+                    src={option.thumb}
+                    alt="thumb"
+                    style={{ width: "30px", height: "30px" }}
+                  />
                 </Grid>
                 <Grid
                   item
@@ -93,7 +92,7 @@ export default function AsynchronousSearch() {
       renderInput={(params) => (
         <CssTextField
           onChange={(event) => setInputValue(event.target.value)}
-          sx={{ width: 500, padding: "0!important" }}
+          sx={{ padding: "0!important" }}
           {...params}
           value={inputValue}
           placeholder="Search any coin ..."
