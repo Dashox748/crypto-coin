@@ -15,7 +15,7 @@ https://crypto-coin-rf6n.vercel.app/
 - CSS
 - Redux
 - Material ui
-- Firebase auth
+- Firebase auth 
 - FireStore (database)
 - API
 - Local storage
